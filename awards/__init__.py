@@ -36,6 +36,10 @@ def get_path(path):
 app.logger.info('Compiling Bootstrap...')
 sass.compile(
     dirname=(get_path('node_modules/bootstrap/scss/'), get_path('static/css')))
+if not os.path.exists(get_path('static/css')):
+    os.makedirs(get_path('static/css'))
+if not os.path.exists(get_path('static/js')):
+    os.makedirs(get_path('static/js'))
 copyfile(get_path('node_modules/bootstrap/dist/js/bootstrap.min.js'),
          get_path('static/js/bootstrap.min.js'))
 copyfile(get_path('node_modules/jquery/dist/jquery.min.js'),

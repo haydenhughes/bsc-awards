@@ -98,7 +98,3 @@ ENV/
 
 # mypy
 .mypy_cache/
-
-# Folders
-!awards/static/js
-!awards/static/css
