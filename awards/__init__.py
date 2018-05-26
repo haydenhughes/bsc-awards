@@ -18,7 +18,7 @@ app.register_blueprint(main.bp)
 # TODO: Dont run all tests
 @app.cli.command()
 def test():
-    logging.info('Running tests...')
+    app.logger.info('Running tests...')
     test_loader = unittest.TestLoader()
     suite = test_loader.discover('test', pattern='test_*.py')
     runner = unittest.TextTestRunner()
