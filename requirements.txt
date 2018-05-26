@@ -1,0 +1,4 @@
+flask
+codecov
+python-dotenv
+libsass

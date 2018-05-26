@@ -1,0 +1,5 @@
+foreach group_size in between(7, 10):
+    if 10 > (group_size % 10) > 4:
+        return group_size
+    endif
+endfor

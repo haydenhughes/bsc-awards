@@ -1,0 +1,6 @@
+Name, Type, Format, Size, Purpose
+app, Flask, Object, None, Provide flask functionality
+bp, Blueprint, Object, None, Provide flask functionality for blueprints
+db, DatabaseController, Object, None, Provide dbtools functionality
+student_count, integer, 0, None, The amount of students that are attending
+group_size, integer, 0, None, The size of the groups of students on the stage at any one time.
