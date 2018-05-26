@@ -1,30 +1,11 @@
 import unittest
 import sass
 import os
-import logging
+from logging.config import dictConfig
 from sassutils.wsgi import SassMiddleware
 from shutil import copyfile
 from flask import Flask
 from awards import config, main
-
-# TODO: Test The logging config (I think it needs to
-#       use app.logger.config.dictConfig)
-'''Logging'''
-logging.config.dictConfig({
-    'version': 1,
-    'formatters': {'default': {
-        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
-    }},
-    'handlers': {'wsgi': {
-        'class': 'logging.StreamHandler',
-        'stream': 'ext://flask.logging.wsgi_errors_stream',
-        'formatter': 'default'
-    }},
-    'root': {
-        'level': 'INFO',
-        'handlers': ['wsgi']
-    }
-})
 
 '''Flask'''
 app = Flask(__name__)
@@ -63,7 +44,7 @@ copyfile(get_path('node_modules/popper.js/dist/umd/popper.min.js'),
          get_path('static/js/popper.min.js'))
 app.logger.info('Done!')
 
-logging.info('Compiling sass...')
+app.logger.info('Compiling sass...')
 # Build custom Sass on each request
 app.wsgi_app = SassMiddleware(app.wsgi_app, {
     'awards': ('static/sass', 'static/css', '/static/css')
