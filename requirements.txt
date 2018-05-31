@@ -1,4 +1,4 @@
-flask
-codecov
-python-dotenv
-libsass
+flask==1.0.2
+codecov==2.0.15
+python-dotenv==0.8.2
+libsass==0.14.5
