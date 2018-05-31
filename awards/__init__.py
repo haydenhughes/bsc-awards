@@ -6,7 +6,7 @@ from shutil import copyfile
 from flask import Flask
 from awards import config, main
 
-"""Flask"""
+
 app = Flask(__name__)
 app.config.from_object(config.Config)
 
@@ -28,7 +28,6 @@ def get_path(path):
     return os.path.join(current_dir, path)
 
 
-"""Sass"""
 app.logger.info('Compiling Bootstrap...')
 sass.compile(
     dirname=(get_path('node_modules/bootstrap/scss/'), get_path('static/css')))
