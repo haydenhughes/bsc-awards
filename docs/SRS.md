@@ -53,6 +53,11 @@
     - Workforce.
     - Skills.
 
+5. Use Case
+    - UC1: Presenting the awards.
+    - UC2: Marking attendance.
+     NOTE: Both use cases are on the same diagram 
+
 6. Appendix
   1. Data Collection
       - Interview people who will use the solution: This will provide opinions of how effective the software solution is from the people that use it.

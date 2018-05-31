@@ -30,4 +30,3 @@
     logger: Create a python logger for the app.
     run: Creates a web server for testing during development.
     route: Used as a decorator to specify the url path.
-    
