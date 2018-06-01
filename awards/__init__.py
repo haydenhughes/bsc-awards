@@ -45,8 +45,7 @@ copyfile(get_path('node_modules/popper.js/dist/umd/popper.min.js'),
 
 app.logger.info('Done!')
 
-app.logger.info('Compiling sass...')
+app.logger.info('Compiling sass for the first time...')
 app.wsgi_app = SassMiddleware(app.wsgi_app, {
     'awards': ('static/sass', 'static/css', '/static/css')
 })
-app.logger.info('Done!')
