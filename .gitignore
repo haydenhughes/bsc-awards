@@ -98,3 +98,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# generated static files
+awards/static/css/
+awards/static/js/
