@@ -1,2 +1,0 @@
-FLASK_APP=awards
-FLASK_ENV=development
