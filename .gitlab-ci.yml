@@ -10,6 +10,7 @@ test:
       - htmlcov/
 
 build_image:
+  stage: deploy
   image: docker:git
   services:
       - docker:dind
@@ -20,7 +21,7 @@ build_image:
   only:
       - master
 
-pages:
+coverage:
   stage: deploy
   dependencies:
     - test
