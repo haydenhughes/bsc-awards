@@ -4,7 +4,7 @@ test:
     - pip install -r requirements.txt
     - pip install coverage codecov
     - coverage run -m unittest discover -s test -p 'test_*.py'
-    - codecov -t
+    - codecov -t $CODECOV_TOKEN
 
 build_image:
   stage: deploy
