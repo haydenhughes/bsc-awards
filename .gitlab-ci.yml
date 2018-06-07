@@ -1,17 +1,34 @@
 test:
   image: python:3
   script:
-  - pip install -r requirements.txt
-  - pip install coverage
-  - coverage run -m unittest discover -s test -p 'test_*.py'
+    - pip install -r requirements.txt
+    - pip install coverage
+    - coverage run -m unittest discover -s test -p 'test_*.py'
+    - coverage html
+  artifacts:
+    paths:
+      - htmlcov/
 
 build_image:
-    image: docker:git
-    services:
-        - docker:dind
-    script:
-        - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-        - docker build -t registry.gitlab.com/haydenh/bsc-awards .
-        - docker push registry.gitlab.com/haydenh/bsc-awards:latest
-    only:
-        - master
+  image: docker:git
+  services:
+      - docker:dind
+  script:
+      - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+      - docker build -t registry.gitlab.com/haydenh/bsc-awards .
+      - docker push registry.gitlab.com/haydenh/bsc-awards:latest
+  only:
+      - master
+
+pages:
+  stage: deploy
+  dependencies:
+    - test
+  script:
+    - mv htmlcov/ public/
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - master
