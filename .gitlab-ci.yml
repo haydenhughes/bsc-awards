@@ -2,12 +2,9 @@ test:
   image: python:3
   script:
     - pip install -r requirements.txt
-    - pip install coverage
+    - pip install coverage codecov
     - coverage run -m unittest discover -s test -p 'test_*.py'
-    - coverage html
-  artifacts:
-    paths:
-      - htmlcov/
+    - codecov -t
 
 build_image:
   stage: deploy
@@ -20,16 +17,3 @@ build_image:
       - docker push registry.gitlab.com/haydenh/bsc-awards:latest
   only:
       - master
-
-coverage:
-  stage: deploy
-  dependencies:
-    - test
-  script:
-    - mv htmlcov/ public/
-  artifacts:
-    paths:
-      - public
-    expire_in: 30 days
-  only:
-    - master
