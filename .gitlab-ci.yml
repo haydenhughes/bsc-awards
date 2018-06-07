@@ -1,7 +1,6 @@
 test:
+  image: python:3
   script:
-  - apt-get update -qy
-  - apt-get install -y python-dev python-pip
   - pip install -r requirements.txt
   - pip install coverage
   - coverage run -m unittest discover -s test -p 'test_*.py'
