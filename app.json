@@ -1,0 +1,9 @@
+{
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "python3 -m unittest discover -s test"
+      }
+    }
+  }
+}
