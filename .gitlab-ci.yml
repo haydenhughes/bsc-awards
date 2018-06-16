@@ -53,8 +53,7 @@ code_quality:
 test:
   stage: test
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker run $CONTAINER_TEST_IMAGE coverage run -m unittest discover -s test && coverage report
+    - coverage run -m unittest discover -s test && coverage report
   coverage: '/TOTAL.*?(\d{1,2}.\d+%)/'
 
 release-image:
