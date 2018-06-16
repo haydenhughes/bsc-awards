@@ -7,7 +7,7 @@ variables:
 stages:
   - build
   - test
-  - release
+  - deploy
 
 build-master:
   stage: build
