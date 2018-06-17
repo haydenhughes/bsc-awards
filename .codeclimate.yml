@@ -5,3 +5,5 @@ plugins:
     config:
       tests_patterns:
         - engine/test/**
+exclude_patterns:
+  - "awards/node_modules/"
