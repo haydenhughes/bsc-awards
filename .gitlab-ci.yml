@@ -41,7 +41,6 @@ code_quality:
   stage: test
   script:
     - docker run
-        --rm
         --env CODECLIMATE_CODE="$PWD"
         --volume "$PWD":/code
         --volume /var/run/docker.sock:/var/run/docker.sock
@@ -49,7 +48,6 @@ code_quality:
         codeclimate/codeclimate engines:install
 
     - docker run
-        --rm
         --env CODECLIMATE_CODE="$PWD"
         --volume "$PWD":/code
         --volume /var/run/docker.sock:/var/run/docker.sock
@@ -90,6 +88,7 @@ code_quality_pages:
   dependencies:
     - code_quality
   script:
+    - mkdir public
     - mv index.html public/
   artifacts:
     paths:
