@@ -1,6 +1,7 @@
 import unittest
 import sass
 import os
+from flask_sqlalchemy import SQLAlchemy
 from sassutils.wsgi import SassMiddleware
 from shutil import copyfile
 from flask import Flask
@@ -9,6 +10,8 @@ from awards import config, main
 
 app = Flask(__name__)
 app.config.from_object(config.Config)
+
+db = SQLAlchemy(app)
 
 # Register blueprints
 app.register_blueprint(main.bp)
