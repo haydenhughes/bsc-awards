@@ -10,3 +10,9 @@ services:
     environment:
       - 'FLASK_APP=awards'
       - 'FLASK_ENV=development'
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
