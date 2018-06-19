@@ -1,9 +1,0 @@
-version: "2"
-plugins:
-  sonar-python:
-    enabled: true
-    config:
-      tests_patterns:
-        - engine/test/**
-exclude_patterns:
-  - "awards/node_modules/"
