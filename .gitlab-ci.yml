@@ -31,31 +31,6 @@ build:
   except:
     - master
 
-code_quality:
-  image: docker:stable
-  variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  services:
-    - docker:stable-dind
-  stage: test
-  script:
-    - docker run
-        --env CODECLIMATE_CODE="$PWD"
-        --volume "$PWD":/code
-        --volume /var/run/docker.sock:/var/run/docker.sock
-        --volume /tmp/cc:/tmp/cc
-        codeclimate/codeclimate engines:install
-
-    - docker run
-        --env CODECLIMATE_CODE="$PWD"
-        --volume "$PWD":/code
-        --volume /var/run/docker.sock:/var/run/docker.sock
-        --volume /tmp/cc:/tmp/cc
-        codeclimate/codeclimate analyze -f html /code > index.html
-  artifacts:
-    paths: [index.html]
-
 test:
   stage: test
   image: python:3
@@ -75,21 +50,6 @@ coverage_pages:
     - test
   script:
     - mv htmlcov/ public/
-  artifacts:
-    paths:
-      - public
-    expire_in: 30 days
-  only:
-    - master
-
-code_quality_pages:
-  stage: deploy
-  allow_failure: true
-  dependencies:
-    - code_quality
-  script:
-    - mkdir public
-    - mv index.html public/
   artifacts:
     paths:
       - public
