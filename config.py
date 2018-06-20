@@ -1,6 +1,6 @@
 class Config:
     FLASK_APP = 'awards'
-    SQLALCHEMY_DATABASE_URI = 'postgres:////user:pass@db/user'
+    SQLALCHEMY_DATABASE_URI = 'postgres://user:pass@db/user'
 
 
 class Development(Config):
