@@ -43,7 +43,7 @@ test:
   artifacts:
     paths: [htmlcov/]
 
-coverage_pages:
+pages:
   stage: deploy
   allow_failure: true
   dependencies:
