@@ -8,7 +8,7 @@ class AwardRecipients(db.Model):
 
 
 class Student(db.Model):
-    student_id = db.Column(db.String(7), unique=True, nullable=False)
+    student_id = db.Column(db.String(7), primary_key=True)
     first_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(120), nullable=False)
     preferred_name = db.Column(db.String(120))
@@ -24,7 +24,7 @@ class Student(db.Model):
 
 
 class Awards(db.Model):
-    award_id = db.Column(db.Integer)
+    award_id = db.Column(db.Integer, primary_key=True)
     award_name = db.Column(db.String(120))
     award_desription = db.Column(db.String(120))
     award_certificate_title = db.Column(db.String(120))
