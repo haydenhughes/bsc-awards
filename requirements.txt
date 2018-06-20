@@ -2,3 +2,4 @@ Flask
 libsass
 coverage
 Flask-SQLAlchemy
+psycopg2
