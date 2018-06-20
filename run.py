@@ -1,3 +1,5 @@
+"""Runs the flask app."""
+
 import argparse
 from config import *
 from awards import create_app

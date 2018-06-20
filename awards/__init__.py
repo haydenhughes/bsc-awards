@@ -9,6 +9,11 @@ db = SQLAlchemy()
 
 
 def create_app(config=None):
+    """Create a flask app.
+
+    Args:
+        config: A object from config.py
+    """
     app = Flask(__name__)
     app.config.from_object(config)
 
