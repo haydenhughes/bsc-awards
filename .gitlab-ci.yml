@@ -1,8 +1,5 @@
 image: docker:latest
 
-before_script:
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-
 stages:
   - build
   - test
@@ -13,6 +10,7 @@ build:
   services:
     - docker:dind
   script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -f Dockerfile.testing -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   except:
@@ -23,6 +21,7 @@ test:
   services:
     - docker:dind
   script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker run --name "db" -e "POSTGRES_PASSWORD=pass" -d "postgres"
     - docker run --name "app" --link "db:postgres" -v "$(pwd):/usr/src/app/" "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
@@ -50,6 +49,7 @@ build-master:
   services:
     - docker:dind
   script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
   only:
@@ -60,6 +60,7 @@ build-staging:
   services:
     - docker:dind
   script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CI_REGISTRY_IMAGE:staging" .
     - docker push "$CI_REGISTRY_IMAGE"
   only:
