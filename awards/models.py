@@ -12,15 +12,15 @@ class Student(db.Model):
     first_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(120), nullable=False)
     preferred_name = db.Column(db.String(120))
-    year_level = db.Column(db.Integer, nullable=False)
-    home_group = db.Column(db.String(2), nullable=False)
+    year_level = db.Column(db.Integer)
+    home_group = db.Column(db.String(2))
     house = db.Column(db.String(120))
     gender = db.Column(db.String(120))
     address = db.Column(db.String(120))
     suburb = db.Column(db.String(120))
     postcode = db.Column(db.String(4))
     primary_parent = db.Column(db.String(120))
-    attending = db.Column(db.Boolean)
+    attending = db.Column(db.Boolean, nullable=False)
 
 
 class Awards(db.Model):
