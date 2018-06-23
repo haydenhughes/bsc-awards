@@ -1,31 +1,20 @@
-image: docker:latest
-
-before_script:
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-
 stages:
-  - build
   - test
   - deploy
 
-build:
-  stage: build
-  services:
-    - docker:dind
-  script:
-    - docker build --pull -f Dockerfile.testing -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-  except:
-    - master
-
 test:
   stage: test
+  image: python:3
   services:
-    - docker:dind
+    - postgres:latest
+  variables:
+    POSTGRES_PASSWORD: "pass"
   script:
-    - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-    - docker run --name "db" -e "POSTGRES_PASSWORD=pass" -d "postgres"
-    - docker run --name "app" --link "db:postgres" -v "$(pwd):/usr/src/app/" "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+    - python3 -m pip install -r requirements.txt
+    - python3 -m pip install coverage
+    - python3 -m coverage run -m unittest discover -s test
+    - python3 -m coverage html
+    - python3 -m coverage report
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   artifacts:
     paths: [htmlcov/]
@@ -33,8 +22,6 @@ test:
 pages:
   stage: deploy
   allow_failure: true
-  services:
-    - docker:dind
   dependencies:
     - test
   script:
@@ -49,9 +36,11 @@ pages:
 
 build-master:
   stage: deploy
+  image: docker:latest
   services:
     - docker:dind
   script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
   only:
@@ -59,9 +48,11 @@ build-master:
 
 build-staging:
   stage: deploy
+  image: docker:latest
   services:
     - docker:dind
   script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CI_REGISTRY_IMAGE:staging" .
     - docker push "$CI_REGISTRY_IMAGE"
   only:
