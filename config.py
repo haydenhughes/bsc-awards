@@ -10,5 +10,5 @@ class Development(Config):
 
 
 class Testing(Config):
-    SQLALCHEMY_DATABASE_URI = 'sqlite://:memory:'
+    SQLALCHEMY_DATABASE_URI = 'postgres://postgres:pass@db/postgres'
     TESTING = True
