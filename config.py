@@ -10,5 +10,5 @@ class Development(Config):
 
 
 class Testing(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:pass@db/postgres'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:pass@postgres/postgres'
     TESTING = True
