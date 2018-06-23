@@ -7,6 +7,9 @@ services:
       - 5000:5000
     volumes:
       - .:/usr/src/app
+    environment:
+      - 'FLASK_APP=awards'
+      - 'FLASK_ENV=development'
 
   db:
     image: postgres
