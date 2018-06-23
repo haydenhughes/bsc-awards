@@ -4,8 +4,7 @@ from config import Testing
 
 
 class TestAttentanceTracker(unittest.TestCase):
-    @classmethod
-    def setUpClass(self):
+    def setUp(self):
         self.app = create_app(Testing)
         self.attendance_tracker = attendance.AttendanceTracker()
 
@@ -32,3 +31,6 @@ class TestAttentanceTracker(unittest.TestCase):
     def test_iter(self):
         students = [student_id for student_id in self.attendance_tracker]
         self.assertEqual(len(students), 3)
+
+    def tearDown(self):
+        models.Student.query.delete()
