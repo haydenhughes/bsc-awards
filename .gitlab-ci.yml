@@ -20,10 +20,6 @@ build:
 
 test:
   stage: test
-  image: python:3
-  script:
-test1:
-  stage: test
   script:
     - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker run "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
