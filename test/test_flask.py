@@ -1,11 +1,12 @@
 import unittest
-from awards import create_app
-from config import Testing
+from awards import app
 
 
 class TestFlask(unittest.TestCase):
     def setUp(self):
-        app = create_app(Testing)
+        app.config['TESTING'] = True
+        app.config['WTF_CSRF_ENABLED'] = False
+        app.config['DEBUG'] = False
         self.app = app.test_client()
 
     def test_home(self):
