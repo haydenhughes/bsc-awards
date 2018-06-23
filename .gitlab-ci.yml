@@ -13,7 +13,7 @@ build:
   services:
     - docker:dind
   script:
-    - docker build --pull -f Dockerfile.test -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker build --pull -f Dockerfile.testing -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   except:
     - master
