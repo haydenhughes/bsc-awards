@@ -6,6 +6,8 @@ from config import Testing
 class TestAttentanceTracker(unittest.TestCase):
     def setUp(self):
         self.app = create_app(Testing)
+        self.app.app_context().push()
+
         self.attendance_tracker = attendance.AttendanceTracker()
 
         student_list = [('HUG0005', 'Sam', 'Wilson', True),
