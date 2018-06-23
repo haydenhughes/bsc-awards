@@ -4,11 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from sassutils.wsgi import SassMiddleware
 from shutil import copyfile
 from flask import Flask
+import config
 
 db = SQLAlchemy()
 
 
-def create_app(config=None):
+def create_app(config=config.Development):
     """Create a flask app.
 
     Args:
