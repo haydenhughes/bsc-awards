@@ -20,6 +20,8 @@ build:
 
 test:
   stage: test
+  services:
+    - docker:dind
   script:
     - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker run --name "db" -e "POSTGRES_PASSWORD=pass" -d "postgres"
