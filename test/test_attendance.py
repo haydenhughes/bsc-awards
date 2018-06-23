@@ -4,6 +4,7 @@ from config import Testing
 
 
 class TestAttentanceTracker(unittest.TestCase):
+    @classmethod
     def setUpClass(self):
         self.app = create_app(Testing)
         self.attendance_tracker = attendance.AttendanceTracker()
