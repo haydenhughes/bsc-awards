@@ -5,4 +5,4 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-CMD flask run -h 0.0.0.0
+CMD python3 run.py --config Development

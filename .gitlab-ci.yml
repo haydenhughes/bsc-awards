@@ -1,24 +1,9 @@
 image: docker:latest
 
-variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/haydenhughes/bsc-awards:$CI_COMMIT_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/haydenhughes/bsc-awards:latest
-
 stages:
   - build
   - test
   - deploy
-
-build-master:
-  stage: build
-  services:
-    - docker:dind
-  script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
-  only:
-    - master
 
 build:
   stage: build
@@ -26,24 +11,25 @@ build:
     - docker:dind
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker build --pull -f Dockerfile.testing -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   except:
     - master
 
 test:
   stage: test
-  image: python:3
+  services:
+    - docker:dind
   script:
-    - pip3 install -r requirements.txt
-    - coverage run -m unittest discover -s test
-    - coverage html
-    - coverage report
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+    - docker run --name "db" -e "POSTGRES_PASSWORD=pass" -d "postgres"
+    - docker run --name "app" --link "db:postgres" -v "$(pwd):/usr/src/app/" "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   artifacts:
     paths: [htmlcov/]
 
-coverage_pages:
+pages:
   stage: deploy
   allow_failure: true
   dependencies:
@@ -56,3 +42,26 @@ coverage_pages:
     expire_in: 30 days
   only:
     - master
+    - staging
+
+build-master:
+  stage: deploy
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
+
+build-staging:
+  stage: deploy
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:staging" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - staging
