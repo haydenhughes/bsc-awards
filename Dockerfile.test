@@ -1,0 +1,8 @@
+FROM python:3.6.5
+
+WORKDIR /usr/src/app
+
+COPY test_requirements.txt ./
+RUN pip3 install --no-cache-dir -r test_requirements.txt
+
+CMD python3 -m coverage run -m unittest discover -s test
