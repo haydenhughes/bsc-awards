@@ -24,8 +24,9 @@ test:
     - docker:dind
   script:
     - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-    - docker run --name "db" -e "POSTGRES_PASSWORD=pass" -d "postgres"
-    - docker run --name "app" --link "db:postgres" -v "$(pwd):/usr/src/app/" "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+    - docker network create "net"
+    - docker run --name "db" --network "net" -e "POSTGRES_PASSWORD=pass" -d "postgres"
+    - docker run --name "app" --network "net" -v "$(pwd):/usr/src/app/" "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   artifacts:
     paths: [htmlcov/]
