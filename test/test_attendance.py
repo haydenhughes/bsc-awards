@@ -8,6 +8,8 @@ class TestAttentanceTracker(unittest.TestCase):
         self.app = create_app(Testing)
         self.app.app_context().push()
 
+        db.create_all()
+
         self.attendance_tracker = attendance.AttendanceTracker()
 
         student_list = [('HUG0005', 'Sam', 'Wilson', True),
@@ -32,7 +34,7 @@ class TestAttentanceTracker(unittest.TestCase):
 
     def test_iter(self):
         students = [student_id for student_id in self.attendance_tracker]
-        self.assertEqual(len(students), 3)
+        self.assertEqual(len(students), 2)
 
     def tearDown(self):
         models.Student.query.delete()
