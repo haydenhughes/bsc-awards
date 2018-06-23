@@ -33,6 +33,8 @@ test:
 pages:
   stage: deploy
   allow_failure: true
+  services:
+    - docker:dind
   dependencies:
     - test
   script:
