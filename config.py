@@ -1,6 +1,7 @@
 class Config:
     FLASK_APP = 'awards'
     SQLALCHEMY_DATABASE_URI = 'postgres://user:pass@db/user'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class Development(Config):
@@ -9,5 +10,5 @@ class Development(Config):
 
 
 class Testing(Config):
-    SQLALCHEMY_DATABASE_URI = 'sqlite://:memory:'
+    SQLALCHEMY_DATABASE_URI = 'postgres://postgres:pass@db/postgres'
     TESTING = True
