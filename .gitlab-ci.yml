@@ -9,7 +9,7 @@ test:
     - postgres:latest
   variables:
     POSTGRES_PASSWORD: pass
-    DATABASE_URI: postgresql://postgres:pass@db/postgres
+    DATABASE_URI: postgresql://postgres:pass@postgres/postgres
   script:
     - python3 -m pip install -r requirements.txt
     - python3 -m pip install coverage
