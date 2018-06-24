@@ -1,11 +1,10 @@
 import unittest
 from awards import create_app
-from config import Testing
 
 
 class TestFlask(unittest.TestCase):
     def setUp(self):
-        app = create_app(Testing)
+        app = create_app()
         self.app = app.test_client()
 
     def test_home(self):

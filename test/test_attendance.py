@@ -1,11 +1,10 @@
 import unittest
 from awards import models, db, create_app, attendance
-from config import Testing
 
 
 class TestAttentanceTracker(unittest.TestCase):
     def setUp(self):
-        self.app = create_app(Testing)
+        self.app = create_app()
         self.app.app_context().push()
 
         db.create_all()
