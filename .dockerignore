@@ -1,0 +1,10 @@
+.git
+**/__pycache__
+**/*.pyc
+.gitlab-ci.yml
+docker-compose.yml
+Dockerfile
+README.md
+docs
+test
+.gitignore
