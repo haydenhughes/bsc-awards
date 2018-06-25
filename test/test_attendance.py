@@ -1,5 +1,5 @@
 import unittest
-from awards import models, db, create_app, attendance
+from awards import models, db, create_app, attendancetools
 
 
 class TestAttentanceTracker(unittest.TestCase):
@@ -9,7 +9,7 @@ class TestAttentanceTracker(unittest.TestCase):
 
         db.create_all()
 
-        self.attendance_tracker = attendance.AttendanceTracker()
+        self.attendance_tracker = attendancetools.AttendanceTracker()
 
         student_list = [('HUG0005', 'Sam', 'Wilson', True),
                         ('WIL0123', 'Jake', 'Bruckner', False),
