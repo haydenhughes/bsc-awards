@@ -14,4 +14,6 @@ RUN gulp sass
 
 EXPOSE 5000
 
+ENV FLASK_APP awards
+
 CMD python3 -m flask run -h 0.0.0.0
