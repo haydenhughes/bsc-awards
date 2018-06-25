@@ -6,11 +6,10 @@ A flask website for displaying award data.
 ## Docker
 
 ```
-docker pull registry.gitlab.com/haydenhughes/bsc-awards:latest
 docker run -p 80:5000 \
   -e DATABASE_URI=sqlite:///data.db \
   -v /path/on/host/to/somewhere/:/usr/src/app/ \
-  bsc-awards:latest
+  registry.gitlab.com/haydenhughes/bsc-awards:latest
 ```
 
 `DATABASE_URI` must be a valid [sqlalchemy database URL](http://docs.sqlalchemy.org/en/latest/core/engines.html).
