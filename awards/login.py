@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template
 
-bp = Blueprint('attendance', __name__)
+bp = Blueprint('login', __name__)
 
 
-@bp.route('/attendance')
+@bp.route('/login')
 def index():
     pass
