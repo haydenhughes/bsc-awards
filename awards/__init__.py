@@ -19,4 +19,7 @@ def create_app():
     from awards import main
     app.register_blueprint(main.bp)
 
+    from awards import attendance
+    app.register_blueprint(attendance.bp)
+
     return app
