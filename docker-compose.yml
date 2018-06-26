@@ -5,6 +5,8 @@ services:
     image: registry.gitlab.com/haydenhughes/bsc-awards:latest
     ports:
       - 5000:5000
+    depends_on:
+      - db
     environment:
       - FLASK_APP=awards
       - FLASK_ENV=development
