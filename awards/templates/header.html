@@ -7,10 +7,7 @@
     <title>BSC-Awards</title>
 
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ url_for('static', filename='css/style.scss.css') }}" rel="stylesheet" type="text/css">
-
-    {% block head %}
-    {% endblock %}
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
 
   </head>
   <body>
@@ -26,13 +23,16 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Presenter View<span class="sr-only">(current)</span></a>
+          <li class="nav-item {% if request.path == '/home' %} active {% endif %}">
+            <a class="nav-link" href="#">Presenter View {% if request.path == '/home' %}<span class="sr-only">(current)</span>{% endif %}</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Attendance Tracker</a>
+          <li class="nav-item {% if request.path == '/attendance' %} active {% endif %}">
+            <a class="nav-link" href="#">Attendance Tracker {% if request.path == '/attendance' %}<span class="sr-only">(current)</span>{% endif %}</a>
           </li>
         </ul>
+        <form class="form-inline">
+          <button class="btn btn-outline-secondary" type="button">Logout</button>
+        </form>
       </div>
     </nav>
 
