@@ -1,0 +1,46 @@
+{% extends "header.html" %}
+
+{% block body %}
+<form class="container mt-5 needs-validation" novalidate>
+  <div class="form-group">
+    <label for="studentCode">Student Code</label>
+    <input type="text" class="form-control" id="studentCode" placeholder="Enter Student Code" required>
+    <div class="invalid-feedback">
+      Please enter a student code.
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="fullName">Full Name</label>
+    <input type="text" class="form-control" id="fullName" readonly>
+  </div>
+  <div class="form-group">
+    <label for="formGroup">Form Group</label>
+    <input type="text" class="form-control" id="formGroup" readonly>
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Attending</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}
