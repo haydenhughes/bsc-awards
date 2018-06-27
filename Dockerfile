@@ -2,7 +2,7 @@ FROM python:3
 
 WORKDIR /usr/src/app
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
 RUN npm install -g gulp-cli
