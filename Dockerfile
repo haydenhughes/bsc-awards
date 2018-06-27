@@ -1,8 +1,9 @@
-FROM node:stretch
+FROM python:3
 
 WORKDIR /usr/src/app
 
-RUN apt-get -y update && apt-get -y install python3 python3-pip libpq-dev
+RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN apt-get update && apt-get install -y nodejs
 
 RUN npm install -g gulp-cli
 
