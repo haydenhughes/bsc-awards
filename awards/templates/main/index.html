@@ -1,5 +1,33 @@
 {% extends "header.html" %}
 
 {% block body %}
+<div class="container-flex">
+  <div class="row">
+    <ul class="nav nav-pills flex-column col-sm-2 px-4 py-2 bg-light">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Active</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
 
+    <div class="col mx-3 my-2">
+      <ul>
+        <h1 class="text-center mb-4">Hayden Hughes</h1>
+        <hr>
+        <h3 class="text-center">Awards</h3>
+        {% for award in awards %}
+          <li class="text-center">{{award}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}
