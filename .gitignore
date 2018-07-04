@@ -101,3 +101,5 @@ ENV/
 
 node_modules/
 npm-debug.log
+awards/static/css/
+awards/static/js
