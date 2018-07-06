@@ -4,18 +4,12 @@
 <div class="container-flex">
   <div class="row">
     <ul class="nav nav-pills flex-column col-sm-2 px-4 py-2 bg-light">
-      <li class="nav-item">
-        <a class="nav-link active" href="#">Active</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
+      {% for year in year_levels %}
+        <li class="nav-item">
+          <!-- FIXME: Use url_for instead of a link -->
+          <a class="nav-link {% if request.path == '/main/{}'.format(year) %} active {% endif %}" href="http://127.0.0.1:5000/main/{{ year.lower().replace(' ', '_') }}">{{ year }}</a>
+        </li>
+      {% endfor %}
     </ul>
 
     <div class="col mx-3 my-2">
