@@ -1,8 +1,8 @@
 import unittest
-from awards import models, db, create_app, attendancetools
+from awards import models, db, create_app, studenttools
 
 
-class TestAttentanceTracker(unittest.TestCase):
+class TestStudent(unittest.TestCase):
     def setUp(self):
         app = create_app()
         app.app_context().push()
@@ -22,20 +22,20 @@ class TestAttentanceTracker(unittest.TestCase):
         db.session.commit()
 
     def test_get(self):
-        with attendancetools.AttendanceTracker() as at:
+        with studenttools.StudentManager() as at:
             self.assertTrue(at['HUG0005'].attending)
             self.assertFalse(at['WIL0123'].attending)
 
     def test_set(self):
-        with attendancetools.AttendanceTracker() as at:
+        with studenttools.StudentManager() as at:
             at['ROB2134'].attending = False
             self.assertFalse(at['ROB2134'].attending)
 
     def test_iter(self):
-        with attendancetools.AttendanceTracker() as at:
+        with studenttools.StudentManager() as at:
             students = [student_id for student_id in at]
             self.assertEqual(len(students), 2)
 
     def tearDown(self):
-        # FIXME: Does not clear the table
+        # FIXME: Does not clear the table.
         models.Student.query.delete()
