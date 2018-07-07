@@ -1,25 +1,25 @@
 {% extends "header.html" %}
 
 {% block body %}
-<form class="container mt-5 needs-validation" novalidate>
+<form class="container mt-5 needs-validation" id="attendanceForm" novalidate>
   <div class="form-group">
     <label for="studentCode">Student Code</label>
-    <input type="text" class="form-control" id="studentCode" placeholder="Enter Student Code" required>
+    <input type="text" name="studentCode" class="form-control" id="studentCode" placeholder="Enter Student Code" onchange="checkAndSubmit()" required>
     <div class="invalid-feedback">
       Please enter a student code.
     </div>
   </div>
   <div class="form-group">
     <label for="fullName">Full Name</label>
-    <input type="text" class="form-control" id="fullName" readonly>
+    <input type="text" class="form-control" id="fullName" value="{{ fullname }}" readonly>
   </div>
   <div class="form-group">
     <label for="formGroup">Form Group</label>
-    <input type="text" class="form-control" id="formGroup" readonly>
+    <input type="text" class="form-control" id="formGroup" value="{{ form_group }}" readonly>
   </div>
   <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Attending</label>
+    <input type="checkbox" name="attending" class="form-check-input" id="attendingCheckbox">
+    <label class="form-check-label" for="attendingCheckbox">Attending</label>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
 </form>
@@ -42,5 +42,15 @@
     });
   }, false);
 })();
+
+function checkAndSubmit()
+{
+  if (document.getElementById('studentCode').textLength >= 7)
+  {
+    // TODO: Use an ajax request instead
+    document.getElementById('attendanceForm').submit();
+
+  }
+}
 </script>
 {% endblock %}
