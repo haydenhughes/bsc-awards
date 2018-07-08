@@ -13,13 +13,13 @@ class Utils:
         Args:
             student_count: An interger of the amount of students attending.
         """
-        output = namedtuple('Group_Size', ['size', 'amount', 'last_group_size'])
+        groups = namedtuple('Groups', ['size', 'amount', 'last_size'])
         for group_size in range(7, 10):
             if 10 > (student_count % group_size) > 4 or student_count % group_size == 0:
-                output.size = group_size
-                output.amount = math.floor(student_count / group_size)
-                output.last_group_size = student_count % group_size
-        return output
+                groups.size = group_size
+                groups.count = math.floor(student_count / group_size)
+                groups.last_size = student_count % group_size
+        return groups
 
 
 class StudentManager:
