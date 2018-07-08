@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from awards import studenttools
+from awards import utils
 
 bp = Blueprint('attendance', __name__)
 
@@ -10,7 +10,7 @@ def index():
     form_group = ''
 
     if request.method == 'POST':
-        with studenttools.StudentTracker as at:
+        with utils.StudentTracker as at:
             student = at[request.form('studentCode')]
             fullname = student.first_name, student.last_name
             form_group = student.form_group
