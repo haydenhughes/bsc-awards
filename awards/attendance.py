@@ -10,8 +10,8 @@ def index():
     form_group = ''
 
     if request.method == 'POST':
-        with utils.StudentTracker as at:
-            student = at[request.form('studentCode')]
+        with utils.StudentManager() as sm:
+            student = sm.find(request.form('studentCode'))
             fullname = student.first_name, student.last_name
             form_group = student.form_group
             student.attending = request.form('attending')

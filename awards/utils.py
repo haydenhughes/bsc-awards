@@ -1,6 +1,6 @@
 from collections import namedtuple
 import math
-from awards import models
+from awards import models, db
 
 
 class StudentManager:
@@ -13,6 +13,12 @@ class StudentManager:
 
     def __init__(self, year_level=None):
         self.year_level = year_level
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        db.session.commit()
 
     def __len__(self):
         return len(models.Student.query.filter_by(year_level=self.year_level).all())
