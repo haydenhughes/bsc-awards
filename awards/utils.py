@@ -23,7 +23,19 @@ class StudentManager:
         return models.Student.query.filter_by(year_level=self.year_level).all()[index]
 
     def get(self, student_id):
+        """Get a student via sudent_id.
+
+        Returns None if the student doesn't exist.
+
+        Args:
+            student_id: A string of the id of the wanted student.
+        """
         return models.Student.query.filter_by(student_id=student_id, year_level=self.year_level).first()
+
+    @property
+    def attending(self):
+        """A readonly int of the amount of students attending."""
+        return len(models.Student.query.filter_by(year_level=self.year_level, attending=True).all())
 
 
 def group_size(student_count=0):
