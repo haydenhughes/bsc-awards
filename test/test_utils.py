@@ -28,6 +28,8 @@ class TestStudentManager(unittest.TestCase):
 
         db.create_all()
 
+        self.sm = utils.StudentManager()
+
         student_list = [('HUG0005', 'Sam', 'Wilson', True),
                         ('WIL0123', 'Jake', 'Bruckner', False),
                         ('ROB2134', 'Ben', 'Hughes', True)]
@@ -41,20 +43,15 @@ class TestStudentManager(unittest.TestCase):
         db.session.commit()
 
     def test_get(self):
-        with utils.StudentManager() as at:
-            self.assertTrue(at['HUG0005'].attending)
-            self.assertFalse(at['WIL0123'].attending)
+        self.assertTrue(self.sm.get('HUG0005').attending)
+        self.assertFalse(self.sm.get('WIL0123').attending)
 
-    def test_set(self):
-        with utils.StudentManager() as at:
-            at['ROB2134'].attending = False
-            self.assertFalse(at['ROB2134'].attending)
+    def test_get_by_index(self):
+        self.assertEqual(self.sm[0].student_id, 'HUG0005')
+        self.assertEqual(self.sm[2].student_id, 'ROB2134')
 
-    def test_iter(self):
-        with utils.StudentManager() as at:
-            students = [student_id for student_id in at]
-            self.assertEqual(len(students), 2)
+        with self.assertRaises(IndexError):
+            self.assertEqual(self.sm[3])
 
-    def tearDown(self):
-        # FIXME: Does not clear the table.
-        models.Student.query.delete()
+    def test_len(self):
+        self.assertEqual(len(self.sm), 3)

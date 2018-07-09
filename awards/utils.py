@@ -1,6 +1,6 @@
 from collections import namedtuple
 import math
-from awards import db, models
+from awards import models
 
 
 class StudentManager:
@@ -14,20 +14,16 @@ class StudentManager:
     def __init__(self, year_level=None):
         self.year_level = year_level
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        db.session.commit()
-
     def __len__(self):
-        len(models.Student.query.filter_by(attending=True, year_level=self.year_level).all())
-
-    def __iter__(self):
-        return iter(models.Student.query.filter_by(attending=True, year_level=self.year_level).all())
+        return len(models.Student.query.filter_by(year_level=self.year_level).all())
 
     def __getitem__(self, index):
-        return models.Student.query.filter_by(student_id=index, year_level=self.year_level).first()
+        if index >= len(self):
+            raise IndexError('Student index out of range.')
+        return models.Student.query.filter_by(year_level=self.year_level).all()[index]
+
+    def get(self, student_id):
+        return models.Student.query.filter_by(student_id=student_id, year_level=self.year_level).first()
 
 
 def group_size(student_count=0):
