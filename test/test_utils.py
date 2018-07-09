@@ -2,23 +2,23 @@ import unittest
 from awards import models, db, create_app, utils
 
 
-class TestUtils(unittest.TestCase):
+class TestGroupSize(unittest.TestCase):
     def test_group_size(self):
-        self.assertEqual(utils.Utils.group_size(60).size, 9)
-        self.assertEqual(utils.Utils.group_size(60).amount, 6)
-        self.assertEqual(utils.Utils.group_size(60).last_group_size, 6)
+        self.assertEqual(utils.group_size(60).size, 9)
+        self.assertEqual(utils.group_size(60).count, 6)
+        self.assertEqual(utils.group_size(60).last_size, 6)
 
-        self.assertEqual(utils.Utils.group_size(49).size, 7)
-        self.assertEqual(utils.Utils.group_size(49).amount, 7)
-        self.assertEqual(utils.Utils.group_size(49).last_group_size, 0)
+        self.assertEqual(utils.group_size(49).size, 7)
+        self.assertEqual(utils.group_size(49).count, 7)
+        self.assertEqual(utils.group_size(49).last_size, 0)
 
-        self.assertEqual(utils.Utils.group_size(75).size, 7)
-        self.assertEqual(utils.Utils.group_size(75).amount, 10)
-        self.assertEqual(utils.Utils.group_size(75).last_group_size, 5)
+        self.assertEqual(utils.group_size(75).size, 7)
+        self.assertEqual(utils.group_size(75).count, 10)
+        self.assertEqual(utils.group_size(75).last_size, 5)
 
-        self.assertEqual(utils.Utils.group_size(51).size, 9)
-        self.assertEqual(utils.Utils.group_size(51).amount, 5)
-        self.assertEqual(utils.Utils.group_size(51).last_group_size, 6)
+        self.assertEqual(utils.group_size(51).size, 9)
+        self.assertEqual(utils.group_size(51).count, 5)
+        self.assertEqual(utils.group_size(51).last_size, 6)
 
 
 class TestStudentManager(unittest.TestCase):
