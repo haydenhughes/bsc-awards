@@ -40,6 +40,7 @@ class TestStudentManager(unittest.TestCase):
                                      last_name=last_name,
                                      attending=attending)
             db.session.add(student)
+
         db.session.commit()
 
     def test_get(self):
@@ -55,3 +56,43 @@ class TestStudentManager(unittest.TestCase):
 
     def test_len(self):
         self.assertEqual(len(self.sm), 3)
+
+
+class TestGetAwards(unittest.TestCase):
+    def setUp(self):
+        app = create_app()
+        app.app_context().push()
+
+        db.create_all()
+
+        student_list = [('HUG0005', 'Sam', 'Wilson', True),
+                        ('WIL0123', 'Jake', 'Bruckner', False),
+                        ('ROB2134', 'Ben', 'Hughes', True)]
+
+        for student_id, first_name, last_name, attending in student_list:
+            db.session.add(models.Student(student_id=student_id,
+                                          first_name=first_name,
+                                          last_name=last_name,
+                                          attending=attending))
+
+        award_list = [(0, 'Hello World Award', False)
+                      (1, 'Very Special Award', True)
+                      (2, 'Best Code Testing Award', False)]
+
+        for award_id, award_name, special_award in award_list:
+            db.session.add(models.Awards(award_id=award_id,
+                                         award_name=award_name,
+                                         special_award=special_award))
+
+        award_recipient_list = [(0, 'HUG0005', 1),
+                                (1, 'ROB2134', 2),
+                                (2, 'WIL0123', 0)]
+        for id, student_id, award_id in award_recipient_list:
+            db.session.add(models.AwardRecipients(id=id,
+                                                  student_id=student_id,
+                                                  special_award=special_award))
+
+    db.session.commit()
+
+    def test(self):
+        self.assertEqual(utils.get_awards('ROB2134'), 'Very Special Award')
