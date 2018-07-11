@@ -1,6 +1,6 @@
 import math
 from flask import render_template, current_app, request
-from flask.ext.classful import FlaskView
+from flask_classful import FlaskView
 from awards import utils
 
 
