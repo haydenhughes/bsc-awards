@@ -58,3 +58,16 @@ def group_size(student_count=0):
             groups.last_size = student_count % group_size
 
     return groups
+
+
+def get_awards(student_id):
+    """Get all the awards for a student.
+
+    Args:
+        student_id: A string of the student id to get awards for.
+    """
+
+    # TODO: Needs testing
+    award_ids = (row.award_id for row in models.AwardRecipients.query.filter_by(student_id=student_id).all())
+
+    return [award.name for award in models.Awards.query.filter_by(award_id=(award_id for award_id in award_ids)).all()]
