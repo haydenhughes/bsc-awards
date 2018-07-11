@@ -49,6 +49,11 @@ def group_size(student_count=0):
 
     Args:
         student_count: An interger of the amount of students attending.
+
+    Returns:
+        A namedtuple containing size (amount of students in one group),
+        count (the amount of groups (excluding the last group))
+        and last_size (the amount of students in the last group).
     """
     groups = namedtuple('Groups', ['size', 'count', 'last_size'])
     for group_size in range(7, 10):
@@ -65,9 +70,15 @@ def get_awards(student_id):
 
     Args:
         student_id: A string of the student id to get awards for.
+
+    Returns:
+        An array of all the awards.
     """
 
     # TODO: Needs testing
-    award_ids = (row.award_id for row in models.AwardRecipients.query.filter_by(student_id=student_id).all())
+    awards = []
+    for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
+        for award in models.Awards.query.filter_by(award_id=recipient.award_id).all():
+            awards.append(award.award_name)
 
-    return [award.name for award in models.Awards.query.filter_by(award_id=(award_id for award_id in award_ids)).all()]
+    return awards

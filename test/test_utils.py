@@ -31,7 +31,8 @@ class TestDB(unittest.TestCase):
 
         award_recipient_list = [(0, 'HUG0005', 1),
                                 (1, 'ROB2134', 2),
-                                (2, 'WIL0123', 0)]
+                                (2, 'WIL0123', 0),
+                                (3, 'HUG0005', 0)]
         for id, student_id, award_id in award_recipient_list:
             db.session.add(models.AwardRecipients(id=id,
                                                   student_id=student_id,
@@ -57,7 +58,8 @@ class TestDB(unittest.TestCase):
         self.assertEqual(len(self.sm), 3)
 
     def test_get_awards(self):
-        self.assertEqual(utils.get_awards('ROB2134'), 'Very Special Award')
+        self.assertCountEqual(utils.get_awards('ROB2134'), ['Best Code Testing Award'])
+        self.assertCountEqual(utils.get_awards('HUG0005'), ['Very Special Award', 'Hello World Award'])
 
     @classmethod
     def tearDownClass(cls):

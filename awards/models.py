@@ -3,7 +3,7 @@ from awards import db
 
 class AwardRecipients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.String(7), unique=True, nullable=False)
+    student_id = db.Column(db.String(7), nullable=False)
     award_id = db.Column(db.Integer, nullable=False)
 
 
