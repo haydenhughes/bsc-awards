@@ -1,6 +1,6 @@
 from collections import namedtuple
 import math
-from awards import models
+from awards import models, db
 
 
 class StudentManager:
@@ -14,6 +14,12 @@ class StudentManager:
     def __init__(self, year_level=None):
         self.year_level = year_level
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        db.session.commit()
+
     def __len__(self):
         return len(models.Student.query.filter_by(year_level=self.year_level).all())
 
@@ -23,7 +29,19 @@ class StudentManager:
         return models.Student.query.filter_by(year_level=self.year_level).all()[index]
 
     def get(self, student_id):
+        """Get a student via sudent_id.
+
+        Returns None if the student doesn't exist.
+
+        Args:
+            student_id: A string of the id of the wanted student.
+        """
         return models.Student.query.filter_by(student_id=student_id, year_level=self.year_level).first()
+
+    @property
+    def attending(self):
+        """A readonly int of the amount of students attending."""
+        return len(models.Student.query.filter_by(year_level=self.year_level, attending=True).all())
 
 
 def group_size(student_count=0):
@@ -31,6 +49,11 @@ def group_size(student_count=0):
 
     Args:
         student_count: An interger of the amount of students attending.
+
+    Returns:
+        A namedtuple containing size (amount of students in one group),
+        count (the amount of groups (excluding the last group))
+        and last_size (the amount of students in the last group).
     """
     groups = namedtuple('Groups', ['size', 'count', 'last_size'])
     for group_size in range(7, 10):
@@ -40,3 +63,22 @@ def group_size(student_count=0):
             groups.last_size = student_count % group_size
 
     return groups
+
+
+def get_awards(student_id):
+    """Get all the awards for a student.
+
+    Args:
+        student_id: A string of the student id to get awards for.
+
+    Returns:
+        An array of all the awards.
+    """
+
+    # TODO: Needs testing
+    awards = []
+    for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
+        for award in models.Awards.query.filter_by(award_id=recipient.award_id).all():
+            awards.append(award.award_name)
+
+    return awards
