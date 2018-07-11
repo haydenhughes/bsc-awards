@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from awards.views import MainView, AttendanceView
 
 db = SQLAlchemy()
 
@@ -16,10 +17,7 @@ def create_app():
 
     db.init_app(app)
 
-    from awards import main
-    app.register_blueprint(main.bp)
-
-    from awards import attendance
-    app.register_blueprint(attendance.bp)
+    MainView.register(app)
+    AttendanceView.register(app)
 
     return app
