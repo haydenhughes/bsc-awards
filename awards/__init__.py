@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
-from awards.views import MainView, AttendanceView
+
 
 db = SQLAlchemy()
 
@@ -17,6 +17,7 @@ def create_app():
 
     db.init_app(app)
 
+    from awards.views import MainView, AttendanceView
     MainView.register(app)
     AttendanceView.register(app)
 

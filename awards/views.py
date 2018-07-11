@@ -7,7 +7,8 @@ from awards import utils
 class MainView(FlaskView):
     def index(self, year_level, page):
         if year_level not in current_app.config['YEAR_LEVELS']:
-            return  # TODO: Return a 404
+            # TODO: Better 404 page
+            return '404 Year not valid.'
 
         sm = utils.StudentManager(year_level)
         groups = utils.group_size(sm.attending)
@@ -28,6 +29,10 @@ class MainView(FlaskView):
 
 
 class AttendanceView(FlaskView):
+    def __init__(self):
+        self.fullname = ''
+        self.form_group = ''
+
     def post(self):
         with utils.StudentManager() as sm:
             student = sm.find(request.form('studentCode'))
