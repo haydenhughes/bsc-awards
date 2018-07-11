@@ -20,8 +20,8 @@ class TestDB(unittest.TestCase):
                                           last_name=last_name,
                                           attending=attending))
 
-        award_list = [(0, 'Hello World Award', False)
-                      (1, 'Very Special Award', True)
+        award_list = [(0, 'Hello World Award', False),
+                      (1, 'Very Special Award', True),
                       (2, 'Best Code Testing Award', False)]
 
         for award_id, award_name, special_award in award_list:
@@ -35,9 +35,9 @@ class TestDB(unittest.TestCase):
         for id, student_id, award_id in award_recipient_list:
             db.session.add(models.AwardRecipients(id=id,
                                                   student_id=student_id,
-                                                  special_award=special_award))
+                                                  award_id=award_id))
 
-    db.session.commit()
+        db.session.commit()
 
     def setUp(self):
         self.sm = utils.StudentManager()
@@ -60,8 +60,11 @@ class TestDB(unittest.TestCase):
         self.assertEqual(utils.get_awards('ROB2134'), 'Very Special Award')
 
     @classmethod
-    def tearDownClass():
-        pass  # TODO: Delete all the setup db tables
+    def tearDownClass(cls):
+        models.Student.query.delete()
+        models.Awards.query.delete()
+        models.AwardRecipients.query.delete()
+        db.session.commit()
 
 
 class TestGroupSize(unittest.TestCase):
