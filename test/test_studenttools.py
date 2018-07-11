@@ -1,15 +1,13 @@
 import unittest
-from awards import models, db, create_app, attendancetools
+from awards import models, db, create_app, studenttools
 
 
-class TestAttentanceTracker(unittest.TestCase):
+class TestStudent(unittest.TestCase):
     def setUp(self):
-        self.app = create_app()
-        self.app.app_context().push()
+        app = create_app()
+        app.app_context().push()
 
         db.create_all()
-
-        self.attendance_tracker = attendancetools.AttendanceTracker()
 
         student_list = [('HUG0005', 'Sam', 'Wilson', True),
                         ('WIL0123', 'Jake', 'Bruckner', False),
@@ -24,16 +22,20 @@ class TestAttentanceTracker(unittest.TestCase):
         db.session.commit()
 
     def test_get(self):
-        self.assertTrue(self.attendance_tracker['HUG0005'])
-        self.assertFalse(self.attendance_tracker['WIL0123'])
+        with studenttools.StudentManager() as at:
+            self.assertTrue(at['HUG0005'].attending)
+            self.assertFalse(at['WIL0123'].attending)
 
     def test_set(self):
-        self.attendance_tracker['ROB2134'] = False
-        self.assertFalse(self.attendance_tracker['ROB2134'])
+        with studenttools.StudentManager() as at:
+            at['ROB2134'].attending = False
+            self.assertFalse(at['ROB2134'].attending)
 
     def test_iter(self):
-        students = [student_id for student_id in self.attendance_tracker]
-        self.assertEqual(len(students), 2)
+        with studenttools.StudentManager() as at:
+            students = [student_id for student_id in at]
+            self.assertEqual(len(students), 2)
 
     def tearDown(self):
+        # FIXME: Does not clear the table.
         models.Student.query.delete()

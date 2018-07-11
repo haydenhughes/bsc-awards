@@ -13,7 +13,7 @@ class Student(db.Model):
     last_name = db.Column(db.String(120), nullable=False)
     preferred_name = db.Column(db.String(120))
     year_level = db.Column(db.Integer)
-    home_group = db.Column(db.String(2))
+    form_group = db.Column(db.String(2))
     house = db.Column(db.String(120))
     gender = db.Column(db.String(120))
     address = db.Column(db.String(120))
