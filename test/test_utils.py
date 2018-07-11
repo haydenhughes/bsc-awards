@@ -2,23 +2,23 @@ import unittest
 from awards import models, db, create_app, utils
 
 
-class TestUtils(unittest.TestCase):
+class TestGroupSize(unittest.TestCase):
     def test_group_size(self):
-        self.assertEqual(utils.Utils.group_size(60).size, 9)
-        self.assertEqual(utils.Utils.group_size(60).amount, 6)
-        self.assertEqual(utils.Utils.group_size(60).last_group_size, 6)
+        self.assertEqual(utils.group_size(60).size, 9)
+        self.assertEqual(utils.group_size(60).count, 6)
+        self.assertEqual(utils.group_size(60).last_size, 6)
 
-        self.assertEqual(utils.Utils.group_size(49).size, 7)
-        self.assertEqual(utils.Utils.group_size(49).amount, 7)
-        self.assertEqual(utils.Utils.group_size(49).last_group_size, 0)
+        self.assertEqual(utils.group_size(49).size, 7)
+        self.assertEqual(utils.group_size(49).count, 7)
+        self.assertEqual(utils.group_size(49).last_size, 0)
 
-        self.assertEqual(utils.Utils.group_size(75).size, 7)
-        self.assertEqual(utils.Utils.group_size(75).amount, 10)
-        self.assertEqual(utils.Utils.group_size(75).last_group_size, 5)
+        self.assertEqual(utils.group_size(75).size, 7)
+        self.assertEqual(utils.group_size(75).count, 10)
+        self.assertEqual(utils.group_size(75).last_size, 5)
 
-        self.assertEqual(utils.Utils.group_size(51).size, 9)
-        self.assertEqual(utils.Utils.group_size(51).amount, 5)
-        self.assertEqual(utils.Utils.group_size(51).last_group_size, 6)
+        self.assertEqual(utils.group_size(51).size, 9)
+        self.assertEqual(utils.group_size(51).count, 5)
+        self.assertEqual(utils.group_size(51).last_size, 6)
 
 
 class TestStudentManager(unittest.TestCase):
@@ -27,6 +27,8 @@ class TestStudentManager(unittest.TestCase):
         app.app_context().push()
 
         db.create_all()
+
+        self.sm = utils.StudentManager()
 
         student_list = [('HUG0005', 'Sam', 'Wilson', True),
                         ('WIL0123', 'Jake', 'Bruckner', False),
@@ -41,20 +43,15 @@ class TestStudentManager(unittest.TestCase):
         db.session.commit()
 
     def test_get(self):
-        with utils.StudentManager() as at:
-            self.assertTrue(at['HUG0005'].attending)
-            self.assertFalse(at['WIL0123'].attending)
+        self.assertTrue(self.sm.get('HUG0005').attending)
+        self.assertFalse(self.sm.get('WIL0123').attending)
 
-    def test_set(self):
-        with utils.StudentManager() as at:
-            at['ROB2134'].attending = False
-            self.assertFalse(at['ROB2134'].attending)
+    def test_get_by_index(self):
+        self.assertEqual(self.sm[0].student_id, 'HUG0005')
+        self.assertEqual(self.sm[2].student_id, 'ROB2134')
 
-    def test_iter(self):
-        with utils.StudentManager() as at:
-            students = [student_id for student_id in at]
-            self.assertEqual(len(students), 2)
+        with self.assertRaises(IndexError):
+            self.assertEqual(self.sm[3])
 
-    def tearDown(self):
-        # FIXME: Does not clear the table.
-        models.Student.query.delete()
+    def test_len(self):
+        self.assertEqual(len(self.sm), 3)
