@@ -5,8 +5,9 @@ from awards import utils
 
 
 class MainView(FlaskView):
+    # FIXME: Use python 3.7 type helper.
     def index(self, year_level, page):
-        if year_level not in current_app.config['YEAR_LEVELS']:
+        if int(year_level) not in current_app.config['YEAR_LEVELS']:
             # TODO: Better 404 page
             return '404 Year not valid.'
 
@@ -15,7 +16,7 @@ class MainView(FlaskView):
 
         # TODO: Testing, unittesting
         # Account for the ammount of applauses.
-        student_num = page - math.floor(page / groups.size)
+        student_num = page - math.floor(int(page) / groups.size)
 
         student = sm[student_num]
 
@@ -25,7 +26,11 @@ class MainView(FlaskView):
            or (student_num % groups.size % groups.count == 0
                and student_num % groups.last_size == 0):
             return render_template('main/applause.html')
-        return render_template('main/index.html', student=student, awards=awards)
+        return render_template('main/index.html',
+                               presenting='Year {}'.format(year_level),
+                               year_levels=current_app.config['YEAR_LEVELS'],
+                               student=student,
+                               awards=awards)
 
 
 class AttendanceView(FlaskView):
@@ -42,5 +47,7 @@ class AttendanceView(FlaskView):
 
     def index(self):
         return render_template('attendance/index.html',
+                               presenting='BSC-Awards',
+                               year_levels=current_app.config['YEAR_LEVELS'],
                                fullname=self.fullname,
                                form_group=self.form_group)
