@@ -65,6 +65,10 @@ def group_size(student_count=0):
                             math.floor(student_count / group_size),
                             student_count % group_size)
 
+    if groups is None:
+        # FIXME: Raise a more suitable error
+        raise NotImplementedError('Cannot calculate group size. Too few students.')
+
     return groups
 
 
