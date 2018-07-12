@@ -58,3 +58,6 @@ class AttendanceView(FlaskView):
 class ErrorView(FlaskView):
     def four(self):
         return render_template('error/404.html')
+
+    def two(self):
+        return render_template('error/402.html')
