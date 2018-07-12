@@ -5,9 +5,9 @@ from awards import utils
 
 
 class MainView(FlaskView):
-    # TODO: Use python 3.7 type helper.
+    # FIXME: Use python 3.7 type helper.
     def index(self, year_level, page):
-        if year_level not in current_app.config['YEAR_LEVELS']:
+        if int(year_level) not in current_app.config['YEAR_LEVELS']:
             # TODO: Better 404 page
             return '404 Year not valid.'
 
@@ -16,7 +16,7 @@ class MainView(FlaskView):
 
         # TODO: Testing, unittesting
         # Account for the ammount of applauses.
-        student_num = page - math.floor(page / groups.size)
+        student_num = page - math.floor(int(page) / groups.size)
 
         student = sm[student_num]
 
