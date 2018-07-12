@@ -6,11 +6,7 @@ db = SQLAlchemy()
 
 
 def create_app():
-    """Create a flask app.
-
-    Args:
-        config: A object from config.py
-    """
+    """Flask app factory."""
     app = Flask(__name__)
     app.config.from_object('config.Config')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

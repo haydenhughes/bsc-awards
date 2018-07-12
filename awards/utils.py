@@ -35,6 +35,9 @@ class StudentManager:
 
         Args:
             student_id: A string of the id of the wanted student.
+
+        Returns:
+            A models student object of the wanted student.
         """
         return models.Student.query.filter_by(student_id=student_id, year_level=self.year_level).first()
 
@@ -75,7 +78,6 @@ def get_awards(student_id):
         An array of all the awards.
     """
 
-    # TODO: Needs testing
     awards = []
     for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
         for award in models.Awards.query.filter_by(award_id=recipient.award_id).all():
