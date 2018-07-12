@@ -57,4 +57,4 @@ class AttendanceView(FlaskView):
 #       should be deleted before merge to staging.
 class ErrorView(FlaskView):
     def four(self):
-        return render_template('404.html')
+        return render_template('error/404.html')
