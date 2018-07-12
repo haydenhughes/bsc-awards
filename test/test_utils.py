@@ -57,6 +57,9 @@ class TestDB(unittest.TestCase):
     def test_StudentManager_len(self):
         self.assertEqual(len(self.sm), 3)
 
+    def test_StudentManager_attending(self):
+        self.assertEqual(self.sm.attending, 2)
+
     def test_get_awards(self):
         self.assertCountEqual(utils.get_awards('ROB2134'), ['Best Code Testing Award'])
         self.assertCountEqual(utils.get_awards('HUG0005'), ['Very Special Award', 'Hello World Award'])
