@@ -6,18 +6,16 @@ from awards import models, db, create_app, utils
 class TestDB(unittest.TestCase):
     @classmethod
     def setUp(self):
-        student_count = 60
+        # OPTIMIZE: Does not need to recreate everything every test. Although
+        # the tests need access to student_ids.
+        self.student_count = 60
+        self.attending_count = 50
         award_count = 5
         recipient_count = 80
 
         self.student_ids = []
 
-        def generate_student():
-            """Create a randomised student for testing
-
-            Returns:
-                A model.Student object.
-            """
+        def generate_student(index, student_ids, attending_count):
             id = ''
             for num in range(3):
                 # HACK: There must be a better way
@@ -25,14 +23,17 @@ class TestDB(unittest.TestCase):
 
             id += str(random.randint(0, 999))
 
-            self.student_ids.append(id)
+            student_ids.append(id)
 
-            attending = random.choice([True, False])
+            attending = False
+
+            if index <= attending_count:
+                attending = True
 
             return models.Student(student_id=id, attending=attending)
 
-        def generate_recipient(id):
-            student_id = random.choice(self.student_ids)
+        def generate_recipient(id, student_ids):
+            student_id = random.choice(student_ids)
             award_id = random.randint(award_count)
             return models.AwardRecipients(id=id,
                                           student_id=student_id,
@@ -43,39 +44,42 @@ class TestDB(unittest.TestCase):
 
         db.create_all()
 
-        for num in range(student_count):
-            db.session.add(generate_student())
+        for num in range(self.student_count):
+            db.session.add(generate_student(
+                num, self.student_ids, self.attending_count))
 
         for num in range(award_count):
             db.session.add(models.Awards(award_id=num))
 
         for num in range(recipient_count):
-            db.session.add(generate_recipient(num))
+            db.session.add(generate_recipient(num, self.student_ids))
 
         db.session.commit()
 
         self.sm = utils.StudentManager()
 
     def test_StudentManager_get(self):
-        self.assertTrue(self.sm.get('HUG0005').attending)
-        self.assertFalse(self.sm.get('WIL0123').attending)
-
-    def test_StudentManager_get_by_index(self):
-        self.assertEqual(self.sm[0].student_id, 'HUG0005')
-        self.assertEqual(self.sm[2].student_id, 'ROB2134')
-
-        with self.assertRaises(IndexError):
-            self.assertEqual(self.sm[3])
+        self.assertIsNotNone(self.sm.get(random.choice(self.student_ids)))
 
     def test_StudentManager_len(self):
-        self.assertEqual(len(self.sm), 3)
+        self.assertEqual(len(self.sm), self.student_count)
+
+    def test_StudentManager_get_by_index(self):
+        index = random.randrange(0, self.student_count)
+
+        self.assertEqual(self.sm[index].student_id, self.student_ids[index])
+
+        with self.assertRaises(IndexError):
+            self.sm[self.student_count]
 
     def test_StudentManager_attending(self):
-        self.assertEqual(self.sm.attending, 2)
+        self.assertEqual(self.sm.attending, self.attending_count)
 
     def test_get_awards(self):
-        self.assertCountEqual(utils.get_awards('ROB2134'), ['Best Code Testing Award'])
-        self.assertCountEqual(utils.get_awards('HUG0005'), ['Very Special Award', 'Hello World Award'])
+        self.assertCountEqual(utils.get_awards('ROB2134'), [
+                              'Best Code Testing Award'])
+        self.assertCountEqual(utils.get_awards('HUG0005'), [
+                              'Very Special Award', 'Hello World Award'])
 
     @classmethod
     def tearDown(self):
