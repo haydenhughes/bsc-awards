@@ -1,42 +1,56 @@
 import unittest
+import random
 from awards import models, db, create_app, utils
 
 
 class TestDB(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        student_count = 70
+        award_count = 5
+        recipient_count = 80
+
+        student_ids = []
+
+        def generate_student():
+            """Create a randomised student for testing
+
+            Returns:
+                A model.Student object.
+            """
+            id = ''
+            for num in range(3):
+                # HACK: There must be a better way
+                id += random.choice(['A', 'B', 'C', 'D'])
+
+            id += str(random.randint(0, 999))
+
+            student_ids.append(id)
+
+            attending = random.choice([True, False])
+
+            return models.Student(student_id=id, attending=attending)
+
+        def generate_recipient(id):
+            student_id = random.choice(student_ids)
+            award_id = random.randint(award_count)
+            return models.AwardRecipients(id=id,
+                                          student_id=student_id,
+                                          award_id=award_id)
+
         app = create_app()
         app.app_context().push()
 
         db.create_all()
 
-        student_list = [('HUG0005', 'Sam', 'Wilson', True),
-                        ('WIL0123', 'Jake', 'Bruckner', False),
-                        ('ROB2134', 'Ben', 'Hughes', True)]
+        for num in range(student_count):
+            db.session.add(generate_student())
 
-        for student_id, first_name, last_name, attending in student_list:
-            db.session.add(models.Student(student_id=student_id,
-                                          first_name=first_name,
-                                          last_name=last_name,
-                                          attending=attending))
+        for num in range(award_count):
+            db.session.add(models.Awards(award_id=num))
 
-        award_list = [(0, 'Hello World Award', False),
-                      (1, 'Very Special Award', True),
-                      (2, 'Best Code Testing Award', False)]
-
-        for award_id, award_name, special_award in award_list:
-            db.session.add(models.Awards(award_id=award_id,
-                                         award_name=award_name,
-                                         special_award=special_award))
-
-        award_recipient_list = [(0, 'HUG0005', 1),
-                                (1, 'ROB2134', 2),
-                                (2, 'WIL0123', 0),
-                                (3, 'HUG0005', 0)]
-        for id, student_id, award_id in award_recipient_list:
-            db.session.add(models.AwardRecipients(id=id,
-                                                  student_id=student_id,
-                                                  award_id=award_id))
+        for num in range(recipient_count):
+            db.session.add(generate_recipient(num))
 
         db.session.commit()
 
