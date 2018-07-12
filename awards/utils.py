@@ -58,12 +58,12 @@ def group_size(student_count=0):
         count (the amount of groups (excluding the last group))
         and last_size (the amount of students in the last group).
     """
-    groups = namedtuple('Groups', ['size', 'count', 'last_size'])
+    Groups = namedtuple('Groups', ['size', 'count', 'last_size'])
     for group_size in range(7, 10):
         if 10 > (student_count % group_size) > 4 or student_count % group_size == 0:
-            groups.size = group_size
-            groups.count = math.floor(student_count / group_size)
-            groups.last_size = student_count % group_size
+            groups = Groups(group_size,
+                            math.floor(student_count / group_size),
+                            student_count % group_size)
 
     return groups
 
