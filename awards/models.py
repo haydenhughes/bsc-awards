@@ -9,8 +9,8 @@ class AwardRecipients(db.Model):
 
 class Student(db.Model):
     student_id = db.Column(db.String(7), primary_key=True)
-    first_name = db.Column(db.String(120), nullable=False)
-    last_name = db.Column(db.String(120), nullable=False)
+    first_name = db.Column(db.String(120))
+    last_name = db.Column(db.String(120))
     preferred_name = db.Column(db.String(120))
     year_level = db.Column(db.Integer)
     form_group = db.Column(db.String(2))
