@@ -13,8 +13,11 @@ def create_app():
 
     db.init_app(app)
 
-    from awards.views import MainView, AttendanceView
+    # TEMP: ErrorView is only for error testing and
+    #       should be deleted before merging to staging.
+    from awards.views import MainView, AttendanceView, ErrorView
     MainView.register(app)
     AttendanceView.register(app)
+    ErrorView.register(app)
 
     return app
