@@ -61,3 +61,6 @@ class ErrorView(FlaskView):
 
     def two(self):
         return render_template('error/402.html')
+
+    def five(self):
+        return render_template('error/500.html')
