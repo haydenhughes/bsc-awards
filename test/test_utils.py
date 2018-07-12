@@ -5,12 +5,12 @@ from awards import models, db, create_app, utils
 
 class TestDB(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
-        student_count = 70
+    def setUp(self):
+        student_count = 60
         award_count = 5
         recipient_count = 80
 
-        student_ids = []
+        self.student_ids = []
 
         def generate_student():
             """Create a randomised student for testing
@@ -25,14 +25,14 @@ class TestDB(unittest.TestCase):
 
             id += str(random.randint(0, 999))
 
-            student_ids.append(id)
+            self.student_ids.append(id)
 
             attending = random.choice([True, False])
 
             return models.Student(student_id=id, attending=attending)
 
         def generate_recipient(id):
-            student_id = random.choice(student_ids)
+            student_id = random.choice(self.student_ids)
             award_id = random.randint(award_count)
             return models.AwardRecipients(id=id,
                                           student_id=student_id,
@@ -54,7 +54,6 @@ class TestDB(unittest.TestCase):
 
         db.session.commit()
 
-    def setUp(self):
         self.sm = utils.StudentManager()
 
     def test_StudentManager_get(self):
@@ -79,7 +78,7 @@ class TestDB(unittest.TestCase):
         self.assertCountEqual(utils.get_awards('HUG0005'), ['Very Special Award', 'Hello World Award'])
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
         models.Student.query.delete()
         models.Awards.query.delete()
         models.AwardRecipients.query.delete()
