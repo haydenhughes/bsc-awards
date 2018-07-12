@@ -27,14 +27,14 @@ class TestDB(unittest.TestCase):
 
             attending = False
 
-            if index <= attending_count:
+            if index < attending_count:
                 attending = True
 
             return models.Student(student_id=id, attending=attending)
 
         def generate_recipient(id, student_ids):
             student_id = random.choice(student_ids)
-            award_id = random.randint(award_count)
+            award_id = random.randint(0, award_count)
             return models.AwardRecipients(id=id,
                                           student_id=student_id,
                                           award_id=award_id)
@@ -76,10 +76,9 @@ class TestDB(unittest.TestCase):
         self.assertEqual(self.sm.attending, self.attending_count)
 
     def test_get_awards(self):
-        self.assertCountEqual(utils.get_awards('ROB2134'), [
-                              'Best Code Testing Award'])
-        self.assertCountEqual(utils.get_awards('HUG0005'), [
-                              'Very Special Award', 'Hello World Award'])
+        student_id = random.choice(self.student_ids)
+        awards = [award.award_id for award in models.AwardRecipients.query.filter_by(student_id=student_id).all()]
+        self.assertCountEqual([award.award_id for award in utils.get_awards(student_id)], awards)
 
     @classmethod
     def tearDown(self):
