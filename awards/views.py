@@ -16,7 +16,7 @@ class MainView(FlaskView):
 
         # TODO: Testing, unittesting
         # Account for the ammount of applauses.
-        student_num = page - math.floor(int(page) / groups.size)
+        student_num = int(page) - math.floor(int(page) / groups.size)
 
         student = sm[student_num]
 
