@@ -75,12 +75,12 @@ def get_awards(student_id):
         student_id: A string of the student id to get awards for.
 
     Returns:
-        An array of all the awards.
+        An array of all the models.Awards objects.
     """
 
     awards = []
     for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
         for award in models.Awards.query.filter_by(award_id=recipient.award_id).all():
-            awards.append(award.award_name)
+            awards.append(award)
 
     return awards
