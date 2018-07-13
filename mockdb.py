@@ -27,7 +27,7 @@ class MockDB:
         return ''.join(random.choices(self.alphabet, k=length))
 
     def generate_student(self, index, student_ids, attending_count):
-        id = '{}{}'.format(self.generate_name(3, 3).upper(), str(random.randint(0, 999)))
+        id = '{}{}'.format(self.generate_name(3, 3).upper(), str(random.randint(0, 9) * 3))
         student_ids.append(id)
 
         first_name = self.generate_name()
