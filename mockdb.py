@@ -12,8 +12,8 @@ class MockDB:
         self.student_ids = []
         self.alphabet = [c for c in 'abcdefghijklmnopqrstuvwzyz']
 
-        app = create_app()
-        app.app_context().push()
+        self.app = create_app()
+        self.app.app_context().push()
 
     def __enter__(self):
         self.setUp()
@@ -38,9 +38,12 @@ class MockDB:
         if index < attending_count:
             attending = True
 
+        year_level = random.choice(self.app.config['YEAR_LEVELS'])
+
         return models.Student(student_id=id,
                               first_name=first_name,
                               last_name=last_name,
+                              year_level=year_level,
                               attending=attending)
 
     def generate_recipient(self, id, student_ids):
