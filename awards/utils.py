@@ -1,6 +1,6 @@
 from collections import namedtuple
 import math
-from awards import models, db
+from awards import models, db, app
 
 
 class StudentManager:
@@ -66,8 +66,10 @@ def group_size(student_count=0):
                             student_count % group_size)
 
     if groups is None:
-        # FIXME: Raise a more suitable error
-        raise NotImplementedError('Cannot calculate group size. Too few students.')
+        # FIXME: Log level should be warn not info
+        app.logging('Not enough students to create groups. \
+                     Only creating one group.')
+        groups = Groups(student_count, 1, 0)
 
     return groups
 
