@@ -15,6 +15,8 @@ class MockDB:
         self.app = create_app()
         self.app.app_context().push()
 
+        self.award_count = 0
+
     def __enter__(self):
         self.setUp()
         return self
@@ -63,7 +65,9 @@ class MockDB:
                 desc = row[2]
                 special = row[7]
 
-                yield models.Awards(id=id,
+                self.award_count += 1
+
+                yield models.Awards(award_id=id,
                                     award_name=name,
                                     award_description=desc,
                                     special_award=special)
