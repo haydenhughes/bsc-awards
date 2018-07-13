@@ -10,6 +10,7 @@ class MockDB:
         self.recipient_count = recipient_count
 
         self.student_ids = []
+        self.alphabet = [c for c in 'abcdefghijklmnopqrstuvwzyz']
 
         app = create_app()
         app.app_context().push()
@@ -21,24 +22,26 @@ class MockDB:
     def __exit__(self, *args):
         self.tearDown()
 
+    def generate_name(self, min_length=3, max_length=8):
+        length = random.randrange(min_length, max_length)
+        return ''.join(random.choices(self.alphabet, k=length))
+
     def generate_student(self, index, student_ids, attending_count):
-        id = ''
-        for num in range(3):
-            # HACK: There must be a better way
-            id += random.choice(['A', 'B', 'C', 'D'])
-
-        id += str(random.randint(0, 999))
-
-        # TODO: Name generation
-
+        id = '{}{}'.format(self.generate_name(3, 3).upper(), str(random.randint(0, 999)))
         student_ids.append(id)
+
+        first_name = self.generate_name()
+        last_name = self.generate_name()
 
         attending = False
 
         if index < attending_count:
             attending = True
 
-        return models.Student(student_id=id, attending=attending)
+        return models.Student(student_id=id,
+                              first_name=first_name,
+                              last_name=last_name,
+                              attending=attending)
 
     def generate_recipient(self, id, student_ids):
         student_id = random.choice(self.student_ids)
