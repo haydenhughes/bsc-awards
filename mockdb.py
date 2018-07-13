@@ -23,7 +23,7 @@ class MockDB:
         self.tearDown()
 
     def generate_name(self, min_length=3, max_length=8):
-        length = random.randrange(min_length, max_length)
+        length = random.randint(min_length, max_length)
         return ''.join(random.choices(self.alphabet, k=length))
 
     def generate_student(self, index, student_ids, attending_count):
@@ -75,8 +75,8 @@ class MockDB:
             db.session.add(self.generate_student(
                 num, self.student_ids, self.attending_count))
 
-        for num in range(self.award_count):
-            db.session.add(models.Awards(award_id=num))
+        for num in range(self.recipient_count):
+            db.session.add(self.generate_recipient(num, self.student_ids))
 
         for award in self.get_awards():
             db.session.add(award)
