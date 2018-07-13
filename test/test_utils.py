@@ -10,21 +10,21 @@ class TestStudentManager(unittest.TestCase):
         self.mock_db.setUp()
         self.sm = utils.StudentManager()
 
-    def test_StudentManager_get(self):
+    def test_get(self):
         self.assertIsNotNone(self.sm.get(random.choice(self.mock_db.student_ids)))
 
-    def test_StudentManager_len(self):
+    def test_len(self):
         self.assertEqual(len(self.sm), self.mock_db.student_count)
 
-    def test_StudentManager_get_by_index(self):
-        index = random.randrange(0, self.mock_db.student_count)
+    def test_get_by_index(self):
+        index = random.randint(0, self.mock_db.student_count)
 
         self.assertEqual(self.sm[index].student_id, self.mock_db.student_ids[index])
 
         with self.assertRaises(IndexError):
             self.sm[self.mock_db.student_count]
 
-    def test_StudentManager_attending(self):
+    def test_attending(self):
         self.assertEqual(self.sm.attending, self.mock_db.attending_count)
 
     def tearDown(self):
