@@ -28,7 +28,7 @@ class MockDB:
         length = random.randint(min_length, max_length)
         return ''.join(random.choices(self.alphabet, k=length))
 
-    def generate_student(self, index, student_ids, attending_count):
+    def generate_student(self, index):
         id_str = self.generate_name(3, 3).upper()
         id_int = random.randint(0, 999)
         if id_int < 100:
@@ -40,12 +40,12 @@ class MockDB:
 
         self.student_ids.append(id)
 
-        first_name = self.generate_name()
-        last_name = self.generate_name()
+        first_name = self.generate_name().capitalize()
+        last_name = self.generate_name().capitalize()
 
         attending = False
 
-        if index < attending_count:
+        if index < self.attending_count:
             attending = True
 
         year_level = random.choice(self.app.config['YEAR_LEVELS'])
@@ -86,14 +86,13 @@ class MockDB:
         db.create_all()
 
         for num in range(self.student_count):
-            db.session.add(self.generate_student(
-                num, self.student_ids, self.attending_count))
-
-        for num in range(self.recipient_count):
-            db.session.add(self.generate_recipient(num, self.student_ids))
+            db.session.add(self.generate_student(num))
 
         for award in self.get_awards():
             db.session.add(award)
+
+        for num in range(self.recipient_count):
+            db.session.add(self.generate_recipient(num, self.student_ids))
 
         db.session.commit()
 
