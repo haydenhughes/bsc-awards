@@ -10,7 +10,7 @@ class MockDB:
         self.recipient_count = recipient_count
 
         self.student_ids = []
-        self.alphabet = [c for c in 'abcdefghijklmnopqrstuvwzyz']
+        self.alphabet = [c for c in 'abcdefghijklmnopqrstuvwxyz']
 
         self.app = create_app()
         self.app.app_context().push()
@@ -29,8 +29,16 @@ class MockDB:
         return ''.join(random.choices(self.alphabet, k=length))
 
     def generate_student(self, index, student_ids, attending_count):
-        id = '{}{}'.format(self.generate_name(3, 3).upper(), str(random.randint(0, 9) * 3))
-        student_ids.append(id)
+        id_str = self.generate_name(3, 3).upper()
+        id_int = random.randint(0, 999)
+        if id_int < 100:
+            id = '{}0{}'.format(id_str, str(id_int))
+        elif id_int < 10:
+            id = '{}00{}'.format(id_str, str(id_int))
+        else:
+            id = id_str + str(id_int)
+
+        self.student_ids.append(id)
 
         first_name = self.generate_name()
         last_name = self.generate_name()
@@ -63,7 +71,9 @@ class MockDB:
                 id = row[0]
                 name = row[1]
                 desc = row[2]
-                special = row[7]
+                # HACK: Alright with this data set as there isn't any special
+                #       awards.
+                special = False
 
                 self.award_count += 1
 
@@ -95,6 +105,7 @@ class MockDB:
 
 
 if __name__ == '__main__':
-    MockDB().tearDown()
-    MockDB().setUp()
+    mockdb = MockDB()
+    mockdb.tearDown()
+    mockdb.setUp()
     print('Done!')

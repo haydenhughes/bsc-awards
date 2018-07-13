@@ -17,8 +17,7 @@ class TestStudentManager(unittest.TestCase):
         self.assertEqual(len(self.sm), self.mock_db.student_count)
 
     def test_get_by_index(self):
-        index = random.randint(0, self.mock_db.student_count)
-
+        index = random.randint(0, self.mock_db.student_count - 1)
         self.assertEqual(self.sm[index].student_id, self.mock_db.student_ids[index])
 
         with self.assertRaises(IndexError):
