@@ -26,7 +26,7 @@ class Student(db.Model):
 class Awards(db.Model):
     award_id = db.Column(db.Integer, primary_key=True)
     award_name = db.Column(db.String(120))
-    award_desription = db.Column(db.String(120))
+    award_description = db.Column(db.String(120))
     award_certificate_title = db.Column(db.String(120))
     award_certificate_title_1 = db.Column(db.String(120))
     award_certificate_title_2 = db.Column(db.String(120))
