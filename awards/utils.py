@@ -73,18 +73,12 @@ def group_size(student_count=0):
 
 
 def get_awards(student_id):
-    """Get all the awards for a student.
+    """A generator that gets all the awards for a student.
 
     Args:
         student_id: A string of the student id to get awards for.
-
-    Returns:
-        An array of all the models.Awards objects.
     """
 
-    awards = []
     for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
         for award in models.Awards.query.filter_by(award_id=recipient.award_id).all():
-            awards.append(award)
-
-    return awards
+            yield award
