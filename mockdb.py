@@ -168,7 +168,14 @@ class MockDB:
 
 
 if __name__ == '__main__':
+    # TODO: Add argparse support
     mockdb = MockDB()
-    mockdb.tearDown()
+
+    # HACK: If the tables do not exist then they connot be deleted
+    try:
+        mockdb.tearDown()
+    except Exception as e:
+        pass
+
     mockdb.setUp()
     print('Done!')
