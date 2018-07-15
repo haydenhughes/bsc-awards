@@ -30,6 +30,13 @@ class TestStudentManager(unittest.TestCase):
         self.mock_db.tearDown()
 
 
+class TestStudentManagerYearRestrictions(TestStudentManager):
+    def setUp(self):
+        self.mock_db = MockDB([7])
+        self.mock_db.setUp()
+        self.sm = utils.StudentManager([7])
+
+
 class TestGetAwards(unittest.TestCase):
     def setUp(self):
         self.mock_db = MockDB()
