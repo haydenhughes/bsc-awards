@@ -11,7 +11,8 @@ class TestStudentManager(unittest.TestCase):
         self.sm = utils.StudentManager()
 
     def test_get(self):
-        self.assertIsNotNone(self.sm.get(random.choice(self.mock_db.student_ids)))
+        self.assertIsNotNone(self.sm.get(
+            random.choice(self.mock_db.student_ids)))
 
     def test_len(self):
         self.assertEqual(len(self.sm), self.mock_db.student_count)
@@ -44,8 +45,10 @@ class TestGetAwards(unittest.TestCase):
 
     def test(self):
         student_id = random.choice(self.mock_db.student_ids)
-        awards = [award.award_id for award in models.AwardRecipients.query.filter_by(student_id=student_id).all()]
-        self.assertCountEqual([award.award_id for award in utils.get_awards(student_id)], awards)
+        awards = [award.award_id for award in models.AwardRecipients.query.filter_by(
+            student_id=student_id).all()]
+        self.assertCountEqual(
+            [award.award_id for award in utils.get_awards(student_id)], awards)
 
     def tearDown(self):
         self.mock_db.tearDown()
