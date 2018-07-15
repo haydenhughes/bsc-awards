@@ -66,8 +66,7 @@ def group_size(student_count=0):
                             student_count % group_size)
 
     if groups is None:
-        # FIXME: Log level should be warn not info
-        app.logging('Not enough students to create groups. \
+        app.logging.warning('Not enough students to create groups. \
                      Only creating one group.')
         groups = Groups(student_count, 1, 0)
 
