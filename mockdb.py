@@ -10,14 +10,14 @@ class MockDB:
         self.recipient_count = recipient_count
 
         self.student_ids = []
-        self.alphabet = [c for c in 'abcdefghijklmnopqrstuvwxyz']
+        self._alphabet = [c for c in 'abcdefghijklmnopqrstuvwxyz']
 
-        self.app = create_app()
-        self.app.app_context().push()
+        self._app = create_app()
+        self._app.app_context().push()
 
         self.year_level = year_level
         if year_level is None:
-            self.year_level = self.app.config['YEAR_LEVELS']
+            self.year_level = self._app.config['YEAR_LEVELS']
 
         self.award_count = 0
 
@@ -30,7 +30,7 @@ class MockDB:
 
     def generate_name(self, min_length=3, max_length=8):
         length = random.randint(min_length, max_length)
-        return ''.join(random.choices(self.alphabet, k=length))
+        return ''.join(random.choices(self._alphabet, k=length))
 
     def generate_student(self, index):
         id_str = self.generate_name(3, 3).upper()
