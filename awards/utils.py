@@ -1,18 +1,21 @@
 from collections import namedtuple
 import math
 from awards import models, db
+import config
 
 
 class StudentManager:
     """Manages student information.
 
     Args:
-        year_level: A string to specify what year level to work with.
-                    None for all (default).
+        year_levels: A array of integers to specify which year levels
+                     to work with. None for all (default).
     """
 
     def __init__(self, year_level=None):
-        self.year_level = year_level
+        self.year_levels = config.Config.YEAR_LEVELS
+        if year_level is not None:
+            self.year_levels = year_level
 
     def __enter__(self):
         return self
@@ -21,12 +24,20 @@ class StudentManager:
         db.session.commit()
 
     def __len__(self):
-        return len(models.Student.query.filter_by(year_level=self.year_level).all())
+        amount = 0
+        for year in self.year_levels:
+            amount += len(models.Student.query.filter_by(year_level=year).all())
+        return amount
 
     def __getitem__(self, index):
         if index >= len(self):
             raise IndexError('Student index out of range.')
-        return models.Student.query.filter_by(year_level=self.year_level).all()[index]
+
+        result = []
+        for year in self.year_levels:
+            for student in models.Student.query.filter_by(year_level=year).all():
+                result.append(student)
+        return result[index]
 
     def get(self, student_id):
         """Get a student via sudent_id.
@@ -37,14 +48,22 @@ class StudentManager:
             student_id: A string of the id of the wanted student.
 
         Returns:
-            A models student object of the wanted student.
+            A models stself.year_leveludent object of the wanted student.
         """
-        return models.Student.query.filter_by(student_id=student_id, year_level=self.year_level).first()
+        results = []
+        for year in self.year_levels:
+            results.append(models.Student.query.filter_by(student_id=student_id, year_level=year).first())
+        for result in results:
+            if result is not None:
+                return result
 
     @property
     def attending(self):
         """A readonly int of the amount of students attending."""
-        return len(models.Student.query.filter_by(year_level=self.year_level, attending=True).all())
+        amount = 0
+        for year in self.year_levels:
+            amount += len(models.Student.query.filter_by(year_level=year, attending=True).all())
+        return amount
 
 
 def group_size(student_count=0):
