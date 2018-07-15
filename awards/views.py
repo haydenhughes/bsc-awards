@@ -37,17 +37,24 @@ class AttendanceView(FlaskView):
     def __init__(self):
         self.fullname = ''
         self.form_group = ''
+        self.attending = False
 
-    def post(self):
-        with utils.StudentManager() as sm:
-            student = sm.find(request.form('studentCode'))
-            self.fullname = student.first_name, student.last_name
-            self.form_group = student.form_group
-            student.attending = request.form('attending')
-
-    def index(self):
+    def get(self):
+        # TEMP: Somehow I don't think request.get will work
+        student = request.get('studentCode')
+        self.fullname = student.first_name, student.last_name
+        self.form_group = student.form_group
+        self.attending = student.attending
         return render_template('attendance/index.html',
                                presenting='BSC-Awards',
                                year_levels=current_app.config['YEAR_LEVELS'],
                                fullname=self.fullname,
-                               form_group=self.form_group)
+                               form_group=self.form_group,
+                               attending=self.attending)
+
+    def post(self):
+        with utils.StudentManager() as sm:
+            # TODO: Invalid student code handling
+            # FIXME: request.form is not working
+            student = sm.get(request.form('studentCode'))
+            student.attending = request.form('attending')
