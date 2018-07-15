@@ -4,7 +4,7 @@ from awards import create_app, db, models
 
 
 class MockDB:
-    def __init__(self, student_count=60, attending_count=50, recipient_count=80):
+    def __init__(self, year_level=None, student_count=60, attending_count=50, recipient_count=80):
         self.student_count = student_count
         self.attending_count = attending_count
         self.recipient_count = recipient_count
@@ -14,6 +14,10 @@ class MockDB:
 
         self.app = create_app()
         self.app.app_context().push()
+
+        self.year_level = year_level
+        if year_level is None:
+            self.year_level = self.app.config['YEAR_LEVELS']
 
         self.award_count = 0
 
@@ -48,7 +52,7 @@ class MockDB:
         if index < self.attending_count:
             attending = True
 
-        year_level = random.choice(self.app.config['YEAR_LEVELS'])
+        year_level = random.choice(self.year_level)
 
         return models.Student(student_id=id,
                               first_name=first_name,
