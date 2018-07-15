@@ -28,7 +28,6 @@ class MainView(FlaskView):
             return render_template('main/applause.html')
         return render_template('main/index.html',
                                presenting='Year {}'.format(year_level),
-                               year_levels=current_app.config['YEAR_LEVELS'],
                                student=student,
                                awards=awards)
 
@@ -48,6 +47,5 @@ class AttendanceView(FlaskView):
     def index(self):
         return render_template('attendance/index.html',
                                presenting='BSC-Awards',
-                               year_levels=current_app.config['YEAR_LEVELS'],
                                fullname=self.fullname,
                                form_group=self.form_group)
