@@ -4,6 +4,23 @@ from awards import create_app, db, models
 
 
 class MockDB:
+    """Fill a database with dummy values for testing.
+
+    MockDB uses the database configuration from config.py
+
+    Args:
+        year_level: A list of year levels (int) to create dummy data for.
+                    None uses the year_level variable in config.py (default).
+
+        student_count: A integer for the amount of students to create.
+                       Default 60.
+
+        attending_count: A integer of amount of students attending. Default 50.
+
+        recipient_count: A interger of the amount of award AwardRecipients
+                         to create. Default 80.
+    """
+
     def __init__(self, year_level=None, student_count=60, attending_count=50, recipient_count=80):
         self.student_count = student_count
         self.attending_count = attending_count
@@ -29,10 +46,31 @@ class MockDB:
         self.tearDown()
 
     def generate_name(self, min_length=3, max_length=8):
+        """Generate a random name of random length.
+
+        Args:
+            min_length: A integer of the minimum character length of the name.
+
+            max_length: A interger of the maximum character length of the name.
+
+        Returns:
+            A string of the generated name.
+        """
         length = random.randint(min_length, max_length)
         return ''.join(random.choices(self._alphabet, k=length))
 
     def generate_student(self, index):
+        """Generates a models.Student object.
+
+        Includes a random first_name, last_name, year_level and attending
+
+        Args:
+            index: A integer of the amount of students created. Used to workout
+                   if the student should be attending or not.
+
+        Returns:
+            A models.Student object as well as populating self.student_ids.
+        """
         id_str = self.generate_name(3, 3).upper()
         id_int = random.randint(0, 999)
         if id_int < 100:
@@ -60,7 +98,16 @@ class MockDB:
                               year_level=year_level,
                               attending=attending)
 
-    def generate_recipient(self, id, student_ids):
+    def generate_recipient(self, id):
+        """Generates a models.AwardRecipients object.
+
+        Args:
+            id: An integer of the id (the primary key for the database)
+                of the object.
+
+        Returns:
+            A models.AwardRecipients object.
+        """
         student_id = random.choice(self.student_ids)
         award_id = random.randint(0, self.award_count)
         return models.AwardRecipients(id=id,
@@ -68,6 +115,17 @@ class MockDB:
                                       award_id=award_id)
 
     def get_awards(self, csv_file='awards.csv'):
+        """A generator method for getting models.Awards objects.
+
+        get_awards reads a csv file to collect the award information.
+        See awards.csv for an example.
+
+        Args:
+            csv_file: A string of a csv file to read from.
+
+        Returns:
+            A generator of models.Awards objects.
+        """
         with open(csv_file) as f:
             csv = reader(f)
 
@@ -87,6 +145,7 @@ class MockDB:
                                     special_award=special)
 
     def setUp(self):
+        """Creates and populates the database tables."""
         db.create_all()
 
         for num in range(self.student_count):
@@ -101,6 +160,7 @@ class MockDB:
         db.session.commit()
 
     def tearDown(self):
+        """Deletes the created database tables"""
         models.Student.query.delete()
         models.Awards.query.delete()
         models.AwardRecipients.query.delete()
