@@ -155,7 +155,7 @@ class MockDB:
             db.session.add(award)
 
         for num in range(self.recipient_count):
-            db.session.add(self.generate_recipient(num, self.student_ids))
+            db.session.add(self.generate_recipient(num))
 
         db.session.commit()
 
