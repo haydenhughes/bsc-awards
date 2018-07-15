@@ -53,6 +53,7 @@ class StudentManager:
         results = []
         for year in self.year_levels:
             results.append(models.Student.query.filter_by(student_id=student_id, year_level=year).first())
+
         for result in results:
             if result is not None:
                 return result
