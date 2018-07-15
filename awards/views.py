@@ -51,16 +51,3 @@ class AttendanceView(FlaskView):
                                year_levels=current_app.config['YEAR_LEVELS'],
                                fullname=self.fullname,
                                form_group=self.form_group)
-
-
-# TEMP: Class for testing purposes only and
-#       should be deleted before merge to staging.
-class ErrorView(FlaskView):
-    def four(self):
-        return render_template('error/404.html')
-
-    def three(self):
-        return render_template('error/403.html')
-
-    def five(self):
-        return render_template('error/500.html')

@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+from flask import Flask, render_template
 
 
 db = SQLAlchemy()
@@ -13,11 +13,17 @@ def create_app():
 
     db.init_app(app)
 
-    # TEMP: ErrorView is only for error testing and
-    #       should be deleted before merging to staging.
-    from awards.views import MainView, AttendanceView, ErrorView
+    from awards.views import MainView, AttendanceView
     MainView.register(app)
     AttendanceView.register(app)
-    ErrorView.register(app)
+
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return render_template('error/404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        db.session.rollback()
+        return render_template('error/500.html'), 500
 
     return app
