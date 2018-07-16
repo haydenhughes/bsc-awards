@@ -27,10 +27,13 @@ class MainView(FlaskView):
         if (student_num % groups.size == 0) \
            or (student_num % groups.size % groups.count == 0
                and student_num % groups.last_size == 0):
-            return render_template('main/applause.html')
+            return render_template('main/applause.html',
+                                   year_level=int(year_level), page=int(page))
         return render_template('main/index.html',
                                student=student,
-                               awards=awards)
+                               awards=awards,
+                               year_level=int(year_level),
+                               page=int(page))
 
 
 class AttendanceView(FlaskView):
