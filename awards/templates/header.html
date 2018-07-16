@@ -15,9 +15,7 @@
     <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <!-- TODO: Change the navbar-brand text to the currently presenting year level. -->
-      <!-- HACK: There must be a better way -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <span class="navbar-brand mb-0 h1">{{ config['NAVBAR_BRAND'] }}</span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -25,7 +23,7 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown {% if request.path == '/main' %} active {% endif %}">
+          <li class="nav-item dropdown {% if request.path != '/attendance/' %} active {% endif %}">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Presenter View</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <p class="text-center">Select a year level:</p>
@@ -35,7 +33,7 @@
               {% endfor %}
             </div>
           </li>
-          <li class="nav-item {% if request.path == '/attendance' %} active {% endif %}">
+          <li class="nav-item {% if request.path == '/attendance/' %} active {% endif %}">
             <a class="nav-link" href="{{ url_for('AttendanceView:index') }}">Attendance Tracker {% if request.path == '/attendance' %}<span class="sr-only">(current)</span>{% endif %}</a>
           </li>
         </ul>
