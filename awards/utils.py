@@ -1,3 +1,4 @@
+from flask import current_app
 from collections import namedtuple
 import math
 from awards import models, db
@@ -27,6 +28,10 @@ class StudentManager:
         amount = 0
         for year in self.year_levels:
             amount += len(models.Student.query.filter_by(year_level=year).all())
+
+        if amount == 0:
+            current_app.logging.error('The Student table has records for \
+                                      year {}'.format(year))
         return amount
 
     def __getitem__(self, index):
@@ -48,7 +53,7 @@ class StudentManager:
             student_id: A string of the id of the wanted student.
 
         Returns:
-            A models stself.year_leveludent object of the wanted student.
+            A models Student object of the wanted student.
         """
         results = []
         for year in self.year_levels:
@@ -85,12 +90,12 @@ def group_size(student_count=0):
                             math.floor(student_count / group_size),
                             student_count % group_size)
 
-    if groups is None:
-        app.logging.warning('Not enough students to create groups. \
-                     Only creating one group.')
-        groups = Groups(student_count, 1, 0)
-
-    return groups
+    try:
+        return groups
+    except TypeError:
+        current_app.logging.warning('Not enough students to create groups. \
+                                    Only creating one group.')
+        return Groups(student_count, 1, 0)
 
 
 def get_awards(student_id):
