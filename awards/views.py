@@ -45,6 +45,7 @@ class AttendanceView(FlaskView):
         self.fullname = student.first_name, student.last_name
         self.form_group = student.form_group
         self.attending = student.attending
+        current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
         return render_template('attendance/index.html',
                                fullname=self.fullname,
                                form_group=self.form_group,
