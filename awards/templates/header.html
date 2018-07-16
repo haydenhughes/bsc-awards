@@ -18,7 +18,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <!-- TODO: Change the navbar-brand text to the currently presenting year level. -->
       <!-- HACK: There must be a better way -->
-      <span class="navbar-brand mb-0 h1">{{ presenting }}</span>
+      <span class="navbar-brand mb-0 h1">{{ config['NAVBAR_BRAND'] }}</span>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -26,20 +26,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown {% if request.path == '/main' %} active {% endif %}">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Presenter View</a>
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Presenter View</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <!-- TODO: Make this a jinja for statement -->
               <p class="text-center">Select a year level:</p>
               <div class="dropdown-divider"></div>
-              <!-- HACK: There must be a better way of getting year_levels -->
-              {% for year in year_levels %}
-                <!-- FIXME: href not working -->
-                <a class="dropdown-item" href="{{ '{}/0/'.format(year) }}">{{ 'Year {}'.format(year) }}</a>
+              {% for year in config['YEAR_LEVELS'] %}
+                <a class="dropdown-item" href="{{ url_for('MainView:index', year_level=year, page=0) }}">{{ 'Year {}'.format(year) }}</a>
               {% endfor %}
             </div>
           </li>
           <li class="nav-item {% if request.path == '/attendance' %} active {% endif %}">
-            <a class="nav-link" href="#">Attendance Tracker {% if request.path == '/attendance' %}<span class="sr-only">(current)</span>{% endif %}</a> <!-- FIXME: href link -->
+            <a class="nav-link" href="{{ url_for('AttendanceView:index') }}">Attendance Tracker {% if request.path == '/attendance' %}<span class="sr-only">(current)</span>{% endif %}</a>
           </li>
         </ul>
         <form class="form-inline">
