@@ -1,0 +1,14 @@
+{% extends "header.html" %}
+
+{% block body %}
+  {% block content %}
+  {% endblock %}
+
+  <div class="container fixed-bottom">
+    <div class="row mb-2">
+      <button type="button" name="button" class="btn btn-lg btn-dark col">Back</button>
+      <div class="p-4"></div>
+      <button type="button" name="button" class="btn btn-lg btn-success col">Next</button>
+    </div>
+  </div>
+{% endblock %}
