@@ -22,13 +22,13 @@ class MainView(FlaskView):
 
         awards = utils.get_awards(student.student_id)
 
+        current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
+
         if (student_num % groups.size == 0) \
            or (student_num % groups.size % groups.count == 0
                and student_num % groups.last_size == 0):
             return render_template('main/applause.html')
         return render_template('main/index.html',
-                               presenting='Year {}'.format(year_level),
-                               year_levels=current_app.config['YEAR_LEVELS'],
                                student=student,
                                awards=awards)
 
@@ -46,8 +46,6 @@ class AttendanceView(FlaskView):
         self.form_group = student.form_group
         self.attending = student.attending
         return render_template('attendance/index.html',
-                               presenting='BSC-Awards',
-                               year_levels=current_app.config['YEAR_LEVELS'],
                                fullname=self.fullname,
                                form_group=self.form_group,
                                attending=self.attending)
