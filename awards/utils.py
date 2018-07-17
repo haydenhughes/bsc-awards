@@ -30,7 +30,7 @@ class StudentManager:
             amount += len(models.Student.query.filter_by(year_level=year).all())
 
         if amount == 0:
-            current_app.logging.error('The Student table has records for \
+            current_app.logger.error('The Student table has records for \
                                       year {}'.format(year))
         return amount
 
@@ -93,7 +93,7 @@ def group_size(student_count=0):
     try:
         return groups
     except UnboundLocalError:
-        current_app.logging.warning('Not enough students to create groups. \
+        current_app.logger.warning('Not enough students to create groups. \
                                     Only creating one group.')
         return Groups(student_count, 1, 0)
 
@@ -108,5 +108,5 @@ def get_awards(student_id):
     for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
         for award in models.Awards.query.filter_by(award_id=recipient.award_id).all():
             if award is None:
-                current_app.logging.error('No awards found for student {}'.format(student_id))
+                current_app.logger.error('No awards found for student {}'.format(student_id))
             yield award
