@@ -39,23 +39,19 @@ class MainView(FlaskView):
 class AttendanceView(FlaskView):
     def get(self):
         sm = utils.StudentManager()
-        self.student = sm.get(request.args.get('studentCode'))
-        print('GET RAN')
-        print(self.student)
-
+        student = sm.get(request.args.get('studentCode'))
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
         return render_template('attendance/index.html',
-                               student=self.student)
+                               student=student)
 
-    def post(self):
+    def post(self, student_id):
+        sm = utils.StudentManager()
+        student = sm.get(student_id)
         if request.form.get('attending') == 'checked':
-            self.student.attending = True
+            student.attending = True
         else:
-            self.student.attending = False
+            student.attending = False
 
         db.session.commit()
-
-        print("RAN POST")
-        print(models.Student.query.filter_by(student_id=self.student.student_id).first().attending)
 
         return redirect(url_for('AttendanceView:get'), code=302)
