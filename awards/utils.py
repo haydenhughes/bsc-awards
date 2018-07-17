@@ -92,7 +92,7 @@ def group_size(student_count=0):
 
     try:
         return groups
-    except TypeError:
+    except UnboundLocalError:
         current_app.logging.warning('Not enough students to create groups. \
                                     Only creating one group.')
         return Groups(student_count, 1, 0)
