@@ -1,28 +1,32 @@
 {% extends "header.html" %}
 
 {% block body %}
-<form class="container mt-5 needs-validation" id="attendanceForm" method="post" novalidate>
-  <div class="form-group">
-    <label for="studentCode">Student Code</label>
-    <input type="text" name="studentCode" class="form-control" id="studentCode" placeholder="Enter Student Code" onchange="checkAndSubmit()" required>
-    <div class="invalid-feedback">
-      Please enter a student code.
+<div class="container mt-5">
+  <form class="needs-validation" id="studentcodeForm" method="get" novalidate>
+    <div class="form-group">
+      <label for="studentCode">Student Code</label>
+      <input type="text" name="studentCode" class="form-control" id="studentCode" placeholder="Enter Student Code" value="{{ student.student_id }}" onchange="checkAndSubmit()" required>
+      <div class="invalid-feedback">
+        Please enter a student code.
+      </div>
     </div>
-  </div>
-  <div class="form-group">
-    <label for="fullName">Full Name</label>
-    <input type="text" class="form-control" id="fullName" value="{{ fullname }}" readonly>
-  </div>
-  <div class="form-group">
-    <label for="formGroup">Form Group</label>
-    <input type="text" class="form-control" id="formGroup" value="{{ form_group }}" readonly>
-  </div>
-  <div class="form-group form-check">
-    <input type="checkbox" name="attending" class="form-check-input" id="attendingCheckbox">
-    <label class="form-check-label" for="attendingCheckbox">Attending</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Save</button>
-</form>
+  </form>
+  <form method="post" action="{{ url_for('AttendanceView:post', student_id=student.student_id) }}" id="attendingForm">
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" class="form-control" id="fullName" value="{{ student.first_name + ' ' + student.last_name }}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="formGroup">Form Group</label>
+      <input type="text" class="form-control" id="formGroup" value="{{ student.form_group }}" readonly>
+    </div>
+    <div class="form-group form-check">
+      <input type="checkbox" name="attending" value="checked" class="form-check-input" id="attendingCheckbox" {% if student.attending %} checked {% endif %}>
+      <label class="form-check-label" for="attendingCheckbox">Attending</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</div>
 
 <script>
 (function() {
@@ -45,10 +49,9 @@
 
 function checkAndSubmit()
 {
-  if (document.getElementById('studentCode').textLength >= 7)
+  if (document.getElementById('studentCode').textLength >= 6)
   {
-    // FIXME: Use an ajax to send a request instead
-
+    document.getElementById('studentcodeForm').submit();
   }
 }
 </script>

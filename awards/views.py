@@ -1,7 +1,7 @@
 import math
-from flask import render_template, current_app, request
+from flask import render_template, current_app, request, redirect, url_for
 from flask_classful import FlaskView
-from awards import utils
+from awards import utils, models, db
 
 
 class MainView(FlaskView):
@@ -27,26 +27,31 @@ class MainView(FlaskView):
         if (student_num % groups.size == 0) \
            or (student_num % groups.size % groups.count == 0
                and student_num % groups.last_size == 0):
-            return render_template('main/applause.html')
+            return render_template('main/applause.html',
+                                   year_level=int(year_level), page=int(page))
         return render_template('main/index.html',
                                student=student,
-                               awards=awards)
+                               awards=awards,
+                               year_level=int(year_level),
+                               page=int(page))
 
 
 class AttendanceView(FlaskView):
-    def __init__(self):
-        self.fullname = ''
-        self.form_group = ''
-
-    def post(self):
-        with utils.StudentManager() as sm:
-            student = sm.find(request.form('studentCode'))
-            self.fullname = student.first_name, student.last_name
-            self.form_group = student.form_group
-            student.attending = request.form('attending')
-
-    def index(self):
+    def get(self):
+        sm = utils.StudentManager()
+        student = sm.get(request.args.get('studentCode'))
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
         return render_template('attendance/index.html',
-                               fullname=self.fullname,
-                               form_group=self.form_group)
+                               student=student)
+
+    def post(self, student_id):
+        sm = utils.StudentManager()
+        student = sm.get(student_id)
+        if request.form.get('attending') == 'checked':
+            student.attending = True
+        else:
+            student.attending = False
+
+        db.session.commit()
+
+        return redirect(url_for('AttendanceView:get'), code=302)
