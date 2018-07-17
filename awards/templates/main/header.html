@@ -5,13 +5,8 @@
   {% endblock %}
 
   <div class="container text-center fixed-bottom mb-4">
-    <ul class="pagination justify-content-center">
-      <li class="page-item">
-        <a class="page-link" href="{{ url_for('MainView:index', year_level=year_level, group=group, page=page) }}" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Next</span>
-        </a>
-      </li>
-      ul>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('MainView:index', year_level=year_level, group=group, page=page) }}">
+      Next
+    </a>
   </div>
 {% endblock %}
