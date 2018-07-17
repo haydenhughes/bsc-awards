@@ -20,6 +20,7 @@
       <li class="page-item active">
         <a class="page-link" href="{{ url_for('MainView:index', year_level=year_level, page=page) }}">{{ page }}</a>
       </li>
+      {% if page < page_count %}
       <li class="page-item">
         <a class="page-link" href="{{ url_for('MainView:index', year_level=year_level, page=page + 1) }}">{{ page + 1 }}</a>
       </li>
@@ -29,6 +30,7 @@
           <span class="sr-only">Next</span>
         </a>
       </li>
+      {% endif %}
     </ul>
   </div>
 {% endblock %}

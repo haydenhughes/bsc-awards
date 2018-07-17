@@ -15,6 +15,7 @@ class MainView(FlaskView):
 
         # Account for the ammount of applauses.
         student_num = int(page) - math.floor(int(page) / groups.size)
+        page_count = sm.attending + groups.count
 
         student = sm[student_num]
 
@@ -26,12 +27,16 @@ class MainView(FlaskView):
            or (student_num % groups.size % groups.count == 0
                and student_num % groups.last_size == 0):
             return render_template('main/applause.html',
-                                   year_level=int(year_level), page=int(page))
+                                   year_level=int(year_level),
+                                   page=int(page),
+                                   page_count=page_count)
+
         return render_template('main/index.html',
                                student=student,
                                awards=awards,
                                year_level=int(year_level),
-                               page=int(page))
+                               page=int(page),
+                               page_count=page_count)
 
 
 class AttendanceView(FlaskView):
