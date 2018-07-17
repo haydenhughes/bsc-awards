@@ -1,20 +1,18 @@
 import math
 from flask import render_template, current_app, request, redirect, url_for
 from flask_classful import FlaskView
-from awards import utils, models, db
+from awards import utils, db
 
 
 class MainView(FlaskView):
     # FIXME: Use python 3.7 type helper.
     def index(self, year_level, page):
         if int(year_level) not in current_app.config['YEAR_LEVELS']:
-            # TODO: Better 404 page
-            return '404 Year not valid.'
+            return 404
 
         sm = utils.StudentManager(year_level)
         groups = utils.group_size(sm.attending)
 
-        # TODO: Testing, unittesting
         # Account for the ammount of applauses.
         student_num = int(page) - math.floor(int(page) / groups.size)
 
