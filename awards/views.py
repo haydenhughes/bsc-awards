@@ -13,26 +13,26 @@ class MainView(FlaskView):
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
 
         try:
-            group = gm[group]
+            student_group = gm[int(group)]
         except IndexError:
             # TEMP: No more groups code here
             pass
 
         try:
-            student = group[page]
+            student = student_group[int(page)]
         except IndexError:
             return render_template('main/applause.html',
                                    year_level=int(year_level),
-                                   page=int(page),
-                                   page_count=page_count)
+                                   group=int(group) + 1,
+                                   page=0)
         else:
             awards = utils.get_awards(student.student_id)
             return render_template('main/index.html',
                                    student=student,
                                    awards=awards,
                                    year_level=int(year_level),
-                                   page=int(page),
-                                   page_count=page_count)
+                                   group=int(group),
+                                   page=int(page) + 1)
 
 
 class AttendanceView(FlaskView):
