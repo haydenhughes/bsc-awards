@@ -1,5 +1,4 @@
 from flask import current_app
-from collections import namedtuple
 import math
 from awards import models, db
 import config
@@ -76,10 +75,10 @@ class GroupManager:
     """Work with award groups more easily.
 
     Args:
-        year_level: A integer for restricting the groups to a year level.
+        year_level: A array of integers for restricting the groups to a year level.
     """
 
-    def __init__(self, year_level=7):
+    def __init__(self, year_level=[7]):
         self.sm = StudentManager(year_level)
 
     def __getitem__(self, index):

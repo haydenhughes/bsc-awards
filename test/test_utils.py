@@ -59,7 +59,7 @@ class TestGroupManager(unittest.TestCase):
         self.md = MockDB(student_count=20, year_level=[7])
         self.md.setUp()
 
-        self.gm = utils.GroupManager(year_level=7)
+        self.gm = utils.GroupManager()
 
     def test_attributes(self):
         self.assertEqual(self.gm.size, 7)
