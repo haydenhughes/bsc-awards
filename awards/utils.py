@@ -72,6 +72,43 @@ class StudentManager:
         return amount
 
 
+class GroupManager:
+    def __init__(self, year_level=7):
+        self.sm = StudentManager(year_level)
+
+    def __getitem__(self, index):
+        if index < self.count:
+            return [self.sm[num] for num in range(self.size * index, (self.size * index) + self.size)]
+        elif index == self.count:
+            return [self.sm[num] for num in range(self.size * index, (self.size * index) + self.last_size)]
+
+        return IndexError('Group index out of range.')
+
+    @property
+    def size(self):
+        for group_size in range(7, 10):
+            if 10 > (self.sm.attending % group_size) > 4 or self.sm.attending % group_size == 0:
+                return group_size
+
+        else:
+            current_app.logger.warning('Not enough students to create groups. \
+                                        Only creating one group.')
+            return None
+
+    @property
+    def count(self):
+        if self.size is None:
+            return 1
+
+        return math.floor(self.sm.attending / self.group_size)
+
+    @property
+    def last_size(self):
+        if self.size is None:
+            return 0
+        return self.sm.attending % self.group_size
+
+
 def group_size(student_count=0):
     """Get the sizes of the award groups.
 

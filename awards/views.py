@@ -1,4 +1,3 @@
-import math
 from flask import render_template, current_app, request, redirect, url_for
 from flask_classful import FlaskView
 from awards import utils, db
@@ -6,37 +5,34 @@ from awards import utils, db
 
 class MainView(FlaskView):
     # FIXME: Use python 3.7 type helper.
-    def index(self, year_level, page):
+    def index(self, year_level, group, page):
         if int(year_level) not in current_app.config['YEAR_LEVELS']:
             return 404
 
-        sm = utils.StudentManager(year_level)
-        groups = utils.group_size(sm.attending)
-
-        # Account for the ammount of applauses.
-        student_num = int(page) - math.floor(int(page) / groups.size)
-        page_count = sm.attending + groups.count
-
-        student = sm[student_num]
-
-        awards = utils.get_awards(student.student_id)
-
+        gm = utils.GroupManager(year_level=year_level)
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
 
-        if (student_num % groups.size == 0) \
-           or (student_num % groups.size % groups.count == 0
-               and student_num % groups.last_size == 0):
+        try:
+            group = gm[group]
+        except IndexError:
+            # TEMP: No more groups code here
+            pass
+
+        try:
+            student = group[page]
+        except IndexError:
             return render_template('main/applause.html',
                                    year_level=int(year_level),
                                    page=int(page),
                                    page_count=page_count)
-
-        return render_template('main/index.html',
-                               student=student,
-                               awards=awards,
-                               year_level=int(year_level),
-                               page=int(page),
-                               page_count=page_count)
+        else:
+            awards = utils.get_awards(student.student_id)
+            return render_template('main/index.html',
+                                   student=student,
+                                   awards=awards,
+                                   year_level=int(year_level),
+                                   page=int(page),
+                                   page_count=page_count)
 
 
 class AttendanceView(FlaskView):
