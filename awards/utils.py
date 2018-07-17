@@ -73,6 +73,12 @@ class StudentManager:
 
 
 class GroupManager:
+    """Work with award groups more easily.
+
+    Args:
+        year_level: A integer for restricting the groups to a year level.
+    """
+
     def __init__(self, year_level=7):
         self.sm = StudentManager(year_level)
 
@@ -86,6 +92,11 @@ class GroupManager:
 
     @property
     def size(self):
+        """A integer of the size of every group except the last group. ReadOnly.
+
+        If the groups cannot be calculated, then only one group will be greated
+        with all the students in it.
+        """
         for group_size in range(7, 10):
             if 10 > (self.sm.attending % group_size) > 4 or self.sm.attending % group_size == 0:
                 return group_size
@@ -97,6 +108,7 @@ class GroupManager:
 
     @property
     def count(self):
+        """A integer of amount of groups not including the last group. ReadOnly."""
         if self.size is None:
             return 1
 
@@ -104,35 +116,14 @@ class GroupManager:
 
     @property
     def last_size(self):
+        """A integer of the last group size. ReadOnly.
+
+        To account for 'annoying numbers' (like primes) the size of the last
+        group is calculated seperatly to the rest of the groups.
+        """
         if self.size is None:
             return 0
         return self.sm.attending % self.size
-
-
-def group_size(student_count=0):
-    """Get the sizes of the award groups.
-
-    Args:
-        student_count: An interger of the amount of students attending.
-
-    Returns:
-        A namedtuple containing size (amount of students in one group),
-        count (the amount of groups (excluding the last group))
-        and last_size (the amount of students in the last group).
-    """
-    Groups = namedtuple('Groups', ['size', 'count', 'last_size'])
-    for group_size in range(7, 10):
-        if 10 > (student_count % group_size) > 4 or student_count % group_size == 0:
-            groups = Groups(group_size,
-                            math.floor(student_count / group_size),
-                            student_count % group_size)
-
-    try:
-        return groups
-    except UnboundLocalError:
-        current_app.logger.warning('Not enough students to create groups. \
-                                    Only creating one group.')
-        return Groups(student_count, 1, 0)
 
 
 def get_awards(student_id):
