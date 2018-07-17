@@ -1,7 +1,7 @@
 import math
-from flask import render_template, current_app, request
+from flask import render_template, current_app, request, redirect, url_for
 from flask_classful import FlaskView
-from awards import utils
+from awards import utils, models, db
 
 
 class MainView(FlaskView):
@@ -37,26 +37,25 @@ class MainView(FlaskView):
 
 
 class AttendanceView(FlaskView):
-    def __init__(self):
-        self.fullname = ''
-        self.form_group = ''
-        self.attending = False
-
     def get(self):
-        # TEMP: Somehow I don't think request.get will work
-        student = request.get('studentCode')
-        self.fullname = student.first_name, student.last_name
-        self.form_group = student.form_group
-        self.attending = student.attending
+        sm = utils.StudentManager()
+        self.student = sm.get(request.args.get('studentCode'))
+        print('GET RAN')
+        print(self.student)
+
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
         return render_template('attendance/index.html',
-                               fullname=self.fullname,
-                               form_group=self.form_group,
-                               attending=self.attending)
+                               student=self.student)
 
     def post(self):
-        with utils.StudentManager() as sm:
-            # TODO: Invalid student code handling
-            # FIXME: request.form is not working
-            student = sm.get(request.form('studentCode'))
-            student.attending = request.form('attending')
+        if request.form.get('attending') == 'checked':
+            self.student.attending = True
+        else:
+            self.student.attending = False
+
+        db.session.commit()
+
+        print("RAN POST")
+        print(models.Student.query.filter_by(student_id=self.student.student_id).first().attending)
+
+        return redirect(url_for('AttendanceView:get'), code=302)
