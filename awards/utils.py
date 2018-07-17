@@ -107,4 +107,6 @@ def get_awards(student_id):
 
     for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
         for award in models.Awards.query.filter_by(award_id=recipient.award_id).all():
+            if award is None:
+                current_app.logging.error('No awards found for student {}'.format(student_id))
             yield award
