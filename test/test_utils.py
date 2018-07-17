@@ -54,20 +54,27 @@ class TestGetAwards(unittest.TestCase):
         self.mock_db.tearDown()
 
 
-class TestGroupSize(unittest.TestCase):
-    def test_group_size(self):
-        self.assertEqual(utils.group_size(60).size, 9)
-        self.assertEqual(utils.group_size(60).count, 6)
-        self.assertEqual(utils.group_size(60).last_size, 6)
+class TestGroupManager(unittest.TestCase):
+    def setUp(self):
+        self.md = MockDB(student_count=20, year_level=[7])
+        self.md.setUp()
 
-        self.assertEqual(utils.group_size(49).size, 7)
-        self.assertEqual(utils.group_size(49).count, 7)
-        self.assertEqual(utils.group_size(49).last_size, 0)
+        self.gm = utils.GroupManager(year_level=7)
 
-        self.assertEqual(utils.group_size(75).size, 7)
-        self.assertEqual(utils.group_size(75).count, 10)
-        self.assertEqual(utils.group_size(75).last_size, 5)
+    def test_attributes(self):
+        self.assertEqual(self.gm.size, 7)
+        self.assertEqual(self.gm.count, 2)
+        self.assertEqual(self.gm.last_size, 6)
 
-        self.assertEqual(utils.group_size(51).size, 9)
-        self.assertEqual(utils.group_size(51).count, 5)
-        self.assertEqual(utils.group_size(51).last_size, 6)
+    def test_get(self):
+        self.assertIsNotNone(self.gm[0][0])
+        self.assertIsNotNone(self.gm[1][6])
+
+        with self.assertRaises(IndexError):
+            self.gm[0][7]
+
+        with self.assertRaises(IndexError):
+            self.gm[3][0]
+
+    def tearDown(self):
+        self.md.tearDown()
