@@ -82,7 +82,7 @@ class GroupManager:
         elif index == self.count:
             return [self.sm[num] for num in range(self.size * index, (self.size * index) + self.last_size)]
 
-        return IndexError('Group index out of range.')
+        raise IndexError('Group index out of range.')
 
     @property
     def size(self):
