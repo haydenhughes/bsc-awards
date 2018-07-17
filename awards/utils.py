@@ -100,13 +100,13 @@ class GroupManager:
         if self.size is None:
             return 1
 
-        return math.floor(self.sm.attending / self.group_size)
+        return math.floor(self.sm.attending / self.size)
 
     @property
     def last_size(self):
         if self.size is None:
             return 0
-        return self.sm.attending % self.group_size
+        return self.sm.attending % self.size
 
 
 def group_size(student_count=0):
