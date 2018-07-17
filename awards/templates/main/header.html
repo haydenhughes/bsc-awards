@@ -6,6 +6,7 @@
 
   <div class="container text-center fixed-bottom mb-4">
     <ul class="pagination justify-content-center">
+      {% if page > 0 %}
       <li class="page-item">
         <a class="page-link" href="{{ url_for('MainView:index', year_level=year_level, page=page - 1) }}" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
@@ -15,6 +16,7 @@
       <li class="page-item">
         <a class="page-link" href="{{ url_for('MainView:index', year_level=year_level, page=page - 1) }}">{{ page - 1 }}</a>
       </li>
+      {% endif %}
       <li class="page-item active">
         <a class="page-link" href="{{ url_for('MainView:index', year_level=year_level, page=page) }}">{{ page }}</a>
       </li>
