@@ -15,8 +15,7 @@ class MainView(FlaskView):
         try:
             student_group = gm[int(group)]
         except IndexError:
-            # TEMP: No more groups code here
-            pass
+            return render_template('main/completed.html')
 
         try:
             student = student_group[int(page)]
