@@ -7,7 +7,7 @@ class MainView(FlaskView):
     # FIXME: Use python 3.7 type helper.
     def index(self, year_level, group, page):
         if int(year_level) not in current_app.config['YEAR_LEVELS']:
-            return 404
+            return render_template('error/404.html'), 404
 
         gm = utils.GroupManager(year_level=year_level)
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
