@@ -48,7 +48,7 @@ class StudentManager:
             student_id: A string of the id of the wanted student.
 
         Returns:
-            A models stself.year_leveludent object of the wanted student.
+            A models student object of the wanted student.
         """
         results = []
         for year in self.year_levels:
