@@ -92,10 +92,13 @@ class MockDB:
 
         year_level = random.choice(self.year_level)
 
+        form_group = random.choice(self._alphabet).upper() + str(random.randint(1, 15))
+
         return models.Student(student_id=id,
                               first_name=first_name,
                               last_name=last_name,
                               year_level=year_level,
+                              form_group=form_group,
                               attending=attending)
 
     def generate_recipient(self, id):
@@ -178,4 +181,8 @@ if __name__ == '__main__':
         pass
 
     mockdb.setUp()
+
     print('Done!')
+    print()
+    print('Generated student IDs:')
+    print(mockdb.student_ids)
