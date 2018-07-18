@@ -5,9 +5,9 @@
   <form class="needs-validation" id="studentcodeForm" method="get" novalidate>
     <div class="form-group">
       <label for="studentCode">Student Code</label>
-      <input type="text" name="studentCode" class="form-control" id="studentCode" placeholder="Enter Student Code" value="{{ student.student_id }}" onchange="checkAndSubmit()" required>
+      <input type="text" name="studentCode" class="form-control {% if not valid %} is-invalid {% endif %}" id="studentCode" placeholder="Enter Student Code" value="{{ student.student_id }}" onchange="checkAndSubmit()" required>
       <div class="invalid-feedback">
-        Please enter a student code.
+        Please enter a valid student code.
       </div>
     </div>
   </form>
