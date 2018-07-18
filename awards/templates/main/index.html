@@ -1,27 +1,16 @@
-{% extends "header.html" %}
+{% extends "main/header.html" %}
 
-{% block body %}
-<div class="container-flex">
-  <div class="row">
-    <ul class="nav nav-pills flex-column col-sm-2 px-4 py-2 bg-light">
-      {% for year in year_levels %}
-        <li class="nav-item">
-          <!-- FIXME: Use url_for instead of a link -->
-          <a class="nav-link {% if request.path == '/main/{}'.format(year) %} active {% endif %}" href="http://127.0.0.1:5000/main/{{ year.lower().replace(' ', '_') }}">{{ year }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-
-    <div class="col mx-3 my-2">
-      <ul>
-        <h1 class="text-center mb-4">Hayden Hughes</h1>
-        <hr>
-        <h3 class="text-center">Awards</h3>
-        {% for award in awards %}
-          <li class="text-center">{{award}}</li>
-        {% endfor %}
-      </ul>
-    </div>
+{% block content %}
+<div class="container">
+  <div class="container mb-5 mt-3">
+    <h4 class="text-center font-weight-light mb-1">Full Name:</h4>
+    <h1 class="text-center">{{ student.first_name }} {{ student.last_name }}</h1>
   </div>
+  <ol class="list-group">
+    <h3 class="text-center list-group-item font-weight-light">Awards:</h3>
+    {% for award in awards %}
+      <li class="text-center list-group-item">{{ award.award_name }}</li>
+    {% endfor %}
+  </ol>
 </div>
 {% endblock %}
