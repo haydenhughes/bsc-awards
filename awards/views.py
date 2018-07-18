@@ -39,7 +39,7 @@ class AttendanceView(FlaskView):
         sm = utils.StudentManager()
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
 
-        student_id = request.args.get('studentCode')
+        student_id = request.args.get('studentID')
         valid = True
         if student_id is None:
             student = models.Student(student_id='', first_name='', last_name='', form_group='')
