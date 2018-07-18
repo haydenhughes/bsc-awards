@@ -1,0 +1,24 @@
+@import "node_modules/nord/src/sass/nord.scss";
+
+$light: $nord6;
+$primary: $nord8;
+$secondary: $nord4;
+$dark: $nord3;
+
+$list-group-bg: $nord5;
+$body-color: $nord0;
+$body-bg: $nord6;
+
+$navbar-light-active-color: $nord1;
+
+$form-feedback-invalid-color: $nord11;
+$form-feedback-valid-color: $nord14;
+
+$dropdown-bg: $nord2;
+$dropdown-spacer: $nord5;
+$dropdown-header-color: $nord5;
+$dropdown-link-color: $nord5;
+$dropdown-link-hover-bg: $nord5;
+$dropdown-link-hover-color: $nord3;
+
+@import "node_modules/bootstrap/scss/bootstrap";
