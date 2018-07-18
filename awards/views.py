@@ -56,6 +56,9 @@ class AttendanceView(FlaskView):
     def post(self, student_id):
         sm = utils.StudentManager()
         student = sm.get(student_id)
+        if student is None:
+            return redirect(url_for('AttendanceView:get'), code=302)
+
         if request.form.get('attending') == 'checked':
             student.attending = True
         else:
