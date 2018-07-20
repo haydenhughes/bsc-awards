@@ -1,6 +1,6 @@
 from flask import render_template, current_app, request, redirect, url_for
 from flask_classful import FlaskView
-from awards import utils, db
+from awards import utils, db, models
 
 
 class MainView(FlaskView):
@@ -37,14 +37,28 @@ class MainView(FlaskView):
 class AttendanceView(FlaskView):
     def get(self):
         sm = utils.StudentManager()
-        student = sm.get(request.args.get('studentCode'))
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
+
+        student_id = request.args.get('studentID')
+        valid = True
+        if student_id is None:
+            student = models.Student(student_id='', first_name='', last_name='', form_group='')
+        else:
+            student = sm.get(student_id)
+            if student is None:
+                valid = False
+                student = models.Student(student_id=student_id, first_name='', last_name='', form_group='')
+
         return render_template('attendance/index.html',
+                               valid=valid,
                                student=student)
 
     def post(self, student_id):
         sm = utils.StudentManager()
         student = sm.get(student_id)
+        if student is None:
+            return redirect(url_for('AttendanceView:get'), code=302)
+
         if request.form.get('attending') == 'checked':
             student.attending = True
         else:
