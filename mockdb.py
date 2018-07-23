@@ -62,7 +62,8 @@ class MockDB:
     def generate_student(self, index):
         """Generates a models.Student object.
 
-        Includes a random first_name, last_name, year_level and attending
+        Includes a random first_name, last_name, year_level, form groups
+        and attending
 
         Args:
             index: A integer of the amount of students created. Used to workout
