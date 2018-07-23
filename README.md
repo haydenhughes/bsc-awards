@@ -41,7 +41,9 @@ Then install the required node packages with npm.
 And compile the scss files and setup the javascripts with gulp.
 
 `gulp clean`
+
 `gulp scss`
+
 `gulp js`
 
 Lastly run the flask server.
