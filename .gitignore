@@ -99,6 +99,7 @@ ENV/
 # mypy
 .mypy_cache/
 
-# generated static files
+node_modules/
+npm-debug.log
 awards/static/css/
-awards/static/js/
+awards/static/js

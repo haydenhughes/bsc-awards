@@ -3,17 +3,17 @@ from awards import db
 
 class AwardRecipients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.String(7), unique=True, nullable=False)
+    student_id = db.Column(db.String(7), nullable=False)
     award_id = db.Column(db.Integer, nullable=False)
 
 
 class Student(db.Model):
     student_id = db.Column(db.String(7), primary_key=True)
-    first_name = db.Column(db.String(120), nullable=False)
-    last_name = db.Column(db.String(120), nullable=False)
+    first_name = db.Column(db.String(120))
+    last_name = db.Column(db.String(120))
     preferred_name = db.Column(db.String(120))
     year_level = db.Column(db.Integer)
-    home_group = db.Column(db.String(2))
+    form_group = db.Column(db.String(3))
     house = db.Column(db.String(120))
     gender = db.Column(db.String(120))
     address = db.Column(db.String(120))
@@ -26,7 +26,7 @@ class Student(db.Model):
 class Awards(db.Model):
     award_id = db.Column(db.Integer, primary_key=True)
     award_name = db.Column(db.String(120))
-    award_desription = db.Column(db.String(120))
+    award_description = db.Column(db.String(120))
     award_certificate_title = db.Column(db.String(120))
     award_certificate_title_1 = db.Column(db.String(120))
     award_certificate_title_2 = db.Column(db.String(120))

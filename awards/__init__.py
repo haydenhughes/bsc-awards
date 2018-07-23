@@ -1,55 +1,29 @@
-import sass
-import os
 from flask_sqlalchemy import SQLAlchemy
-from sassutils.wsgi import SassMiddleware
-from shutil import copyfile
-from flask import Flask
+from flask import Flask, render_template
+
 
 db = SQLAlchemy()
 
 
 def create_app():
-    """Create a flask app.
-
-    Args:
-        config: A object from config.py
-    """
+    """Flask app factory."""
     app = Flask(__name__)
     app.config.from_object('config.Config')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
 
-    from awards import main
-    app.register_blueprint(main.bp)
+    from awards.views import MainView, AttendanceView
+    MainView.register(app)
+    AttendanceView.register(app)
 
-    def get_path(path):
-        current_dir = os.path.dirname(__file__)
-        return os.path.join(current_dir, path)
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return render_template('error/404.html'), 404
 
-    app.logger.info('Compiling Bootstrap...')
-
-    sass.compile(
-        dirname=(get_path('node_modules/bootstrap/scss/'), get_path('static/css')))
-
-    if not os.path.exists(get_path('static/css')):
-        os.makedirs(get_path('static/css'))
-    if not os.path.exists(get_path('static/js')):
-        os.makedirs(get_path('static/js'))
-
-    copyfile(get_path('node_modules/bootstrap/dist/js/bootstrap.min.js'),
-             get_path('static/js/bootstrap.min.js'))
-    copyfile(get_path('node_modules/jquery/dist/jquery.min.js'),
-             get_path('static/js/query.min.js'))
-    copyfile(get_path('node_modules/popper.js/dist/umd/popper.min.js'),
-             get_path('static/js/popper.min.js'))
-
-    app.logger.info('Done!')
-
-    app.logger.info('Compiling sass for the first time...')
-
-    app.wsgi_app = SassMiddleware(app.wsgi_app, {
-        'awards': ('static/sass', 'static/css', '/static/css')
-    })
+    @app.errorhandler(500)
+    def internal_error(error):
+        db.session.rollback()
+        return render_template('error/500.html'), 500
 
     return app

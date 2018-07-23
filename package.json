@@ -1,0 +1,35 @@
+{
+  "name": "bsc-awards",
+  "version": "1.0.0",
+  "description": "A flask website for displaying award data.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/haydenhughes/bsc-awards.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/haydenhughes/bsc-awards/issues"
+  },
+  "homepage": "https://gitlab.com/haydenhughes/bsc-awards#README",
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1",
+    "nord": "^0.2.1",
+    "popper.js": "^1.14.3"
+  }
+}

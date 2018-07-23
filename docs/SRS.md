@@ -38,12 +38,12 @@
       - A sass based css build system using libsass (non-functional)
       - Use the nord color scheme (non-functional)
       - A functional GUI to display the information from the database using Bootstrap. (functional)
-      - Functional authentication. (functional)
       - Attendance tracking GUI. (non-functional)
 
     - V3:
       - Show image of student on attendance tracking page (non-functional)
       - Able to print attendance. (functional)
+      - Functional authentication. (functional)
 
 4. Constraints
     - Must be coded in Python.
@@ -56,7 +56,7 @@
 5. Use Case
     - UC1: Presenting the awards.
     - UC2: Marking attendance.
-     NOTE: Both use cases are on the same diagram 
+     NOTE: Both use cases are on the same diagram
 
 6. Appendix
   1. Data Collection
