@@ -93,7 +93,8 @@ class MockDB:
 
         year_level = random.choice(self.year_level)
 
-        form_group = random.choice(self._alphabet).upper() + str(random.randint(1, 15))
+        form_group = random.choice(
+            self._alphabet).upper() + str(random.randint(1, 15))
 
         return models.Student(student_id=id,
                               first_name=first_name,
