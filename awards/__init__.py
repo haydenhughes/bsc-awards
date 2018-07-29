@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template
+from flask_security import Security, SQLAlchemyUserDatastore
 
 
 db = SQLAlchemy()
@@ -25,5 +26,16 @@ def create_app():
     def internal_error(error):
         db.session.rollback()
         return render_template('error/500.html'), 500
+
+    # Setup Flask-Security
+    from awards.models import User, Role
+    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+    security = Security(app, user_datastore)
+
+    @app.before_first_request
+    def create_user(email=app.config['ADMIN_EMAIL'], password=app.config['ADMIN_PASSWORD']):
+        db.create_all()
+        user_datastore.create_user(email=email, password=password)
+        db.session.commit()
 
     return app
