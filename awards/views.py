@@ -1,10 +1,12 @@
 from flask import render_template, current_app, request, redirect, url_for
 from flask_classful import FlaskView
+from flask_security import login_required
 from awards import utils, db, models
 
 
 class MainView(FlaskView):
     # FIXME: Use python 3.7 type helper.
+    @login_required
     def index(self, year_level, group, page):
         if int(year_level) not in current_app.config['YEAR_LEVELS']:
             return render_template('error/404.html'), 404
@@ -35,6 +37,7 @@ class MainView(FlaskView):
 
 
 class AttendanceView(FlaskView):
+    @login_required
     def get(self):
         sm = utils.StudentManager()
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
