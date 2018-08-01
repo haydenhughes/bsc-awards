@@ -24,8 +24,8 @@ test:
   variables:
     POSTGRES_PASSWORD: pass
     DATABASE_URI: postgresql://postgres:pass@postgres/postgres
-    ADMIN_EMAIL: admin
-    ADMIN_PASSWORD: admin
+    USERNAME: admin
+    PASSWORD: admin
   script:
     - python3 -m pip install -r requirements.txt
     - python3 -m pip install coverage

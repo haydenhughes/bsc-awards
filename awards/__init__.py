@@ -12,9 +12,10 @@ def create_app():
 
     db.init_app(app)
 
-    from awards.views import MainView, AttendanceView
+    from awards.views import MainView, AttendanceView, LoginView
     MainView.register(app)
     AttendanceView.register(app)
+    LoginView.register(app)
 
     @app.errorhandler(404)
     def not_found_error(error):
