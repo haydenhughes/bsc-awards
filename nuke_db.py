@@ -7,8 +7,6 @@ if __name__ == '__main__':
         models.Student.query.delete()
         models.Awards.query.delete()
         models.AwardRecipients.query.delete()
-        models.User.query.delete()
-        models.Role.query.delete()
         db.session.commit()
         print('Done!')
     else:
