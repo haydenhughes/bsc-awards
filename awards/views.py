@@ -5,6 +5,8 @@ from awards import utils, db, models
 
 class LoginView(FlaskView):
     def get(self):
+        current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
+
         logout = False
         if request.args.get('logout') == '1' and session.get('logged_in'):
             session['logged_in'] = False

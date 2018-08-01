@@ -23,7 +23,7 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown {% if request.path != '/attendance/' %} active {% endif %}">
+          <li class="nav-item dropdown {% if request.path[:6] == '/main/' %} active {% endif %}">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Presenter View</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <p class="text-center dropdown-header">Select a year level:</p>
