@@ -5,7 +5,12 @@ from awards import utils, db, models
 
 class LoginView(FlaskView):
     def get(self):
-        return render_template('security/login.html', valid=True)
+        logout = False
+        if request.args.get('logout') == '1' and session.get('logged_in'):
+            session['logged_in'] = False
+            logout = True
+
+        return render_template('security/login.html', valid=True, logout=logout)
 
     def post(self):
         if request.form.get('username') == current_app.config['USERNAME'] \
@@ -14,7 +19,12 @@ class LoginView(FlaskView):
             return redirect(url_for('MainView:index', year_level='7', group='0', page='0'), code=302)
 
         else:
-            return render_template('security/login.html', valid=False)
+            return render_template('security/login.html', valid=False, logout=False)
+
+
+class LogoutView(FlaskView):
+    def index(self):
+        return redirect(url_for('LoginView:get') + '?logout=1')
 
 
 class MainView(FlaskView):
