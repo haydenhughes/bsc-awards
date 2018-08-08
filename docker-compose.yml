@@ -10,8 +10,8 @@ services:
     environment:
       - FLASK_APP=awards
       - FLASK_ENV=development
-      - ADMIN_EMAIL=admin
-      - ADMIN_PASSWORD=admin
+      - AWARDS_USERNAME=admin
+      - AWARDS_PASSWORD=admin
       - DATABASE_URI=postgresql://postgres:pass@db/postgres
 
   db:
