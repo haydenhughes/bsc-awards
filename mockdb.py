@@ -21,7 +21,7 @@ class MockDB:
                          to create. Default 80.
     """
 
-    def __init__(self, year_level=None, student_count=60, attending_count=50, recipient_count=80):
+    def __init__(self, year_levels=None, student_count=60, attending_count=50, recipient_count=80):
         self.student_count = student_count
         self.attending_count = attending_count
         self.recipient_count = recipient_count
@@ -32,8 +32,8 @@ class MockDB:
         self._app = create_app()
         self._app.app_context().push()
 
-        self.year_level = year_level
-        if year_level is None:
+        self.year_levels = year_levels
+        if year_levels is None:
             self.year_level = self._app.config['YEAR_LEVELS']
 
         self.award_count = 0

@@ -56,7 +56,7 @@ class TestGetAwards(unittest.TestCase):
 
 class TestGroupManager(unittest.TestCase):
     def setUp(self):
-        self.md = MockDB(student_count=20, year_level=[7])
+        self.md = MockDB(student_count=20, year_levels=[7])
         self.md.setUp()
 
         self.gm = utils.GroupManager()
