@@ -61,10 +61,10 @@ class TestGroupManager(unittest.TestCase):
 
         self.gm = utils.GroupManager()
 
-    def test_attributes(self):
-        self.assertEqual(self.gm.size, 7)
-        self.assertEqual(self.gm.count, 2)
-        self.assertEqual(self.gm.last_size, 6)
+    def test_values(self):
+        for num in range(21, 55):
+            self.gm._attending = num
+            self.assertEqual(self.gm.count * self.gm.size + self.gm.last_size, num)
 
     def test_get(self):
         self.assertIsNotNone(self.gm[0][0])
