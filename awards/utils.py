@@ -14,10 +14,11 @@ class StudentManager:
                         to be used. Default: False.
     """
 
-    def __init__(self, year_level=None):
+    def __init__(self, year_level=None, allow_no_award=False):
         self.year_levels = config.Config.YEAR_LEVELS
         if year_level is not None:
             self.year_levels = year_level
+        self.allow_no_award = allow_no_award
 
     def __enter__(self):
         return self
@@ -29,8 +30,9 @@ class StudentManager:
         amount = 0
         for year in self.year_levels:
             for student in models.Student.query.filter_by(year_level=year).all():
-                if get_awards(student.student_id) is not None or self.allow_no_award:
-                    amount += 1
+                for award in get_awards(student.student_id):
+                    if award is not None or self.allow_no_award:
+                        amount += 1
 
         if amount == 0:
             current_app.logger.error('The Student table has records for \
@@ -44,8 +46,9 @@ class StudentManager:
         result = []
         for year in self.year_levels:
             for student in models.Student.query.filter_by(year_level=year).all():
-                if get_awards(student.student_id) is not None or self.allow_no_award:
-                    result.append(student)
+                for award in get_awards(student.student_id):
+                    if award is not None or self.allow_no_award:
+                        result.append(student)
         return result[index]
 
     def get(self, student_id):
@@ -61,8 +64,9 @@ class StudentManager:
         """
         for year in self.year_levels:
             student = models.Student.query.filter_by(student_id=student_id, year_level=year).first()
-            if get_awards(student) is not None or self.allow_no_award:
-                return student
+            for award in get_awards(student):
+                if award is not None or self.allow_no_award:
+                    return student
 
     @property
     def attending(self):
@@ -70,8 +74,9 @@ class StudentManager:
         amount = 0
         for year in self.year_levels:
             for student in models.Student.query.filter_by(year_level=year, attending=True).all():
-                if get_awards(student.student_id) is not None or self.allow_no_award:
-                    amount += 1
+                for award in get_awards(student.student_id):
+                    if award is not None or self.allow_no_award:
+                        amount += 1
         return amount
 
 
