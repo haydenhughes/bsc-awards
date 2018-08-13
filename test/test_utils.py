@@ -8,7 +8,7 @@ class TestStudentManager(unittest.TestCase):
     def setUp(self):
         self.mock_db = MockDB()
         self.mock_db.setUp()
-        self.sm = utils.StudentManager()
+        self.sm = utils.StudentManager(allow_no_award=True)
 
     def test_get(self):
         self.assertIsNotNone(self.sm.get(
@@ -35,7 +35,7 @@ class TestStudentManagerYearRestrictions(TestStudentManager):
     def setUp(self):
         self.mock_db = MockDB([7])
         self.mock_db.setUp()
-        self.sm = utils.StudentManager([7])
+        self.sm = utils.StudentManager([7], allow_no_awards=True)
 
 
 class TestGetAwards(unittest.TestCase):
@@ -60,6 +60,7 @@ class TestGroupManager(unittest.TestCase):
         self.md.setUp()
 
         self.gm = utils.GroupManager()
+        self.gm.sm.allow_no_awards = True
 
     def test_attributes(self):
         self.assertEqual(self.gm.size, 7)
