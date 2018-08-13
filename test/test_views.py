@@ -17,11 +17,9 @@ class TestAttendance(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_student_search(self):
-        student_id = random.choice(self.md.student_ids)
-        student = self.sm.get(student_id)
-        rv = self.client.get('/attendance?studentID={}'.format(student_id), follow_redirects=True)
-
-        self.assertTrue(str.encode('{} {}'.format(student.first_name, student.last_name)) in rv.data)
+        for student in self.sm:
+            rv = self.client.get('/attendance?studentID={}'.format(student.student_id), follow_redirects=True)
+            self.assertTrue(str.encode('{} {}'.format(student.first_name, student.last_name)) in rv.data)
 
     def tearDown(self):
         self.md.tearDown()
