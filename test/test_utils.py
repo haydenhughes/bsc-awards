@@ -56,13 +56,8 @@ class TestGetAwards(unittest.TestCase):
 #         self.md = MockDB(student_count=20, year_level=[7])
 #         self.md.setUp()
 
-<<<<<<< HEAD
 #         self.gm = utils.GroupManager()
 #         self.gm.sm.allow_no_awards = True
-=======
-        self.gm = utils.GroupManager()
-        self.gm.sm.allow_no_awards = True
->>>>>>> bfb74e82aa63346ffc0c98ae824aa80df1c38ab7
 
 #     def test_attributes(self):
 #         self.assertEqual(self.gm.size, 7)

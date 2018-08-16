@@ -92,6 +92,7 @@ class GroupManager:
 
     def __init__(self, year_level=[7]):
         self.sm = StudentManager(year_level)
+        self._attending = self.sm.attending
 
     def __getitem__(self, index):
         if index < self.count:
@@ -109,7 +110,7 @@ class GroupManager:
         with all the students in it.
         """
         for group_size in range(7, 10):
-            if 10 > (self.sm.attending % group_size) > 4 or self.sm.attending % group_size == 0:
+            if 10 > (self._attending % group_size) > 4 or self._attending % group_size == 0:
                 return group_size
 
         else:
@@ -123,7 +124,7 @@ class GroupManager:
         if self.size is None:
             return 1
 
-        return math.floor(self.sm.attending / self.size)
+        return math.floor(self._attending / self.size)
 
     @property
     def last_size(self):
@@ -134,7 +135,7 @@ class GroupManager:
         """
         if self.size is None:
             return 0
-        return self.sm.attending % self.size
+        return self._attending % self.size
 
 
 def get_awards(student_id):
