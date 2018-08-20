@@ -45,7 +45,7 @@ class TestGetAwards(unittest.TestCase):
         for student_id in self.mock_db.student_ids:
             awards = [award.award_id for award in models.AwardRecipients.query.filter_by(
                 student_id=student_id).all()]
-            self.assertCountEqual(list(utils.get_awards(student_id), awards))
+            self.assertCountEqual(list(utils.get_awards(student_id)), awards)
 
     def tearDown(self):
         self.mock_db.tearDown()
