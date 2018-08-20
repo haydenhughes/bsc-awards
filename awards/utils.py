@@ -10,12 +10,15 @@ class StudentManager:
     Args:
         year_levels: A array of integers to specify which year levels
                      to work with. None for all (default).
+        allow_no_award: A boolean which if True allows for students with no awards
+                        to be used. Default: False.
     """
 
-    def __init__(self, year_level=None):
+    def __init__(self, year_level=None, allow_no_award=False):
         self.year_levels = config.Config.YEAR_LEVELS
         if year_level is not None:
             self.year_levels = year_level
+        self.allow_no_award = allow_no_award
 
     def __enter__(self):
         return self
@@ -26,7 +29,9 @@ class StudentManager:
     def __len__(self):
         amount = 0
         for year in self.year_levels:
-            amount += len(models.Student.query.filter_by(year_level=year).all())
+            for student in models.Student.query.filter_by(year_level=year).all():
+                if self._has_awards(student.student_id) or self.allow_no_award:
+                    amount += 1
 
         if amount == 0:
             current_app.logger.error('The Student table has records for \
@@ -37,11 +42,17 @@ class StudentManager:
         if index >= len(self):
             raise IndexError('Student index out of range.')
 
-        result = []
         for year in self.year_levels:
             for student in models.Student.query.filter_by(year_level=year).all():
-                result.append(student)
-        return result[index]
+                if self._has_awards(student.student_id) or self.allow_no_award:
+                    return student
+
+    def _has_awards(self, student_id):
+        for award in get_awards(student_id):
+            if award is not None:
+                return True
+        return False
+
 
     def get(self, student_id):
         """Get a student via sudent_id.
@@ -54,20 +65,21 @@ class StudentManager:
         Returns:
             A models Student object of the wanted student.
         """
-        results = []
         for year in self.year_levels:
-            results.append(models.Student.query.filter_by(student_id=student_id, year_level=year).first())
-
-        for result in results:
-            if result is not None:
-                return result
+            student = models.Student.query.filter_by(student_id=student_id, year_level=year).first()
+            if student is not None:
+                if self._has_awards(student.student_id) or self.allow_no_award:
+                    return student
+        return None
 
     @property
     def attending(self):
         """A readonly int of the amount of students attending."""
         amount = 0
         for year in self.year_levels:
-            amount += len(models.Student.query.filter_by(year_level=year, attending=True).all())
+            for student in models.Student.query.filter_by(year_level=year, attending=True).all():
+                if self._has_awards(student.student_id) or self.allow_no_award:
+                    amount += 1
         return amount
 
 
