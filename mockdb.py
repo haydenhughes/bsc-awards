@@ -34,7 +34,7 @@ class MockDB:
 
         self.year_levels = year_levels
         if year_levels is None:
-            self.year_level = self._app.config['YEAR_LEVELS']
+            self.year_levels = self._app.config['YEAR_LEVELS']
 
         self.award_count = 0
 
@@ -91,7 +91,7 @@ class MockDB:
         if index < self.attending_count:
             attending = True
 
-        year_level = random.choice(self.year_level)
+        year_level = random.choice(self.year_levels)
 
         form_group = random.choice(
             self._alphabet).upper() + str(random.randint(1, 15))
