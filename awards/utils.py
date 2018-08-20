@@ -116,12 +116,12 @@ class GroupManager:
         else:
             current_app.logger.warning('Not enough students to create groups. \
                                         Only creating one group.')
-            return None
+            return self._attending
 
     @property
     def count(self):
         """A integer of amount of groups not including the last group. ReadOnly."""
-        if self.size is None:
+        if self.size == self._attending:
             return 1
 
         return math.floor(self._attending / self.size)
@@ -133,7 +133,7 @@ class GroupManager:
         To account for 'annoying numbers' (like primes) the size of the last
         group is calculated seperatly to the rest of the groups.
         """
-        if self.size is None:
+        if self.size == self._attending:
             return 0
         return self._attending % self.size
 
