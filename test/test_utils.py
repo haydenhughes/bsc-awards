@@ -36,3 +36,19 @@ class TestStudentManagerYearRestrictions(TestStudentManager):
         self.mock_db.setUp()
         self.sm = utils.StudentManager([7], allow_no_award=True)
 
+
+class TestGroupManager:
+    def setUp(self):
+        self.mock_db = MockDB()
+        self.mock_db.setUp()
+        self.g = utils.GroupManager()
+        self.g.sm.allow_no_award = True
+
+    def test_index_error(self):
+        self.assertIsNotNone(self.g[0])
+
+        with self.assertRaises(IndexError):
+            self.g[self.mockdb.student_count]
+
+    def tearDown(self):
+        self.mock_db.tearDown()
