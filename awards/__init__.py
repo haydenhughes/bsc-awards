@@ -12,11 +12,12 @@ def create_app():
 
     db.init_app(app)
 
-    from awards.views import MainView, AttendanceView, LoginView, LogoutView
+    from awards.views import MainView, AttendanceView, LoginView, LogoutView, IndexView
     MainView.register(app)
     AttendanceView.register(app)
     LoginView.register(app)
     LogoutView.register(app)
+    IndexView.register(app)
 
     @app.errorhandler(404)
     def not_found_error(error):
@@ -28,3 +29,4 @@ def create_app():
         return render_template('error/500.html'), 500
 
     return app
+

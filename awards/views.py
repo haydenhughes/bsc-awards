@@ -3,6 +3,18 @@ from flask_classful import FlaskView
 from awards import utils, db, models
 
 
+class IndexView(FlaskView):
+    route_base = '/'
+
+    def index(self):
+        if not session.get('logged_in'):
+           return redirect(url_for('LoginView:get'), code=302)
+
+        current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
+
+        return render_template('index.html')
+
+
 class LoginView(FlaskView):
     def get(self):
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
@@ -18,7 +30,7 @@ class LoginView(FlaskView):
         if request.form.get('username') == current_app.config['USERNAME'] \
                 and request.form.get('password') == current_app.config['PASSWORD']:
             session['logged_in'] = True
-            return redirect(url_for('MainView:index', year_level='7', group='0', page='0'), code=302)
+            return redirect(url_for('IndexView:index'), code=302)
 
         else:
             return render_template('security/login.html', valid=False, logout=False)
