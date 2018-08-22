@@ -86,6 +86,11 @@ class MockDB:
         first_name = self.generate_name().capitalize()
         last_name = self.generate_name().capitalize()
 
+        if random.choice([True, False, False, False]):
+            preferred_name = self.generate_name().capitalize()
+        else:
+            preferred_name = None
+
         attending = False
 
         if index < self.attending_count:
@@ -99,6 +104,7 @@ class MockDB:
         return models.Student(student_id=id,
                               first_name=first_name,
                               last_name=last_name,
+                              preferred_name=preferred_name,
                               year_level=year_level,
                               form_group=form_group,
                               attending=attending)
