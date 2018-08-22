@@ -4,7 +4,9 @@
 <div class="container">
   <div class="container mb-5 mt-5">
     <h4 class="text-center font-weight-light mb-1">Full Name:</h4>
-    <h1 class="text-center">{{ student.first_name }} {{ student.last_name }}</h1>
+    <h1 class="text-center">
+      {% if student.preferred_name is not None %} {{ student.preferred_name }} {% else %} {{ student.first_name }} {% endif %} {{ student.last_name }}
+    </h1>
   </div>
   <ol class="list-group">
     <h3 class="text-center list-group-item font-weight-light">Awards:</h3>
