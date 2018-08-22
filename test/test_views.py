@@ -1,6 +1,6 @@
 import unittest
 import random
-from awards import create_app, utils
+from awards import create_app, utils, db, models
 from mockdb import MockDB
 
 
@@ -25,6 +25,17 @@ class TestAttendance(unittest.TestCase):
         for student in self.sm:
             rv = self.client.get('/attendance?studentID={}'.format(student.student_id), follow_redirects=True)
             self.assertTrue(str.encode('{} {}'.format(student.first_name, student.last_name)) in rv.data)
+
+    def test_preferred_name(self):
+        db.session.add(models.Student(student_id='TES0002',
+            first_name='Hello',
+            last_name='World',
+            preferred_name='Python',
+            attending=True)
+        db.session.commit()
+
+        rv = self.client.get('/attendance?studentID=TES0002', follow_redirects=True)
+        self.assertTrue(str.encode('{} {}'.format('Python', 'World')) in rv.data)
 
     def tearDown(self):
         self.md.tearDown()
