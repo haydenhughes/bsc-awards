@@ -31,7 +31,7 @@ class TestAttendance(unittest.TestCase):
             first_name='Hello',
             last_name='World',
             preferred_name='Python',
-            attending=True)
+            attending=True))
         db.session.commit()
 
         rv = self.client.get('/attendance?studentID=TES0002', follow_redirects=True)
