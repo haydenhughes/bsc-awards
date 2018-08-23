@@ -41,7 +41,6 @@
       - Attendance tracking GUI. (non-functional)
 
     - V3:
-      - Show image of student on attendance tracking page (non-functional)
       - Functional authentication. (functional)
     
     - V4
