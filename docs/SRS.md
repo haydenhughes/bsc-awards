@@ -42,8 +42,10 @@
 
     - V3:
       - Show image of student on attendance tracking page (non-functional)
-      - Able to print attendance. (functional)
       - Functional authentication. (functional)
+    
+    - V4
+      - Able to print attendance. (functional)
 
 4. Constraints
     - Must be coded in Python.
