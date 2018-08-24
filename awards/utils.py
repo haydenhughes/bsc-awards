@@ -43,9 +43,10 @@ class StudentManager:
             raise IndexError('Student index out of range.')
 
         for year in self.year_levels:
-            for student in models.Student.query.filter_by(year_level=year).all():
-                if self._has_awards(student.student_id) or self.allow_no_award:
-                    return student
+            if self.allow_no_award:
+                return models.Student.query.filter_by(year_level=year).all()[index]
+            else:
+                return models.Student.query.filter_by(year_level=year, attending=True).all()[index]
 
     def _has_awards(self, student_id):
         for award in get_awards(student_id):
