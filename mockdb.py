@@ -74,10 +74,13 @@ class MockDB:
         """
         id_str = self.generate_name(3, 3).upper()
         id_int = random.randint(0, 999)
-        if id_int < 100:
+
+        if id_int < 1000:
             id = '{}0{}'.format(id_str, str(id_int))
-        elif id_int < 10:
+        elif id_int < 100:
             id = '{}00{}'.format(id_str, str(id_int))
+        elif id_int < 10:
+            id = '{}000{}'.format(id_str, str(id_int))
         else:
             id = id_str + str(id_int)
 

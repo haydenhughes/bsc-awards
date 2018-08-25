@@ -7,7 +7,7 @@
       <label for="studentID">Student Code</label>
       <input type="text" name="studentID" class="form-control {% if not valid %} is-invalid {% else %} is-valid {% endif %}" id="studentID" placeholder="Enter Student Code" value="{{ student.student_id }}" onchange="checkAndSubmit()" required>
       <div class="invalid-feedback">
-        Please enter a valid student code.
+        Please enter a valid student ID.
       </div>
       <div class="valid-feedback">
         Student code exists.
