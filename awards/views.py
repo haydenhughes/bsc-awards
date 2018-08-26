@@ -90,7 +90,6 @@ class AttendanceView(FlaskView):
         else:
             student = sm.get(student_id)
             if student is None:
-                print('Student {} is None??!?'.format(student_id))
                 valid = False
                 student = models.Student(student_id=student_id, first_name='', last_name='', form_group='')
 
