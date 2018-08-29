@@ -72,8 +72,8 @@ class GroupManager:
         year_level: A array of integers for restricting the groups to a year level.
     """
 
-    def __init__(self, year_level=[7]):
-        self.sm = StudentManager(year_level)
+    def __init__(self, year_levels=[7]):
+        self.sm = StudentManager(year_levels)
         self._attending = self.sm.attending
 
     def __getitem__(self, index):
