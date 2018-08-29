@@ -43,7 +43,7 @@ class LogoutView(FlaskView):
 
 class MainView(FlaskView):
     # FIXME: Use python 3.7 type helper.
-    def index(self, year_level, group, page):
+    def index(self, year_level: int, group: int, page: int):
         if not session.get('logged_in'):
             return redirect(url_for('LoginView:get'), code=302)
 
@@ -54,25 +54,25 @@ class MainView(FlaskView):
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
 
         try:
-            student_group = gm[int(group)]
+            student_group = gm[group]
         except IndexError:
             return render_template('main/completed.html')
 
         try:
-            student = student_group[int(page)]
+            student = student_group[page]
         except IndexError:
             return render_template('main/applause.html',
-                                   year_level=int(year_level),
-                                   group=int(group) + 1,
+                                   year_level=year_level,
+                                   group=group + 1,
                                    page=0)
         else:
             awards = utils.get_awards(student.student_id)
             return render_template('main/index.html',
                                    student=student,
                                    awards=awards,
-                                   year_level=int(year_level),
-                                   group=int(group),
-                                   page=int(page) + 1)
+                                   year_level=year_level,
+                                   group=group,
+                                   page=page + 1)
 
 
 class AttendanceView(FlaskView):
