@@ -1,0 +1,32 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+<div class="container mt-4">
+  <h1 class="text-center">Welcome</h1>
+  <p class="text-center font-weight-light">Select a view to get started</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Presenter View</h5>
+          <p class="card-text">Show students and awards. Select a year level to get started.</p>
+          {% for year in config["YEAR_LEVELS"] %}
+          <a href="{{ url_for('MainView:index', year_level=year, group=0, page=0) }}" class="btn btn-primary font-weight-light">Year {{ year }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Attendance Tracker</h5>
+          <p class="card-text">Manage or print student attendance.</p>
+          <a href="{{ url_for('AttendanceView:get') }}" class="btn btn-primary font-weight-light">Go</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

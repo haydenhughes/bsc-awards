@@ -9,6 +9,7 @@
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
 
+
   </head>
   <body>
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
@@ -16,14 +17,14 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <span class="navbar-brand mb-0 h1">{{ config['NAVBAR_BRAND'] }}</span>
+      <a href="{{ url_for('IndexView:index') }}" class="navbar-brand mb-0 h1">{{ config['NAVBAR_BRAND'] }}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown {% if request.path != '/attendance/' %} active {% endif %}">
+          <li class="nav-item dropdown {% if request.path[:6] == '/main/' %} active {% endif %}">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Presenter View</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <p class="text-center dropdown-header">Select a year level:</p>
@@ -37,7 +38,7 @@
           </li>
         </ul>
         <form class="form-inline">
-          <button class="btn btn-outline-secondary" type="button">Logout</button>
+          <a class="btn btn-outline-secondary" href="{{ url_for('LogoutView:index') }}">Logout</a>
         </form>
       </div>
     </nav>

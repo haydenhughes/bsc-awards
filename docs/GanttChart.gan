@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2018-08-12" view-index="0" gantt-divider-location="280" resource-divider-location="300" version="2.8.6" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2018-07-15" view-index="0" gantt-divider-location="280" resource-divider-location="300" version="2.8.9" locale="en_AU">
     <description/>
     <view zooming-state="default:4" id="gantt-chart">
         <field id="tpd3" name="Name" width="140" order="0"/>
@@ -84,18 +84,12 @@ Forced Context Diagram, DFD and UCD to be shortened.]]></notes>
 Was began now as I have alot to learn when I comes to development envirnment setup and project packaging. ]]></notes>
             <depend id="21" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="21" name="Development" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="0" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true">
+        <task id="21" name="Development" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true">
             <depend id="25" type="2" difference="0" hardness="Strong"/>
             <depend id="121" type="2" difference="0" hardness="Strong"/>
-            <task id="22" name="Development of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="0" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true">
-                <notes><![CDATA[Start date not final]]></notes>
-            </task>
-            <task id="23" name="Documentation" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="0" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true">
-                <notes><![CDATA[Start date not final]]></notes>
-            </task>
-            <task id="24" name="Testing of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="0" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true">
-                <notes><![CDATA[Start date not final]]></notes>
-            </task>
+            <task id="22" name="Development of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
+            <task id="23" name="Documentation" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
+            <task id="24" name="Testing of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
         </task>
         <task id="25" name="Evaluation" color="#ff0000" meeting="false" start="2018-08-28" duration="17" complete="0" thirdDate="2018-08-28" thirdDate-constraint="0" expand="true">
             <depend id="121" type="2" difference="0" hardness="Strong"/>

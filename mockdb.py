@@ -21,7 +21,7 @@ class MockDB:
                          to create. Default 80.
     """
 
-    def __init__(self, year_level=None, student_count=60, attending_count=50, recipient_count=80):
+    def __init__(self, year_levels=None, student_count=60, attending_count=50, recipient_count=80):
         self.student_count = student_count
         self.attending_count = attending_count
         self.recipient_count = recipient_count
@@ -32,9 +32,9 @@ class MockDB:
         self._app = create_app()
         self._app.app_context().push()
 
-        self.year_level = year_level
-        if year_level is None:
-            self.year_level = self._app.config['YEAR_LEVELS']
+        self.year_levels = year_levels
+        if year_levels is None:
+            self.year_levels = self._app.config['YEAR_LEVELS']
 
         self.award_count = 0
 
@@ -74,10 +74,13 @@ class MockDB:
         """
         id_str = self.generate_name(3, 3).upper()
         id_int = random.randint(0, 999)
-        if id_int < 100:
+
+        if id_int < 1000:
             id = '{}0{}'.format(id_str, str(id_int))
-        elif id_int < 10:
+        elif id_int < 100:
             id = '{}00{}'.format(id_str, str(id_int))
+        elif id_int < 10:
+            id = '{}000{}'.format(id_str, str(id_int))
         else:
             id = id_str + str(id_int)
 
@@ -86,12 +89,17 @@ class MockDB:
         first_name = self.generate_name().capitalize()
         last_name = self.generate_name().capitalize()
 
+        if random.choice([True, False, False, False]):
+            preferred_name = self.generate_name().capitalize()
+        else:
+            preferred_name = None
+
         attending = False
 
         if index < self.attending_count:
             attending = True
 
-        year_level = random.choice(self.year_level)
+        year_level = random.choice(self.year_levels)
 
         form_group = random.choice(
             self._alphabet).upper() + str(random.randint(1, 15))
@@ -99,6 +107,7 @@ class MockDB:
         return models.Student(student_id=id,
                               first_name=first_name,
                               last_name=last_name,
+                              preferred_name=preferred_name,
                               year_level=year_level,
                               form_group=form_group,
                               attending=attending)

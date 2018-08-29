@@ -7,7 +7,7 @@
       <label for="studentID">Student Code</label>
       <input type="text" name="studentID" class="form-control {% if not valid %} is-invalid {% else %} is-valid {% endif %}" id="studentID" placeholder="Enter Student Code" value="{{ student.student_id }}" onchange="checkAndSubmit()" required>
       <div class="invalid-feedback">
-        Please enter a valid student code.
+        Please enter a valid student ID.
       </div>
       <div class="valid-feedback">
         Student code exists.
@@ -17,7 +17,7 @@
   <form method="post" action="{{ url_for('AttendanceView:post', student_id=student.student_id) }}" id="attendingForm">
     <div class="form-group">
       <label for="fullName">Full Name</label>
-      <input type="text" class="form-control" id="fullName" value="{{ student.first_name + ' ' + student.last_name }}" readonly>
+      <input type="text" class="form-control" id="fullName" value="{% if student.preferred_name is not none %}{{ student.preferred_name }}{% else %}{{ student.first_name }}{% endif %} {{ student.last_name }}" readonly>
     </div>
     <div class="form-group">
       <label for="formGroup">Form Group</label>
