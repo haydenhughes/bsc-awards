@@ -1,5 +1,6 @@
 from flask import render_template, current_app, request, redirect, url_for, session
 from flask_classful import FlaskView
+from flask_table import Table, Col
 from awards import utils, db, models
 
 
@@ -113,3 +114,28 @@ class AttendanceView(FlaskView):
         db.session.commit()
 
         return redirect(url_for('AttendanceView:get'), code=302)
+
+
+class AttendanceTable(Table):
+    name = Col('Full Name')
+    awards = NestedTableCol('Awards', )
+
+
+class PrintView(FlaskView):
+    def index(self):
+        if not session.get('logged_in'):
+            return redirect(url_for('LoginView:get'))
+
+        sm = utils.StudentManager()
+
+        rows = []
+
+        for student in sm:
+            name = '{} {}'.format(student.first_name, student.last_name)
+            awards = [award.award_name for award in utils.get_awards(student.student_id)
+            rows.append(dict(name=name, awards=awards))
+
+        table = AttendanceTable(rows)
+
+        return render_template('attendance/print.html', table=table)
+
