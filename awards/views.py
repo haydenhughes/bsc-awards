@@ -1,6 +1,6 @@
 from flask import render_template, current_app, request, redirect, url_for, session
 from flask_classful import FlaskView
-from flask_table import Table, Col
+from flask_table import Table, Col, NestedTableCol
 from awards import utils, db, models
 
 
@@ -115,10 +115,15 @@ class AttendanceView(FlaskView):
 
         return redirect(url_for('AttendanceView:get'), code=302)
 
+class AwardsSubTable(Table):
+    classes = ['table','table-sm', 'd-print-table-row']
+    award = Col('Awards')
+    thead_classes = ['d-none']
 
 class AttendanceTable(Table):
+    classes = ['table', 'table-bordered', 'd-print-table-row']
     name = Col('Full Name')
-    awards = NestedTableCol('Awards', )
+    awards = NestedTableCol('Awards', AwardsSubTable)
 
 
 class PrintView(FlaskView):
@@ -132,7 +137,11 @@ class PrintView(FlaskView):
 
         for student in sm:
             name = '{} {}'.format(student.first_name, student.last_name)
-            awards = [award.award_name for award in utils.get_awards(student.student_id)
+            awards = []
+            for award in [award.award_name for award in utils.get_awards(student.student_id)]:
+                awards.append(dict(award=award))
+
+            awards_table = AwardsSubTable(awards)
             rows.append(dict(name=name, awards=awards))
 
         table = AttendanceTable(rows)
