@@ -161,15 +161,12 @@ class MockDB:
         db.create_all()
 
         for num in range(self.student_count):
-            print(self.student_count)
             db.session.add(self.generate_student(num))
 
         for award in self.get_awards():
             db.session.add(award)
 
         for num in range(self.recipient_count):
-            print(self.recipient_count)
-            print(self.student_ids)
             db.session.add(self.generate_recipient(num))
 
         db.session.commit()
