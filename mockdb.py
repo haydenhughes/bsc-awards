@@ -112,7 +112,7 @@ class MockDB:
                               form_group=form_group,
                               attending=attending)
 
-    def generate_recipient(self, id, student_id):
+    def generate_recipient(self, id):
         """Generates a models.AwardRecipients object.
 
         Args:
@@ -122,10 +122,9 @@ class MockDB:
         Returns:
             A models.AwardRecipients object.
         """
-        award_id = random.randint(0, self.award_count)
         return models.AwardRecipients(id=id,
-                                      student_id=student_id,
-                                      award_id=award_id)
+                                      student_id=random.choice(self.student_ids),
+                                      award_id=random.randint(0, self.award_count))
 
     def get_awards(self, csv_file='awards.csv'):
         """A generator method for getting models.Awards objects.
@@ -162,13 +161,16 @@ class MockDB:
         db.create_all()
 
         for num in range(self.student_count):
+            print(self.student_count)
             db.session.add(self.generate_student(num))
 
         for award in self.get_awards():
             db.session.add(award)
 
-        for num in range(self.student_count):
-            db.session.add(self.generate_recipient(num, self.student_ids[num]))
+        for num in range(self.recipient_count):
+            print(self.recipient_count)
+            print(self.student_ids)
+            db.session.add(self.generate_recipient(num))
 
         db.session.commit()
 
