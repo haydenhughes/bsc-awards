@@ -31,20 +31,20 @@ class StudentManager:
     def __len__(self):
         return len(self._students)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         if index >= len(self):
             raise IndexError('Student index out of range.')
 
         return self._students[index]
 
-    def _has_awards(self, student_id):
+    def _has_awards(self, student_id: str):
         for award in get_awards(student_id):
             if award is not None:
                 return True
         return False
 
 
-    def get(self, student_id):
+    def get(self, student_id: str):
         """Get a student via sudent_id.
 
         Returns None if the student doesn't exist.
@@ -76,7 +76,7 @@ class GroupManager:
         self.sm = StudentManager(year_levels)
         self._attending = self.sm.attending
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         if index < self.count:
             return [self.sm[num] for num in range(self.size * index, (self.size * index) + self.size)]
         elif index == self.count:
@@ -120,7 +120,7 @@ class GroupManager:
         return self._attending % self.size
 
 
-def get_awards(student_id):
+def get_awards(student_id: str):
     """A generator that gets all the awards for a student.
 
     Args:

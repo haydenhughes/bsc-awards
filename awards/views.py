@@ -50,16 +50,16 @@ class MainView(FlaskView):
         if int(year_level) not in current_app.config['YEAR_LEVELS']:
             return render_template('error/404.html'), 404
 
-        gm = utils.GroupManager(year_level=[year_level])
+        gm = utils.GroupManager(year_levels=[year_level])
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
 
         try:
-            student_group = gm[int(group)]
+            student_group = gm[group]
         except IndexError:
             return render_template('main/completed.html')
 
         try:
-            student = student_group[int(page)]
+            student = student_group[page]
         except IndexError:
             return render_template('main/applause.html',
                                    year_level=year_level,
@@ -84,14 +84,16 @@ class AttendanceView(FlaskView):
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
 
         student_id = request.args.get('studentID')
-        valid = True
-        if student_id is None:
-            student = models.Student(student_id='', first_name='', last_name='', form_group='')
-        else:
+
+        valid = False
+        student = models.Student(student_id='', first_name='', last_name='', form_group='')
+
+        if student_id is not None:
             student = sm.get(student_id)
+            valid = True
             if student is None:
+                student = models.Student(student_id='', first_name='', last_name='', form_group='')
                 valid = False
-                student = models.Student(student_id=student_id, first_name='', last_name='', form_group='')
 
         return render_template('attendance/index.html',
                                valid=valid,
