@@ -5,7 +5,7 @@
   <form class="needs-validation" id="studentIDForm" method="get" novalidate>
     <div class="form-group">
       <label for="studentID">Student Code</label>
-      <input type="text" name="studentID" class="form-control {% if not valid %} is-invalid {% else %} is-valid {% endif %}" id="studentID" placeholder="Enter Student Code" value="{{ student.student_id }}" onchange="checkAndSubmit()" required>
+      <input type="text" name="studentID" class="form-control {% if not valid %} is-invalid {% elif valid %} is-valid {% endif %}" id="studentID" placeholder="Enter Student Code" value="{{ student.student_id }}" onchange="checkAndSubmit()" required>
       <div class="invalid-feedback">
         Please enter a valid student ID.
       </div>
@@ -52,10 +52,7 @@
 
 function checkAndSubmit()
 {
-  if (document.getElementById('studentID').textLength >= 6)
-  {
     document.getElementById('studentIDForm').submit();
-  }
 }
 </script>
 {% endblock %}
