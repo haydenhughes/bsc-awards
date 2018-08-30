@@ -11,9 +11,11 @@
         <div class="card-body">
           <h5 class="card-title">Presenter View</h5>
           <p class="card-text">Show students and awards. Select a year level to get started.</p>
-          {% for year in config["YEAR_LEVELS"] %}
-          <a href="{{ url_for('MainView:index', year_level=year, group=0, page=0) }}" class="btn btn-primary font-weight-light">Year {{ year }}</a>
-          {% endfor %}
+          <div class="btn-group" role="group" aria-label="Year levels">
+            {% for year in config["YEAR_LEVELS"] %}
+            <a href="{{ url_for('MainView:index', year_level=year, group=0, page=0) }}" class="btn btn-primary font-weight-light">Year {{ year }}</a>
+            {% endfor %}
+        </div>
         </div>
       </div>
     </div>
