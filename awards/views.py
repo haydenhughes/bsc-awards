@@ -42,7 +42,6 @@ class LogoutView(FlaskView):
 
 
 class MainView(FlaskView):
-    # FIXME: Use python 3.7 type helper.
     def index(self, year_level: int, group: int, page: int):
         if not session.get('logged_in'):
             return redirect(url_for('LoginView:get'), code=302)
@@ -50,7 +49,7 @@ class MainView(FlaskView):
         if int(year_level) not in current_app.config['YEAR_LEVELS']:
             return render_template('error/404.html'), 404
 
-        gm = utils.GroupManager(year_level=year_level)
+        gm = utils.GroupManager(year_levels=[year_level])
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
 
         try:
