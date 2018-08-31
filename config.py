@@ -2,7 +2,7 @@ import os
 
 
 class Config:
-    SECRET_KEY = os.urandom(12)
+    SECRET_KEY = 'abc12345trfdsxcvb'
     NAVBAR_BRAND = 'BSC Awards'
 
     YEAR_LEVELS = [7, 8, 9, 10, 11, 12]
