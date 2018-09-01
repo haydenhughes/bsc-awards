@@ -66,3 +66,6 @@ The `USERNAME` and `PASSWORD` environment variables are exactly what you expect 
 # Running unittests
 
 `$ python3 -m unittest discover -s test`
+
+https://huggles.gitlab.io/bsc-awards contains the latest test coverage for the `staging` branch.
+
