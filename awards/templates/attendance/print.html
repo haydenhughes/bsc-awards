@@ -16,7 +16,14 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
     <div class="container">
-      <button class="mt-2 mb-3 btn btn-outline-primary btn-block d-print-none" onclick="window.print();">Print</button>
+       <div class="row">
+        <div class="col">
+          <a href="{{ url_for('AttendanceView:get') }}" class="mt-2 mb-3 btn btn-outline-secondary btn-block d-print-none">Back</a>
+        </div>
+        <div class="col">
+          <button class="mt-2 mb-3 btn btn-outline-primary btn-block d-print-none" onclick="window.print();">Print</button>
+        </div>
+      </div>
 
       {{ table.__html__() | safe }}
 
