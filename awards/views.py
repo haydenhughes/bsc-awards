@@ -129,11 +129,14 @@ class AttendanceTable(Table):
 
 
 class PrintView(FlaskView):
-    def index(self):
+    def index(self, year_level: int):
         if not session.get('logged_in'):
             return redirect(url_for('LoginView:get'))
 
-        sm = utils.StudentManager()
+        if year_level == 0:
+            sm = utils.StudentManager()
+        else:
+            sm = utils.StudentManager(year_levels=[year_level])
 
         rows = []
 
@@ -148,5 +151,5 @@ class PrintView(FlaskView):
 
         table = AttendanceTable(rows)
 
-        return render_template('attendance/print.html', table=table)
+        return render_template('attendance/print.html', year_level=year_level, table=table)
 
