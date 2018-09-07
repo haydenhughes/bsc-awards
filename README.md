@@ -6,9 +6,10 @@ A flask website for displaying award data.
 * Supports any SQL database for student and award data thanks to SQLAlchemy.
 * Groups students so not too many students are on stage at once.
 * Simple attendance management to ensure that only students attending have their name called out.
-* Printable attendance sheets that also contain the awards of every attending student.
+* Printable attendance sheets that also contain the awards of every attending student for each year level.
 * A intuitive web based GUI built using [Bootstrap 4](getbootstrap.com) and [Flask](http://flask.pocoo.org/).
 * User authentication.
+* Awards marked as special are not displayed.
 
 
 ## Installation
