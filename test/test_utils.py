@@ -43,12 +43,24 @@ class TestGroupManager:
         self.mock_db.setUp()
         self.g = utils.GroupManager()
         self.g.sm.allow_no_award = True
+        self.g._attending = 52
 
-    def test_index_error(self):
-        self.assertIsNotNone(self.g[0])
+    def test_index(self):
+        for student_list in self.g[0]:
+            for student in student_list:
+                self.assertIsNotNone(student)
 
         with self.assertRaises(IndexError):
             self.g[self.mockdb.student_count]
+
+    def test_size(self):
+        self.assertEqual(self.g.size, 9)
+
+    def test_count(self):
+        self.assertEqual(self.g.count, 5)
+
+    def test_last_size(self):
+        self.assertEqual(self.g.last_size, 7)
 
     def tearDown(self):
         self.mock_db.tearDown()
