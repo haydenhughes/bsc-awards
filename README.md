@@ -1,9 +1,20 @@
 # bsc-awards
 A flask website for displaying award data.
 
-# Usage
 
-## Docker
+## Features
+* Supports any SQL database for student and award data thanks to SQLAlchemy.
+* Groups students so not too many students are on stage at once.
+* Simple attendance management to ensure that only students attending have their name called out.
+* Printable attendance sheets that also contain the awards of every attending student for each year level.
+* A intuitive web based GUI built using [Bootstrap 4](getbootstrap.com) and [Flask](http://flask.pocoo.org/).
+* User authentication.
+* Awards marked as special are not displayed.
+
+
+## Installation
+
+### Docker
 
 ```
 $ docker run -p 80:5000 \
@@ -17,15 +28,14 @@ $ docker run -p 80:5000 \
 `DATABASE_URI` must be a valid [sqlalchemy database URL](http://docs.sqlalchemy.org/en/latest/core/engines.html).
 `USERNAME` and `PASSWORD` are exactly what you expect them to be. So set them to something secure.
 
-## Not Docker
+### Not Docker
 
-### Requirements
+##### Requirements
 
 *  python3
 *  python3-pip
 *  nodejs
 
-### Installation
 
 First clone this repo (or download the zip) and change your directory to it.
 
@@ -63,6 +73,9 @@ The `DATABASE_URI` environment variable must be a valid [sqlalchemy database URL
 The `USERNAME` and `PASSWORD` environment variables are exactly what you expect them to be. So set them to something secure.
 
 
-# Running unittests
+## Running unittests
 
 `$ python3 -m unittest discover -s test`
+
+https://huggles.gitlab.io/bsc-awards contains the latest test coverage for the `staging` branch.
+

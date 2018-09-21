@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2018-07-15" view-index="0" gantt-divider-location="280" resource-divider-location="300" version="2.8.9" locale="en_AU">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2018-04-29" view-index="0" gantt-divider-location="280" resource-divider-location="300" version="2.8.9" locale="en_AU">
     <description/>
     <view zooming-state="default:4" id="gantt-chart">
         <field id="tpd3" name="Name" width="140" order="0"/>
@@ -63,7 +63,13 @@ Forced Context Diagram, DFD and UCD to be shortened.]]></notes>
         <task id="13" name="Design" color="#ffff33" meeting="false" start="2018-05-14" duration="13" complete="100" thirdDate="2018-05-14" thirdDate-constraint="0" expand="true">
             <depend id="60" type="2" difference="0" hardness="Strong"/>
             <task id="19" name="Algerithms" color="#ffff33" meeting="false" start="2018-05-14" duration="10" complete="100" thirdDate="2018-05-14" thirdDate-constraint="0" expand="true">
-                <notes><![CDATA[Extended due to not enough time]]></notes>
+                <notes><![CDATA[Modified: 18/5/18 
+
+Extended time. 
+
+Due to not enough time to complete everything else. 
+
+Doesn't impact timeline. ]]></notes>
             </task>
             <task id="153" name="Object Descriptions" color="#ffff33" meeting="false" start="2018-05-14" duration="5" complete="100" thirdDate="2018-05-14" thirdDate-constraint="0" expand="true"/>
             <task id="20" name="Design folio" color="#ffff33" meeting="false" start="2018-05-14" duration="5" complete="100" thirdDate="2018-05-14" thirdDate-constraint="0" expand="true">
@@ -84,19 +90,19 @@ Forced Context Diagram, DFD and UCD to be shortened.]]></notes>
 Was began now as I have alot to learn when I comes to development envirnment setup and project packaging. ]]></notes>
             <depend id="21" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="21" name="Development" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true">
+        <task id="21" name="Development" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="100" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true">
             <depend id="25" type="2" difference="0" hardness="Strong"/>
             <depend id="121" type="2" difference="0" hardness="Strong"/>
-            <task id="22" name="Development of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
-            <task id="23" name="Documentation" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
-            <task id="24" name="Testing of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="80" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
+            <task id="22" name="Development of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="100" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
+            <task id="23" name="Documentation" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="100" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
+            <task id="24" name="Testing of the solution" color="#33ff33" meeting="false" start="2018-06-18" duration="51" complete="100" thirdDate="2018-06-01" thirdDate-constraint="0" expand="true"/>
         </task>
-        <task id="25" name="Evaluation" color="#ff0000" meeting="false" start="2018-08-28" duration="17" complete="0" thirdDate="2018-08-28" thirdDate-constraint="0" expand="true">
+        <task id="25" name="Evaluation" color="#ff0000" meeting="false" start="2018-08-28" duration="17" complete="26" thirdDate="2018-08-28" thirdDate-constraint="0" expand="true">
             <depend id="121" type="2" difference="0" hardness="Strong"/>
-            <task id="26" name="Usability testing" color="#ff0000" meeting="false" start="2018-08-28" duration="8" complete="0" thirdDate="2018-08-28" thirdDate-constraint="0" expand="true">
+            <task id="26" name="Usability testing" color="#ff0000" meeting="false" start="2018-08-28" duration="8" complete="50" thirdDate="2018-08-28" thirdDate-constraint="0" expand="true">
                 <depend id="28" type="2" difference="0" hardness="Strong"/>
             </task>
-            <task id="28" name="Evauate solution" color="#ff0000" meeting="false" start="2018-09-07" duration="9" complete="0" thirdDate="2018-09-07" thirdDate-constraint="0" expand="true"/>
+            <task id="28" name="Evauate solution" color="#ff0000" meeting="false" start="2018-09-07" duration="9" complete="5" thirdDate="2018-09-07" thirdDate-constraint="0" expand="true"/>
         </task>
         <task id="121" name="Part 2 Completion" color="#000000" meeting="true" start="2018-09-20" duration="0" complete="0" thirdDate="2018-09-21" thirdDate-constraint="0" expand="true"/>
     </tasks>
