@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <title>BSC-Awards</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" type="text/css"/>
+
+  </head>
+
+  <body>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <div class="container">
+       <div class="row">
+        <div class="col">
+          <a href="{{ url_for('AttendanceView:get') }}" class="mt-2 mb-3 btn btn-outline-secondary btn-block d-print-none">Back</a>
+        </div>
+        <div class="col">
+          <button class="mt-2 mb-3 btn btn-outline-primary btn-block d-print-none" onclick="window.print();">Print</button>
+        </div>
+        <div class="col">
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary btn-block d-print-none mt-2 mb-3 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {% if year_level != 0 %}Year {{ year_level }}{% else %}All years{% endif %}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{{ url_for('PrintView:index', year_level=0) }}">All years</a>
+              {% for year in config['YEAR_LEVELS'] %}
+              <a class="dropdown-item" href="{{ url_for('PrintView:index', year_level=year) }}">Year {{ year }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="text-center">{% if year_level != 0 %}Year {{ year_level }}{% else %}All years{% endif %}</h1>
+      {{ table.__html__() | safe }}
+
+    </div>
+  </body>
+</html>
