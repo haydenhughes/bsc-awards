@@ -16,20 +16,6 @@ build:
     - master
     - staging
 
-build-arm:
-  tags:
-    - arm
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-arm" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-arm"
-  only:
-    - master
-
 test:
   stage: test
   image: python:3
@@ -75,18 +61,5 @@ deploy-latest:
     - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
     - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME" "$CI_REGISTRY_IMAGE:latest"
     - docker push "$CI_REGISTRY_IMAGE:latest"
-  only:
-    - master
-
-deploy-arm:
-  stage: deploy
-  image: docker:latest
-  services:
-    - docker:dind
-  script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker pull "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-arm"
-    - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-arm" "$CI_REGISTRY_IMAGE:arm"
-    - docker push "$CI_REGISTRY_IMAGE:arm"
   only:
     - master
