@@ -14,7 +14,6 @@ build:
     - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
-    - staging
 
 test:
   stage: test
@@ -49,7 +48,6 @@ pages:
     expire_in: 30 days
   only:
     - master
-    - staging
 
 deploy-latest:
   stage: deploy
