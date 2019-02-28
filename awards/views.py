@@ -9,7 +9,7 @@ class IndexView(FlaskView):
 
     def index(self):
         if not session.get('logged_in'):
-           return redirect(url_for('LoginView:get'), code=302)
+            return redirect(url_for('LoginView:get'), code=302)
 
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
 
@@ -86,13 +86,15 @@ class AttendanceView(FlaskView):
         student_id = request.args.get('studentID')
 
         valid = False
-        student = models.Student(student_id='', first_name='', last_name='', form_group='')
+        student = models.Student(
+            student_id='', first_name='', last_name='', form_group='')
 
         if student_id is not None:
             student = sm.get(student_id)
             valid = True
             if student is None:
-                student = models.Student(student_id='', first_name='', last_name='', form_group='')
+                student = models.Student(
+                    student_id='', first_name='', last_name='', form_group='')
                 valid = False
 
         return render_template('attendance/index.html',
@@ -117,10 +119,12 @@ class AttendanceView(FlaskView):
 
         return redirect(url_for('AttendanceView:get'), code=302)
 
+
 class AwardsSubTable(Table):
-    classes = ['table','table-sm', 'd-print-table-row']
+    classes = ['table', 'table-sm', 'd-print-table-row']
     award = Col('Awards')
     thead_classes = ['d-none']
+
 
 class AttendanceTable(Table):
     classes = ['table', 'table-bordered', 'd-print-table-row']
@@ -152,4 +156,3 @@ class PrintView(FlaskView):
         table = AttendanceTable(rows)
 
         return render_template('attendance/print.html', year_level=year_level, table=table)
-

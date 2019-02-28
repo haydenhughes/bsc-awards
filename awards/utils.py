@@ -20,7 +20,8 @@ class StudentManager:
             self.year_levels = year_levels
         self.allow_no_award = allow_no_award
 
-        self._students = [student for year in self.year_levels for student in models.Student.query.filter_by(year_level=year).all() if self._has_awards(student.student_id) or self.allow_no_award]
+        self._students = [student for year in self.year_levels for student in models.Student.query.filter_by(
+            year_level=year).all() if self._has_awards(student.student_id) or self.allow_no_award]
 
     def __enter__(self):
         return self
@@ -42,7 +43,6 @@ class StudentManager:
             if award is not None:
                 return True
         return False
-
 
     def get(self, student_id: str):
         """Get a student via sudent_id.
@@ -130,5 +130,6 @@ def get_awards(student_id: str):
     for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
         for award in models.Awards.query.filter_by(award_id=recipient.award_id, special_award=False).all():
             if award is None:
-                current_app.logger.error('No awards found for student {}'.format(student_id))
+                current_app.logger.error(
+                    'No awards found for student {}'.format(student_id))
             yield award
