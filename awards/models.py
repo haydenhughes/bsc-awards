@@ -1,4 +1,5 @@
 from awards import db
+from flask import current_app
 
 
 class AwardRecipients(db.Model):
@@ -21,6 +22,15 @@ class Student(db.Model):
     postcode = db.Column(db.String(4))
     primary_parent = db.Column(db.String(120))
     attending = db.Column(db.Boolean, nullable=False)
+
+    def awards(self):
+        """A generator that gets all the awards for a student."""
+        for recipient in AwardRecipients.query.filter_by(student_id=self.student_id).all():
+            for award in Awards.query.filter_by(award_id=recipient.award_id, special_award=False).all():
+                if award is None:
+                    current_app.logger.error(
+                        'No awards found for student {}'.format(self.student_id))
+                yield award
 
 
 class Awards(db.Model):

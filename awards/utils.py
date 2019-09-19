@@ -21,7 +21,7 @@ class StudentManager:
         self.allow_no_award = allow_no_award
 
         self._students = [student for year in self.year_levels for student in models.Student.query.filter_by(
-            year_level=year).all() if self._has_awards(student.student_id) or self.allow_no_award]
+            year_level=year).all() if self._has_awards(student) or self.allow_no_award]
 
     def __enter__(self):
         return self
@@ -38,10 +38,9 @@ class StudentManager:
 
         return self._students[index]
 
-    def _has_awards(self, student_id: str):
-        for award in get_awards(student_id):
-            if award is not None:
-                return True
+    def _has_awards(self, student: models.Student):
+        if len(list(student.awards())) != 0:
+            return True
         return False
 
     def get(self, student_id: str):
@@ -78,9 +77,9 @@ class GroupManager:
 
     def __getitem__(self, index: int):
         if index < self.count:
-            return [self.sm[num] for num in range(self.size * index, (self.size * index) + self.size)]
+            return [self.sm[i] for i in range(self.size * index, (self.size * index) + self.size)]
         elif index == self.count:
-            return [self.sm[num] for num in range(self.size * index, (self.size * index) + self.last_size)]
+            return [self.sm[i] for i in range(self.size * index, (self.size * index) + self.last_size)]
 
         raise IndexError('Group index out of range.')
 
@@ -113,23 +112,8 @@ class GroupManager:
         """A integer of the last group size. ReadOnly.
 
         To account for 'annoying numbers' (like primes) the size of the last
-        group is calculated seperatly to the rest of the groups.
+        group is calculated seperately to the rest of the groups.
         """
         if self.size == self._attending:
             return 0
         return self._attending % self.size
-
-
-def get_awards(student_id: str):
-    """A generator that gets all the awards for a student.
-
-    Args:
-        student_id: A string of the student id to get awards for.
-    """
-
-    for recipient in models.AwardRecipients.query.filter_by(student_id=student_id).all():
-        for award in models.Awards.query.filter_by(award_id=recipient.award_id, special_award=False).all():
-            if award is None:
-                current_app.logger.error(
-                    'No awards found for student {}'.format(student_id))
-            yield award

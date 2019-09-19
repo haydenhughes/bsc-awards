@@ -43,36 +43,17 @@ class LogoutView(FlaskView):
 
 
 class MainView(FlaskView):
-    def index(self, year_level: int, group: int, page: int):
+    def index(self, year_level: int):
         if not session.get('logged_in'):
             return redirect(url_for('LoginView:get'), code=302)
 
-        if int(year_level) not in current_app.config['YEAR_LEVELS']:
+        if year_level not in current_app.config['YEAR_LEVELS']:
             return render_template('error/404.html'), 404
 
         gm = utils.GroupManager(year_levels=[year_level])
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
 
-        try:
-            student_group = gm[group]
-        except IndexError:
-            return render_template('main/completed.html')
-
-        try:
-            student = student_group[page]
-        except IndexError:
-            return render_template('main/applause.html',
-                                   year_level=year_level,
-                                   group=group + 1,
-                                   page=0)
-        else:
-            awards = utils.get_awards(student.student_id)
-            return render_template('main/index.html',
-                                   student=student,
-                                   awards=awards,
-                                   year_level=year_level,
-                                   group=group,
-                                   page=page + 1)
+        return render_template('main/index.html')
 
 
 class AttendanceView(FlaskView):
@@ -145,13 +126,13 @@ class PrintView(FlaskView):
         rows = []
 
         for student in sm:
-            name = '{} {}'.format(student.first_name, student.last_name)
-            awards = []
-            for award in [award.award_name for award in utils.get_awards(student.student_id)]:
-                awards.append(dict(award=award))
+            if student.preferred_name is not None:
+                name = '{} {}'.format(student.preferred_name, student.last_name)
+            else:
+                name = '{} {}'.format(student.first_name, student.last_name)
 
-            awards_table = AwardsSubTable(awards)
-            rows.append(dict(name=name, awards=awards))
+            awards_table = AwardsSubTable(student.awards())
+            rows.append(dict(name=name, awards=awards_table))
 
         table = AttendanceTable(rows)
 
