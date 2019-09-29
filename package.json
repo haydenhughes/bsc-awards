@@ -23,7 +23,7 @@
   "homepage": "https://gitlab.com/haydenhughes/bsc-awards#README",
   "devDependencies": {
     "del": "^3.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-sass": "^4.0.1"
   },
   "dependencies": {
