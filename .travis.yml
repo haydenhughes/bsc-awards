@@ -14,9 +14,3 @@ script:
 
 after_success:
   - codecov
-
-deploy:
-  provider: script
-  script: bash deploy.sh
-  on:
-    tags: true
