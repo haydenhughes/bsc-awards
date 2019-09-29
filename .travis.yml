@@ -17,10 +17,6 @@ after_success:
 
 deploy:
   provider: script
-  script:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker build -t haydenhughes/bsc-awards:$TRAVIS_TAG -t haydenhughes/bsc-awards:latest  .
-    - docker push haydenhughes/bsc-awards:$TRAVIS_TAG
-    - docker push haydenhughes/bsc-awards:latest
+  script: bash deploy.sh
   on:
     tags: true
