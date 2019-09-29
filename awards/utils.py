@@ -56,7 +56,7 @@ class StudentManager:
         """
         for student in self._students:
             if student.student_id == student_id:
-               return student
+                return student
 
     @property
     def attending(self):
