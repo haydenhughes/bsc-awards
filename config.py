@@ -8,6 +8,6 @@ class Config:
     YEAR_LEVELS = [7, 8, 9, 10, 11, 12]
     CSRF_ENABLED = True
 
-    USERNAME = os.environ['AWARDS_USERNAME']
-    PASSWORD = os.environ['AWARDS_PASSWORD']
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
+    USERNAME = os.getenv('AWARDS_USERNAME', 'admin')
+    PASSWORD = os.getenv('AWARDS_PASSWORD', 'admin')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///data.db')
