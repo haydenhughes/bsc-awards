@@ -1,4 +1,4 @@
-# bsc-awards
+# bsc-awards [![Build Status](https://travis-ci.org/haydenhughes/bsc-awards.svg?branch=master)](https://travis-ci.org/haydenhughes/bsc-awards)
 A flask website for displaying award data.
 
 
