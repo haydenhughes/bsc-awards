@@ -19,8 +19,8 @@ gulp.task('clean', function () {
   return del(['awards/static/js/*.js', 'awards/static/css/*.css']);
 });
 
-gulp.task('default', ['clean'], function () {
+gulp.task('default', gulp.series(gulp.parallel('clean'), function () {
   gulp.start('js');
   gulp.start('sass');
   gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'awards/static/scss/*.scss'], ['sass']);
-});
+}));
