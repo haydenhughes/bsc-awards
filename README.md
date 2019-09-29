@@ -26,7 +26,8 @@ $ docker run -p 80:5000 \
 ```
 
 `DATABASE_URI` must be a valid [sqlalchemy database URL](http://docs.sqlalchemy.org/en/latest/core/engines.html).
-`USERNAME` and `PASSWORD` are exactly what you expect them to be. So set them to something secure.
+
+`USERNAME` and `PASSWORD` are exactly what you expect them to be so set them to something secure.
 
 ### Not Docker
 
@@ -52,11 +53,11 @@ Then install the required node packages with npm.
 
 And compile the scss files and setup the javascripts with gulp.
 
-`$ gulp clean`
-
-`$ gulp scss`
-
-`$ gulp js`
+```
+$ gulp clean
+$ gulp scss`
+$ gulp js`
+```
 
 Lastly run the flask server.
 
@@ -65,16 +66,14 @@ $ export FLASK_APP=awards
 $ export DATABASE_URI=sqlite:///data.db
 $ export USERNAME=admin
 $ export PASSWORD=admin
-
 $ flask run
 ```
 
 The `DATABASE_URI` environment variable must be a valid [sqlalchemy database URL](http://docs.sqlalchemy.org/en/latest/core/engines.html).
-The `USERNAME` and `PASSWORD` environment variables are exactly what you expect them to be. So set them to something secure.
+
+The `USERNAME` and `PASSWORD` environment variables are exactly what you expect them to be so set them to something secure.
 
 
 ## Running unittests
 
 `$ python3 -m unittest discover -s test`
-
-https://huggles.gitlab.io/bsc-awards contains the latest test coverage for the `staging` branch.

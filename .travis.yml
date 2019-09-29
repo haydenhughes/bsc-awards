@@ -4,13 +4,13 @@ services:
 language: python
 install:
   - pip install -r requirements.txt
-  - pip install codecov
+  - pip install codecov coverage
 
 env:
   - DATABASE_URI=postgresql://postgres@127.0.0.1:5432
 
 script:
-  - python3 -m unittest discover -s test
+  - coverage run -m unittest discover -s test
 
 after_success:
   - codecov
