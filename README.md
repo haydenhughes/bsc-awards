@@ -22,7 +22,7 @@ $ docker run -p 80:5000 \
    -e USERNAME=admin \
    -e PASSWORD=admin \
    -v /path/on/host/to/somewhere/:/usr/src/app/ \
-   registry.gitlab.com/haydenhughes/bsc-awards:latest
+   haydenhughes/bsc-awards:latest
 ```
 
 `DATABASE_URI` must be a valid [sqlalchemy database URL](http://docs.sqlalchemy.org/en/latest/core/engines.html).
@@ -78,4 +78,3 @@ The `USERNAME` and `PASSWORD` environment variables are exactly what you expect 
 `$ python3 -m unittest discover -s test`
 
 https://huggles.gitlab.io/bsc-awards contains the latest test coverage for the `staging` branch.
-
