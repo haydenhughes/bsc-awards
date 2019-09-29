@@ -1,5 +1,5 @@
 import unittest
-from awards import utils, models
+from awards import utils
 from mockdb import MockDB
 
 
