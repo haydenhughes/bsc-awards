@@ -1,9 +1,13 @@
 services:
   - docker
+  - postgresql
 language: python
 install:
   - pip install -r requirements.txt
   - pip install codecov
+
+env:
+  - DATABASE_URI=postgresql://postgres@127.0.0.1:5432
 
 script:
   - python3 -m unittest discover -s test
