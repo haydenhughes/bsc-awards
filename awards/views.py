@@ -111,14 +111,8 @@ class PrintView(FlaskView):
         rows = []
 
         for student in sm:
-            if student.preferred_name is not None:
-                name = '{} {}'.format(
-                    student.preferred_name, student.last_name)
-            else:
-                name = '{} {}'.format(student.first_name, student.last_name)
-
             awards = [dict(award=award.award_name) for award in student.awards()]
-            rows.append(dict(name=name, awards=awards))
+            rows.append(dict(name=student.full_name, awards=awards))
 
         table = AttendanceTable(rows)
 

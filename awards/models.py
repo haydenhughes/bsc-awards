@@ -39,6 +39,14 @@ class Student(db.Model):
             return True
         return False
 
+    @property
+    def full_name(self):
+        """Readonly string of student's full name accounting for prefered names"""
+        if self.preferred_name is not None:
+            return'{} {}'.format(
+                self.preferred_name, self.last_name)
+        return '{} {}'.format(self.first_name, self.last_name)
+
 
 class Awards(db.Model):
     award_id = db.Column(db.Integer, primary_key=True)
