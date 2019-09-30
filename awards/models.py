@@ -32,6 +32,13 @@ class Student(db.Model):
                         'No awards found for student {}'.format(self.student_id))
                 yield award
 
+    @property
+    def has_awards(self):
+        """A readonly boolean of whether the student will receive an award"""
+        if len(list(self.awards())) != 0:
+            return True
+        return False
+
 
 class Awards(db.Model):
     award_id = db.Column(db.Integer, primary_key=True)

@@ -1,7 +1,7 @@
 from flask import render_template, current_app, request, redirect, url_for, session
 from flask_classful import FlaskView
 from flask_table import Table, Col, NestedTableCol
-from awards import utils, db, models
+from awards import utils, models
 
 
 class IndexView(FlaskView):
@@ -86,17 +86,15 @@ class AttendanceView(FlaskView):
         if not session.get('logged_in'):
             return redirect(url_for('LoginView:get'), code=302)
 
-        sm = utils.StudentManager()
-        student = sm.get(student_id)
-        if student is None:
-            return redirect(url_for('AttendanceView:get'), code=302)
+        with utils.StudentManager() as sm:
+            student = sm.get(student_id)
+            if student is None:
+                return redirect(url_for('AttendanceView:get'), code=302)
 
-        if request.form.get('attending') == 'checked':
-            student.attending = True
-        else:
-            student.attending = False
-
-        db.session.commit()
+            if request.form.get('attending') == 'checked':
+                student.attending = True
+            else:
+                student.attending = False
 
         return redirect(url_for('AttendanceView:get'), code=302)
 

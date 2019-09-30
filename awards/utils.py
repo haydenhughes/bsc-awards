@@ -21,7 +21,7 @@ class StudentManager:
         self.allow_no_award = allow_no_award
 
         self._students = [student for year in self.year_levels for student in models.Student.query.filter_by(
-            year_level=year).all() if self._has_awards(student) or self.allow_no_award]
+            year_level=year).all() if student.has_awards or self.allow_no_award]
 
     def __enter__(self):
         return self
@@ -37,11 +37,6 @@ class StudentManager:
             raise IndexError('Student index out of range.')
 
         return self._students[index]
-
-    def _has_awards(self, student: models.Student):
-        if len(list(student.awards())) != 0:
-            return True
-        return False
 
     def get(self, student_id: str):
         """Get a student via sudent_id.
