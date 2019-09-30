@@ -1,4 +1,4 @@
-# bsc-awards [![Build Status](https://travis-ci.org/haydenhughes/bsc-awards.svg?branch=master)](https://travis-ci.org/haydenhughes/bsc-awards)
+# bsc-awards [![Build Status](https://travis-ci.org/haydenhughes/bsc-awards.svg?branch=master)](https://travis-ci.org/haydenhughes/bsc-awards) [![Coverage Status](https://coveralls.io/repos/github/haydenhughes/bsc-awards/badge.svg?branch=master)](https://coveralls.io/github/haydenhughes/bsc-awards?branch=master)
 A flask website for displaying award data.
 
 
