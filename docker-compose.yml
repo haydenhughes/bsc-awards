@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: registry.gitlab.com/huggles/bsc-awards:staging
+    image: haydenhughes/bsc-awards:latest
     ports:
       - 5000:5000
     depends_on:
