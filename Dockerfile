@@ -1,5 +1,5 @@
 FROM node:12.10.0-stretch AS builder
-WORKDIR /home/node/app/
+WORKDIR /home/node/app
 COPY . .
 RUN npm install -g gulp-cli && \
   npm install && \
@@ -10,7 +10,8 @@ FROM python:3.7.4-alpine3.10
 ENV FLASK_APP awards
 WORKDIR /usr/src/app
 COPY . .
-COPY --from=builder /home/node/app/awards/static awards/static
+COPY --from=builder /home/node/app/awards/static/css awards/static/css
+COPY --from=builder /home/node/app/awards/static/js awards/static/js
 RUN apk add --no-cache python3 postgresql-libs && \
   apk add --no-cache --virtual .build-deps gcc python3-dev musl-dev postgresql-dev && \
   python3 -m pip install -r requirements.txt --no-cache-dir && \

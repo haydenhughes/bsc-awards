@@ -1,7 +1,7 @@
 from flask import render_template, current_app, request, redirect, url_for, session
 from flask_classful import FlaskView
 from flask_table import Table, Col, NestedTableCol
-from awards import utils, db, models
+from awards import utils
 
 
 class IndexView(FlaskView):
@@ -43,36 +43,17 @@ class LogoutView(FlaskView):
 
 
 class MainView(FlaskView):
-    def index(self, year_level: int, group: int, page: int):
+    def index(self, year_level: int):
         if not session.get('logged_in'):
             return redirect(url_for('LoginView:get'), code=302)
 
-        if int(year_level) not in current_app.config['YEAR_LEVELS']:
+        if year_level not in current_app.config['YEAR_LEVELS']:
             return render_template('error/404.html'), 404
 
         gm = utils.GroupManager(year_levels=[year_level])
         current_app.config['NAVBAR_BRAND'] = 'Year {}'.format(year_level)
 
-        try:
-            student_group = gm[group]
-        except IndexError:
-            return render_template('main/completed.html')
-
-        try:
-            student = student_group[page]
-        except IndexError:
-            return render_template('main/applause.html',
-                                   year_level=year_level,
-                                   group=group + 1,
-                                   page=0)
-        else:
-            awards = utils.get_awards(student.student_id)
-            return render_template('main/index.html',
-                                   student=student,
-                                   awards=awards,
-                                   year_level=year_level,
-                                   group=group,
-                                   page=page + 1)
+        return render_template('main/index.html')
 
 
 class AttendanceView(FlaskView):
@@ -84,38 +65,23 @@ class AttendanceView(FlaskView):
         current_app.config['NAVBAR_BRAND'] = 'BSC Awards'
 
         student_id = request.args.get('studentID')
+        student = sm.get(student_id)
 
-        valid = False
-        student = models.Student(
-            student_id='', first_name='', last_name='', form_group='')
-
-        if student_id is not None:
-            student = sm.get(student_id)
-            valid = True
-            if student is None:
-                student = models.Student(
-                    student_id='', first_name='', last_name='', form_group='')
-                valid = False
-
-        return render_template('attendance/index.html',
-                               valid=valid,
-                               student=student)
+        return render_template('attendance/index.html', student=student)
 
     def post(self, student_id):
         if not session.get('logged_in'):
             return redirect(url_for('LoginView:get'), code=302)
 
-        sm = utils.StudentManager()
-        student = sm.get(student_id)
-        if student is None:
-            return redirect(url_for('AttendanceView:get'), code=302)
+        with utils.StudentManager() as sm:
+            student = sm.get(student_id)
+            if student is None:
+                return redirect(url_for('AttendanceView:get'), code=302)
 
-        if request.form.get('attending') == 'checked':
-            student.attending = True
-        else:
-            student.attending = False
-
-        db.session.commit()
+            if request.form.get('attending') == 'checked':
+                student.attending = True
+            else:
+                student.attending = False
 
         return redirect(url_for('AttendanceView:get'), code=302)
 
@@ -145,13 +111,8 @@ class PrintView(FlaskView):
         rows = []
 
         for student in sm:
-            name = '{} {}'.format(student.first_name, student.last_name)
-            awards = []
-            for award in [award.award_name for award in utils.get_awards(student.student_id)]:
-                awards.append(dict(award=award))
-
-            awards_table = AwardsSubTable(awards)
-            rows.append(dict(name=name, awards=awards))
+            awards = [dict(award=award.award_name) for award in student.awards()]
+            rows.append(dict(name=student.full_name, awards=awards))
 
         table = AttendanceTable(rows)
 
