@@ -9,3 +9,5 @@ docs
 test
 .gitignore
 node_modules
+Pipfile
+Pipfile.lock

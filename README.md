@@ -74,6 +74,14 @@ The `DATABASE_URI` environment variable must be a valid [sqlalchemy database URL
 The `USERNAME` and `PASSWORD` environment variables are exactly what you expect them to be so set them to something secure.
 
 
-## Running unittests
+## Contributing
+
+### Running unittests locally
 
 `$ python3 -m unittest discover -s test`
+
+### Generating `requirements.txt`
+
+For development I use `pipenv` to manage dependencies but Docker requires a `requirements.txt` which must be generated after every dependency change by running:
+
+`$ pipenv lock --requirements > requirements.txt`
