@@ -6,7 +6,7 @@ RUN npm install -g gulp-cli && \
   gulp js && \
   gulp sass
 
-FROM python:3.8.2-alpine3.10
+FROM python:3.8.3-alpine3.10
 ENV FLASK_APP awards
 WORKDIR /usr/src/app
 COPY . .
