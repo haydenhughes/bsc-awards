@@ -1,4 +1,4 @@
-FROM node:13.8.0-stretch AS builder
+FROM node:14.6.0-stretch AS builder
 WORKDIR /home/node/app/
 COPY . .
 RUN npm install -g gulp-cli && \
