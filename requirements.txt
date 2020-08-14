@@ -1,15 +1,15 @@
 -i https://pypi.python.org/simple/
-babel==2.7.0
-click==7.0
-flask-babel==0.12.2
+babel==2.8.0
+click==7.1.2
+flask-babel==1.0.0
 flask-classful==0.14.2
-flask-sqlalchemy==2.4.1
+flask-sqlalchemy==2.4.4
 flask-table==0.5.0
 flask==1.1.1
 itsdangerous==1.1.0
-jinja2==2.10.3
+jinja2==2.11.2
 markupsafe==1.1.1
 psycopg2-binary==2.8.4
-pytz==2019.3
-sqlalchemy==1.3.10
-werkzeug==0.16.0
+pytz==2020.1
+sqlalchemy==1.3.18
+werkzeug==1.0.1
